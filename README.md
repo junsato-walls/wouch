@@ -22,7 +22,7 @@ You can try GET, POST, PUT
 # Show Database
 $ docker exec -it db bash
 
-$ mysql -u user -h 127.0.0.1 -D worder -p
+$ mysql -u user -h 127.0.0.1 -D wouch -p
 $ password
 $ show databases;
 

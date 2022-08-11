@@ -61,7 +61,7 @@ CREATE TABLE mst_employees (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE payments (
+CREATE TABLE mst_payments (
     id int NOT NULL AUTO_INCREMENT,
     payment_date date NOT NULL,
     income int NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE mst_jobshift (
     visible_flg tinyint NOT NULL,
     leaving_time tinyint NOT NULL,
     work_in_time time NOT NULL,
-    leaving_time time NOT NULL,
+    leave_time time NOT NULL,
     rest time NOT NULL,
     memo varchar(99),
     create_at date NOT NULL,
@@ -122,7 +122,7 @@ CREATE TABLE mst_admin (
     id int NOT NULL AUTO_INCREMENT,
     employees_id int NOT NULL,
     admin_id varchar(30) NOT NULL,
-    password varchar NOT NULL,
+    password varchar(200) NOT NULL,
     fail_count int,
     start date,
     end date,
