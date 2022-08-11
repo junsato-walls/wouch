@@ -10,7 +10,7 @@ services:
     restart: always
     tty: true
     environment:
-      MYSQL_DATABASE: worder
+      MYSQL_DATABASE: wouch
       MYSQL_USER: user
       MYSQL_PASSWORD: password # ユーザのパスワード
       MYSQL_ROOT_PASSWORD: password # ルートパスワード
