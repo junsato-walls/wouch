@@ -45,7 +45,7 @@ CREATE TABLE mst_employees (
     mynumber varchar(12),
     former_job varchar(100),
     dependent tinyint NOT NULL,
-    health_insur_num varchar(40),
+    health_insur_num varchar(15),
     nationality varchar(40),
     empl_insur_insur_qual_acq_date date,
     empl_insur_insur_qual_lost_date date,
@@ -87,7 +87,7 @@ CREATE TABLE mst_calendar (
     day_of_week char(1) NOT NULL,
     visible_st tinyint NOT NULL,
     working_st tinyint NOT NULL,
-    memo varchar(99),
+    memo varchar(100),
     create_at datetime NOT NULL,
     create_acc int NOT NULL,
     update_at datetime,
@@ -97,7 +97,7 @@ CREATE TABLE mst_calendar (
 
 CREATE TABLE mst_jobshift (
     id int NOT NULL AUTO_INCREMENT,
-    shift_name varchar(20) NOT NULL,
+    shift_name varchar(40) NOT NULL,
     visible_flg tinyint NOT NULL,
     leaving_time tinyint NOT NULL,
     work_in_time time NOT NULL,
@@ -128,7 +128,6 @@ CREATE TABLE mst_admin (
 
 CREATE TABLE trn_attends (
     id int NOT NULL AUTO_INCREMENT,
-    job_date date NOT NULL,
     working_st tinyint NOT NULL,
     round_work_in_time datetime NOT NULL,
     work_in datetime NOT NULL,
@@ -139,7 +138,6 @@ CREATE TABLE trn_attends (
     orvertime time,
     nighttime time,
     holiday_time time,
-    down_time time,
     create_at datetime,
     create_acc int,
     create_mac varchar(20),
