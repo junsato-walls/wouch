@@ -62,7 +62,7 @@ async def update_users(users: List[User]):
         user.age = new_user.age
         session.commit()
 
-# ----------WorderAPIの定義------------
+# ----------wouchAPIの定義------------
 # メニューリストを取得 GET
 
 
