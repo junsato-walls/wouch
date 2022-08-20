@@ -5,29 +5,29 @@ company_name, post_code, address_pref, address_city, address_other, facility_nam
  );
 
 Insert Into mst_employees ( 
-name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, work_type, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
+shift_id, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
  ) values ( 
-'神谷太郎', 'カミヤタロウ', '1990-04-01', '2010-04-01', NULL, '1', '1', '188000', '40', '1', '0', '1234567890123', '1234567890', '123456789012', NULL, '1', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022/04/03', '1', NULL
+'1', '神谷太郎', 'カミヤタロウ', '1990-04-01', '2010-04-01', NULL, '1', '1', '188000', '40', '0', '1234567890123', '1234567890', '123456789012', NULL, '1', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022/04/03', '1', NULL
  );
 Insert Into mst_employees ( 
-name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, work_type, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
+shift_id, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
  ) values ( 
-'吉田次郎', 'ヨシダジロウ', '1990-04-01', '2010-04-01', NULL, '1', '1', '221000', '40', '1', '300000', '1234567890123', '1234567890', '123456789012', NULL, '0', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
+'1', '吉田次郎', 'ヨシダジロウ', '1990-04-01', '2010-04-01', NULL, '1', '1', '221000', '40', '300000', '1234567890123', '1234567890', '123456789012', NULL, '0', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
  );
 Insert Into mst_employees ( 
-name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, work_type, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
+shift_id, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
  ) values ( 
-'奥村三郎', 'オクムラサブロウ', '1990-04-01', '2010-04-01', NULL, '1', '1', '221000', '40', '1', '150000', '1234567890123', '1234567890', '123456789012', NULL, '3', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
+'1', '奥村三郎', 'オクムラサブロウ', '1990-04-01', '2010-04-01', NULL, '1', '1', '221000', '40', '150000', '1234567890123', '1234567890', '123456789012', NULL, '3', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
  );
 Insert Into mst_employees ( 
-name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, work_type, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
+shift_id, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
  ) values ( 
-'佐藤花子', 'サトウハナコ', '1990-04-01', '2010-04-01', NULL, '2', '1', '284000', '40', '1', '220000', '1234567890123', '1234567890', '123456789012', NULL, '2', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
+'1', '佐藤花子', 'サトウハナコ', '1990-04-01', '2010-04-01', NULL, '2', '1', '284000', '40', '220000', '1234567890123', '1234567890', '123456789012', NULL, '2', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
  );
 Insert Into mst_employees ( 
-name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, work_type, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
+shift_id, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
  ) values ( 
-'加藤愛', 'カトウアイ', '1990-04-01', '2010-04-01', NULL, '2', '2', '2300', '55', '2', '0', '1234567890123', '1234567890', '123456789012', NULL, '0', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', '社長秘書'
+'2', '加藤愛', 'カトウアイ', '1990-04-01', '2010-04-01', NULL, '2', '2', '2300', '55', '0', '1234567890123', '1234567890', '123456789012', NULL, '0', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', '社長秘書'
  );
 
 Insert Into mst_payments ( 

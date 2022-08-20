@@ -33,6 +33,7 @@ CREATE TABLE mst_companies (
 
 CREATE TABLE mst_employees (
     id int NOT NULL AUTO_INCREMENT,
+    shift_id int,
     name varchar(50) NOT NULL,
     name_kana varchar(100) NOT NULL,
     birthday date NOT NULL,
@@ -42,7 +43,6 @@ CREATE TABLE mst_employees (
     salary_type tinyint NOT NULL,
     base int NOT NULL,
     weekly_work_time decimal NOT NULL,
-    work_type tinyint,
     std_monthly_compensation int NOT NULL,
     empl_insur_insured_num varchar(13),
     pension_num varchar(10),
