@@ -2,7 +2,9 @@ CREATE TABLE mst_companies (
     id int NOT NULL AUTO_INCREMENT,
     company_name varchar(100) NOT NULL,
     post_code varchar(8) NOT NULL,
-    address varchar(100) NOT NULL,
+    address_pref varchar(100) NOT NULL,
+    address_city varchar(100) NOT NULL,
+    address_other varchar(100) NOT NULL,
     facility_name varchar(100) NOT NULL,
     tell varchar(20) NOT NULL,
     ceo varchar(50) NOT NULL,
@@ -17,6 +19,8 @@ CREATE TABLE mst_companies (
     social_insur_estab_date date,
     welfare_pension_insur_office_num varchar(4),
     corporate_num varchar(13),
+    industry_class tinyint,
+    industry_type varchar(30),
     start date,
     paidvacanmt_cutoff_date varchar(5),
     end date,
@@ -63,7 +67,7 @@ CREATE TABLE mst_employees (
 
 CREATE TABLE mst_payments (
     id int NOT NULL AUTO_INCREMENT,
-    payment_date date NOT NULL,
+    employee_id int NOT NULL,
     base int,
     commuting_pay int,
     health_insur int,
@@ -84,8 +88,8 @@ CREATE TABLE mst_calendar (
     year int NOT NULL,
     month int NOT NULL,
     day int NOT NULL,
-    day_of_week char(1) NOT NULL,
-    visible_st tinyint NOT NULL,
+    day_of_week varchar(3) NOT NULL,
+    visiblr_flg tinyint NOT NULL,
     working_st tinyint NOT NULL,
     memo varchar(100),
     create_at datetime NOT NULL,
@@ -98,10 +102,10 @@ CREATE TABLE mst_calendar (
 CREATE TABLE mst_jobshift (
     id int NOT NULL AUTO_INCREMENT,
     shift_name varchar(40) NOT NULL,
-    visible_flg tinyint NOT NULL,
-    leaving_time tinyint NOT NULL,
+    delete_flg tinyint NOT NULL,
+    job_type int NOT NULL,
     work_in_time time NOT NULL,
-    leave_time time NOT NULL,
+    work_out_time time NOT NULL,
     rest time NOT NULL,
     memo varchar(99),
     create_at datetime NOT NULL,
@@ -113,7 +117,7 @@ CREATE TABLE mst_jobshift (
 
 CREATE TABLE mst_admin (
     id int NOT NULL AUTO_INCREMENT,
-    employees_id int NOT NULL,
+    employee_id int NOT NULL,
     admin_id varchar(30) NOT NULL,
     password varchar(200) NOT NULL,
     fail_count int,
@@ -128,12 +132,13 @@ CREATE TABLE mst_admin (
 
 CREATE TABLE trn_attends (
     id int NOT NULL AUTO_INCREMENT,
+    employee_id int NOT NULL,
     working_st tinyint NOT NULL,
     round_work_in_time datetime NOT NULL,
     work_in datetime NOT NULL,
-    round_leaving_time datetime NOT NULL,
-    leavig datetime NOT NULL,
-    work_time datetime NOT NULL,
+    round_work_out_time datetime,
+    work_out datetime,
+    work_time time,
     rest time NOT NULL,
     orvertime time,
     nighttime time,
@@ -160,7 +165,7 @@ CREATE TABLE trn_paidvacasubm (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE tru_payments (
+CREATE TABLE trn_payments (
     id int NOT NULL AUTO_INCREMENT,
     employee_id int NOT NULL,
     payment_date date NOT NULL,
