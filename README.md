@@ -1,3 +1,9 @@
+#Git alias
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.cm commit
+git config --global alias.st status
+
 # Overview
 Sample program to build MySQL and Fast API environment with DockerCompose
 
