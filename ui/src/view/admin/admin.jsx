@@ -1,19 +1,28 @@
 import * as React from 'react';
-import { useState, useEffect } from "react";
-import axios from "axios";
-//グリッドで分けている部分
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import Typography from '@mui/material/Typography';
+import AppBar from '@mui/material/AppBar';
+import Stack from '@mui/material/Stack';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Toolbar from '../../components/toolbar'
 
 function Admin() {
-//   const baseURL = "http://"+process.env.REACT_APP_IP_PORT;
-
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#1976d2',
+      },
+    },
+  });
   return (
-    <>
-        <h1>test</h1>
-    </>
+  <>
+    <Stack spacing={2} sx={{ flexGrow: 1 }}>
+    <ThemeProvider theme={darkTheme}>
+      <AppBar position="static" color="primary" enableColorOnDark>
+        <Toolbar label='Admin'/>
+      </AppBar>
+    </ThemeProvider>
+  </Stack>
+  </>
   )
 }
 export default Admin;
