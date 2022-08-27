@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom'
 import { useState, useEffect } from "react";
 import axios from "axios";
 //グリッドで分けている部分
@@ -8,12 +9,14 @@ import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 
 function Timecard() {
-//   const baseURL = "http://"+process.env.REACT_APP_IP_PORT;
+  //   const baseURL = "http://"+process.env.REACT_APP_IP_PORT;
 
   return (
     <>
-        <h1>test timecard</h1>
-    </>
-  )
+      <Link style={{ textDecoration: 'none', color: '' }} to="/input">
+        <h1>test input</h1>
+      </Link>
+      </>
+      )
 }
-export default Timecard;
+      export default Timecard;
