@@ -9,7 +9,7 @@ RUN apt-get install build-essential
 RUN pip install python-multipart
 RUN pip install debugpy
 
-WORKDIR /worder/app
+WORKDIR /wouch/app
 
 EXPOSE 8000
 

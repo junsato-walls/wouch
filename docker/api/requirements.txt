@@ -1,4 +1,4 @@
 uvicorn
 fastapi
 mysqlclient
-sqlalchemy
+sqlalchemy==1.4.40

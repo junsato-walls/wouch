@@ -1,4 +1,11 @@
-CREATE TABLE mst_companies (
+CREATE TABLE user (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(30) NOT NULL,
+    age INT,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE m_companies (
     id int NOT NULL AUTO_INCREMENT,
     company_name varchar(100) NOT NULL,
     post_code varchar(8) NOT NULL,
@@ -31,8 +38,10 @@ CREATE TABLE mst_companies (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE mst_employees (
+CREATE TABLE m_employees (
     id int NOT NULL AUTO_INCREMENT,
+    employee_num varchar(15),
+    idm varchar(20),
     shift_id int,
     name varchar(50) NOT NULL,
     name_kana varchar(100) NOT NULL,
@@ -65,7 +74,7 @@ CREATE TABLE mst_employees (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE mst_payments (
+CREATE TABLE m_payments (
     id int NOT NULL AUTO_INCREMENT,
     employee_id int NOT NULL,
     base int,
@@ -82,14 +91,14 @@ CREATE TABLE mst_payments (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE mst_calendar (
+CREATE TABLE m_calendar (
     id int NOT NULL AUTO_INCREMENT,
     ymd date NOT NULL,
     year int NOT NULL,
     month int NOT NULL,
     day int NOT NULL,
     day_of_week varchar(3) NOT NULL,
-    visiblr_flg tinyint NOT NULL,
+    visible_flg tinyint NOT NULL,
     working_st tinyint NOT NULL,
     memo varchar(100),
     create_at datetime NOT NULL,
@@ -99,7 +108,7 @@ CREATE TABLE mst_calendar (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE mst_jobshift (
+CREATE TABLE m_jobshift (
     id int NOT NULL AUTO_INCREMENT,
     shift_name varchar(40) NOT NULL,
     delete_flg tinyint NOT NULL,
@@ -115,12 +124,19 @@ CREATE TABLE mst_jobshift (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE mst_admin (
+CREATE TABLE m_admin (
     id int NOT NULL AUTO_INCREMENT,
     employee_id int NOT NULL,
     admin_id varchar(30) NOT NULL,
     password varchar(200) NOT NULL,
     fail_count int,
+    edit_flg tinyint,
+    attend_flg tinyint,
+    vacation_flg tinyint,
+    employee_flg tinyint,
+    calendar_flg tinyint,
+    shift_flg tinyint,
+    payment_flg tinyint,
     start date,
     end date,
     create_at datetime NOT NULL,
@@ -130,7 +146,7 @@ CREATE TABLE mst_admin (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE trn_attends (
+CREATE TABLE t_attends (
     id int NOT NULL AUTO_INCREMENT,
     employee_id int NOT NULL,
     working_st tinyint NOT NULL,
@@ -152,12 +168,13 @@ CREATE TABLE trn_attends (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE trn_paidvacasubm (
+CREATE TABLE t_paidvacation (
     id int NOT NULL AUTO_INCREMENT,
     employee_id int NOT NULL,
     subm_date datetime NOT NULL,
     target_date date NOT NULL,
     subm_st tinyint NOT NULL,
+    authorizer int,
     create_at datetime NOT NULL,
     create_acc int NOT NULL,
     update_at datetime,
@@ -165,7 +182,7 @@ CREATE TABLE trn_paidvacasubm (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE trn_payments (
+CREATE TABLE t_payments (
     id int NOT NULL AUTO_INCREMENT,
     employee_id int NOT NULL,
     payment_date date NOT NULL,
