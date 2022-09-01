@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # モデルの定義
-from sqlalchemy import Column, Integer, String, Integer,text
-from sqlalchemy.dialects.mysql import TIMESTAMP as Timestamp
+from sqlalchemy import Column, Integer, String, text, decimal, datetime, time, date, boolean
+from sqlalchemy.dialects.mysql import DATETIME, DATE, TIME, DECIMAL
 from pydantic import BaseModel
 from db import Base
 from db import ENGINE
@@ -27,6 +27,35 @@ class User(BaseModel):
 # m_campanies テーブルのモデル定義
 class m_campaniestable(Base):
     __tablename__ = 'm_campanies'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    company_name =Column(String, nullable=False)
+    post_code =Column(String, nullable=False)
+    address_pref =Column(String, nullable=False)
+    address_city =Column(String, nullable=False)
+    address_other =Column(String, nullable=False)
+    facility_name =Column(String, nullable=False)
+    tell =Column(String, nullable=False)
+    ceo =Column(String, nullable=False)
+    capital =Column(String, nullable=False)
+    pay_cutoff_date =Column(String, nullable=False)
+    pay_date =Column(String, nullable=False)
+    empl_insur_apply_office_num =Column(String)
+    empl_insur_estab_date =Column(DATE)
+    labor_insur_num =Column(String)
+    labor_insur_estab_date =Column(DATE)
+    social_insur_num =Column(String)
+    social_insur_estab_date =Column(DATE)
+    welfare_pension_insur_office_num =Column(String)
+    corporate_num =Column(String)
+    induStringy_class =Column(Integer)
+    induStringy_type =Column(String)
+    start =Column(DATE)
+    paidvacanmt_cutoff_date =Column(String)
+    end =Column(DATE)
+    create_at =Column(DATETIME, nullable=False)
+    create_acc =Column(Integer, nullable=False)
+    update_at =Column(DATETIME)
+    update_acc =Column(Integer)
 
 
 class m_campanies(BaseModel):
@@ -64,6 +93,36 @@ class m_campanies(BaseModel):
 # m_employees テーブルのモデル定義
 class m_employeestable(Base):
     __tablename__ = 'm_employees'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    shift_id =Column(Integer, nullable=False)
+    name =Column(String, nullable=False)
+    name_kana =Column(String, nullable=False)
+    birthday =Column(DATE, nullable=False)
+    in_company =Column(DATE, nullable=False)
+    exit_company =Column(DATE)
+    sex =Column(Integer, nullable=False)
+    salary_type =Column(Integer, nullable=False)
+    base =Column(Integer, nullable=False)
+    weekly_work_time =Column(decimal, nullable=False)
+    std_monthly_compensation =Column(Integer, nullable=False)
+    empl_insur_insured_num =Column(String)
+    pension_num =Column(String)
+    mynumber =Column(String)
+    former_job =Column(String)
+    dependent =Column(Integer, nullable=False)
+    health_insur_num =Column(String)
+    nationality =Column(String)
+    empl_insur_insur_qual_acq_date =Column(DATE)
+    empl_insur_insur_qual_lost_date =Column(DATE)
+    soc_insur_insur_qual_acq_date =Column(DATE)
+    soc_insur_insur_qual_lost_date =Column(DATE)
+    start =Column(DATE)
+    end =Column(DATE)
+    create_at =Column(DATETIME, nullable=False)
+    create_acc =Column(Integer, nullable=False)
+    update_at =Column(DATETIME)
+    update_acc =Column(Integer)
+    memo =Column(String)
 
 class m_employees(BaseModel):
     id: int
@@ -101,6 +160,19 @@ class m_employees(BaseModel):
 # m_payments テーブルのモデル定義
 class m_paymentstable(Base):
     __tablename__ = 'm_payments'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    employee_id =Column(Integer, nullable=False)
+    base =Column(Integer)
+    commuting_pay =Column(Integer)
+    health_insur =Column(Integer)
+    care_insur =Column(Integer)
+    pension_insur =Column(Integer)
+    income_tax =Column(Integer)
+    inhabitant_tax =Column(Integer)
+    create_at =Column(DATETIME, nullable=False)
+    create_acc =Column(Integer, nullable=False)
+    update_at =Column(DATETIME)
+    update_acc =Column(Integer)
 
 class m_payments(BaseModel):
     id: int
@@ -121,6 +193,19 @@ class m_payments(BaseModel):
 # m_calendar テーブルのモデル定義
 class m_calendartable(Base):
     __tablename__ = 'm_calendar'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    ymd =Column(DATE, nullable=False)
+    year =Column(Integer, nullable=False)
+    month =Column(Integer, nullable=False)
+    day =Column(Integer, nullable=False)
+    day_of_week =Column(String, nullable=False)
+    visible_flg =Column(Integer, nullable=False)
+    working_st =Column(Integer, nullable=False)
+    memo =Column(String)
+    create_at =Column(DATETIME, nullable=False)
+    create_acc =Column(Integer, nullable=False)
+    update_at =Column(DATETIME)
+    update_acc =Column(Integer)
 
 class m_calendar(BaseModel):
     id: int
@@ -141,6 +226,18 @@ class m_calendar(BaseModel):
 # m_jobshift テーブルのモデル定義
 class m_jobshifttable(Base):
     __tablename__ = 'm_jobshift'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    shift_name =Column(String, nullable=False)
+    delete_flg =Column(Integer, nullable=False)
+    job_type =Column(Integer, nullable=False)
+    work_in_time =Column(TIME, nullable=False)
+    work_out_time =Column(TIME, nullable=False)
+    rest =Column(TIME, nullable=False)
+    memo =Column(String)
+    create_at =Column(DATETIME, nullable=False)
+    create_acc =Column(Integer, nullable=False)
+    update_at =Column(DATETIME)
+    update_acc =Column(Integer)
 
 class m_jobshift(BaseModel):
     id: int
@@ -160,6 +257,24 @@ class m_jobshift(BaseModel):
 # m_admin テーブルのモデル定義
 class m_admintable(Base):
     __tablename__ = 'm_admin'
+    id = Column(Integereger, primary_key=True, autoincrement=True)
+    employee_id =Column(Integer, nullable=False)
+    admin_id =Column(String, nullable=False)
+    password =Column(String, nullable=False)
+    fail_count =Column(Integer)
+    edit_flg =Column(Integer)
+    attend_flg =Column(Integer)
+    vacation_flg =Column(Integer)
+    employee_flg =Column(Integer)
+    calendar_flg =Column(Integer)
+    shift_flg =Column(Integer)
+    payment_flg =Column(Integer)
+    start =Column(DATE)
+    end =Column(DATE)
+    create_at =Column(DATETIME, nullable=False)
+    create_acc =Column(Integer, nullable=False)
+    update_at =Column(DATETIME)
+    update_acc =Column(Integer)
 
 class m_admin(BaseModel):
     id: int
@@ -167,6 +282,13 @@ class m_admin(BaseModel):
     admin_id: str
     password: str
     fail_count: int
+    edit_flg: int,
+    attend_flg: int,
+    vacation_flg: int,
+    employee_flg: int,
+    calendar_flg: int,
+    shift_flg: int,
+    payment_flg: int,
     start: date
     end: date
     create_at: datetime
@@ -178,6 +300,24 @@ class m_admin(BaseModel):
 # t_attends テーブルのモデル定義
 class t_attendstable(Base):
     __tablename__ = 't_attends'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    employee_id =Column(Integer, nullable=False)
+    working_st =Column(Integer, nullable=False)
+    round_work_in_time =Column(DATETIME)
+    work_in =Column(DATETIME, nullable=False)
+    round_work_out_time =Column(DATETIME)
+    work_out =Column(DATETIME)
+    work_time =Column(TIME)
+    rest =Column(TIME)
+    orvertime =Column(TIME)
+    nighttime =Column(TIME)
+    holiday_time =Column(TIME)
+    create_at =Column(DATETIME)
+    create_acc =Column(Integer)
+    create_mac =Column(String)
+    update_at =Column(DATETIME)
+    update_acc =Column(Integer)
+    update_mac =Column(String)
 
 class t_attends(BaseModel):
     id: int
@@ -203,6 +343,16 @@ class t_attends(BaseModel):
 # t_paidvacation テーブルのモデル定義
 class t_paidvacationtable(Base):
     __tablename__ = 't_paidvacation'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    employee_id =Column(Integer, nullable=False)
+    subm_date =Column(DATETIME, nullable=False)
+    target_date =Column(DATE, nullable=False)
+    subm_st =Column(Integer, nullable=False)
+    authorizer =Column(Integer, nullable=False)
+    create_at =Column(DATETIME, nullable=False)
+    create_acc =Column(Integer, nullable=False)
+    update_at =Column(DATETIME)
+    update_acc =Column(Integer)
 
 class t_paidvacation(BaseModel):
     id: int
@@ -220,6 +370,28 @@ class t_paidvacation(BaseModel):
 # t_payments テーブルのモデル定義
 class t_paymentstable(Base):
     __tablename__ = 't_payments'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    employee_ID =Column(Integer, nullable=False)
+    payment_date =Column(DATE, nullable=False)
+    income =Column(Integer, nullable=False)
+    base =Column(Integer)
+    overtime_pay =Column(Integer)
+    nighttime_pay =Column(Integer)
+    holiday_pay =Column(Integer)
+    commuting_pay =Column(Integer)
+    health_insur =Column(Integer)
+    care_insur =Column(Integer)
+    pension_insur =Column(Integer)
+    employ_insur =Column(Integer)
+    income_tax =Column(Integer)
+    inhabitant_tax =Column(Integer)
+    withholding_tax =Column(Integer)
+    adj_pay =Column(Integer)
+    others =Column(Integer)
+    create_at =Column(DATETIME, nullable=False)
+    create_acc =Column(Integer, nullable=False)
+    update_at =Column(DATETIME)
+    update_acc =Column(Integer)
 
 class t_payments(BaseModel):
     id: int
