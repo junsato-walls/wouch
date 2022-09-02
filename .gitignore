@@ -3,6 +3,7 @@ __pycache__/
 package-lock.json
 /.pnp
 .pnp.js
+/log
 
 # testing
 /coverage
