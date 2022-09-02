@@ -3,9 +3,15 @@ from typing import List  # ネストされたBodyを定義するために必要
 from starlette.middleware.cors import CORSMiddleware  # CORSを回避するために必要
 from db import session  # DBと接続するためのセッション
 from sqlalchemy.exc import SQLAlchemyError
-from model import m_admin, m_admintable, m_calendar, m_calendartable, m_campanies, m_campaniestable, m_employees, m_employeestable  # 今回使うモデルをインポート
-from model import m_jobshift, m_jobshift, m_jobshifttable, m_payments, m_paymentstable  # 今回使うモデルをインポート
-from model import t_attends, t_attendstable, t_paidvacation, t_paidvacationtable, t_payments, t_paymentstable  # 今回使うモデルをインポート
+from cruds.router import router as m_campanies_router  # 今回使うモデルをインポート
+# from cruds.router import router as  m_employees_router  # 今回使うモデルをインポート
+# from cruds.router import router as  m_payments_router  # 今回使うモデルをインポート
+# from cruds.router import router as  m_calendar_router  # 今回使うモデルをインポート
+# from cruds.router import router as  m_jobshift_router  # 今回使うモデルをインポート
+# from cruds.router import router as  m_admin_router  # 今回使うモデルをインポート
+# from cruds.router import router as  t_attends_router  # 今回使うモデルをインポート
+# from cruds.router import router as  t_paidvacation_router  # 今回使うモデルをインポート
+# from cruds.router import router as  t_payments_router  # 今回使うモデルをインポート
 import datetime
 
 app = FastAPI()
@@ -18,6 +24,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# router = APIRouter()
+# router.include_router(
+#     m_employees_router,
+#     prefix='/users',
+#     tags=['users']
+# )
+
 
 # ----------APIの定義------------
 # テーブルにいる全ユーザ情報を取得 GET
