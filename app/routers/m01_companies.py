@@ -8,8 +8,14 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("/m_companies")
+@router.get("m_companies")
 async def select_m_companies():
-    # m_companies = session.query(m_companies).all()
-    # return m_companies
     pass
+
+# @router.put("/m_companies")
+# async def insert_m_companies():
+#     pass
+
+# @router.post("/m_companies")
+# async def update_m_companies():
+#     pass

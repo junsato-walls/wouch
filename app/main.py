@@ -13,6 +13,8 @@ from routers import m01_companies  # 今回使うモデルをインポート
 # from cruds.router import router as  t_paidvacation_router  # 今回使うモデルをインポート
 # from cruds.router import router as  t_payments_router  # 今回使うモデルをインポート
 
+# from routers import user
+
 app = FastAPI()
 aap.include_router(m01_companies.router)
 
