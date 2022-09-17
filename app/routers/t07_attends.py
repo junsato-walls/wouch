@@ -1,4 +1,5 @@
 from fastapi import APIRouter, FastAPI, HTTPException
+from models.m02_employees import m_employees, m_employeestable
 from models.t07_attends import t_attends, t_attendstable
 from sqlalchemy.orm import session
 from typing import List  # ネストされたBodyを定義するために必要
