@@ -7,17 +7,10 @@ from db import session  # DBと接続するためのセッション
 
 router = APIRouter()
 
-@router.get('/test')
-async def select_test():
-    test = session.query(UserTable).all()
-    return test
-
-
 @router.get("/m_companies",)
 async def m_companies():
     m_companies_s = session.query(m_companiestable).all()
     return m_companies_s
-    # pass
 
 # @router.put("/m_companies_i")
 # async def insert_m_companies():

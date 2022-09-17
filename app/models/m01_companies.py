@@ -8,23 +8,6 @@ from db import ENGINE
 from datetime import datetime, time, date
 import sys
 
-
-# サンプル
-# userテーブルのモデルUserTableを定義
-class UserTable(Base):
-    __tablename__ = 'user'
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(30), nullable=False)
-    age = Column(Integer)
-
-
-# POSTやPUTのとき受け取るRequest Bodyのモデルを定義
-class User(BaseModel):
-    id: int
-    name: str
-    age: int
-
-
 # wouch #################################################################
 # m_companies テーブルのモデル定義
 class m_companiestable(Base):
