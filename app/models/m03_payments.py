@@ -15,6 +15,8 @@ class m_paymentstable(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     employee_id =Column(Integer, nullable=False)
     base =Column(Integer)
+    salary_type =Column(Integer, nullable=False)
+    std_monthly_compensation =Column(Integer, nullable=False)
     commuting_pay =Column(Integer)
     health_insur =Column(Integer)
     care_insur =Column(Integer)
@@ -30,6 +32,8 @@ class m_payments(BaseModel):
     id: int
     employee_id: int
     base: int
+    salary_type: int
+    std_monthly_compensation: int
     commuting_pay: int
     health_insur: int
     care_insur: int

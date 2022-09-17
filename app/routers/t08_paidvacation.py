@@ -12,7 +12,7 @@ router = APIRouter()
 @router.get("/t_paidvacation",)
 async def t_paidvacation():
     t_paidvacation = session.query(m_employeestable, t_paidvacationtable)\
-    .join(m_employeestable, m_employeestable.id == m_employeestable.employee_id).all()
+    .join(m_employeestable, m_employeestable.id == t_paidvacationtable.employee_id).all()
 
     return t_paidvacation
 

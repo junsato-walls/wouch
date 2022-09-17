@@ -22,9 +22,11 @@ class m_employeestable(Base):
     in_company =Column(Date, nullable=False)
     exit_company =Column(Date)
     sex =Column(Integer, nullable=False)
-    salary_type =Column(Integer, nullable=False)
     weekly_work_time =Column(Float, nullable=False)
-    std_monthly_compensation =Column(Integer, nullable=False)
+    post_code = Column(String, nullable=False)
+    address_pref = Column(String, nullable=False)
+    address_city = Column(String, nullable=False)
+    address_other = Column(String, nullable=False)
     empl_insur_insured_num =Column(String)
     pension_num =Column(String)
     mynumber =Column(String)
@@ -55,9 +57,11 @@ class m_employees(BaseModel):
     in_company: date
     exit_company: date
     sex: int
-    salary_type: int
     weekly_work_time: float
-    std_monthly_compensation: int
+    post_code: str
+    address_pref: str
+    address_city: str
+    address_other: str
     empl_insur_insured_num: str
     pension_num: str
     mynumber: str

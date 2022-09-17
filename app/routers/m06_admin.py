@@ -11,8 +11,8 @@ router = APIRouter()
 
 @router.get("/m_admin",)
 async def m_admin():
-    m_admin = session.query(m_employeestable,m_admin)\
-    .join(m_employeestable, m_employeestable.id == m_admin.employee_id).all()
+    m_admin = session.query(m_employeestable,m_admintable)\
+    .join(m_employeestable, m_employeestable.id == m_admintable.employee_id).all()
         
     return m_admin
 

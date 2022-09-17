@@ -13,7 +13,7 @@ import sys
 class t_paymentstable(Base):
     __tablename__ = 't_payments'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    employee_ID =Column(Integer, nullable=False)
+    employee_id =Column(Integer, nullable=False)
     payment_date =Column(Date, nullable=False)
     income =Column(Integer, nullable=False)
     base =Column(Integer)
@@ -37,7 +37,7 @@ class t_paymentstable(Base):
 
 class t_payments(BaseModel):
     id: int
-    employee_ID: int
+    employee_id: int
     payment_date: date
     income: int
     base: int

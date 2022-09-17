@@ -12,7 +12,7 @@ router = APIRouter()
 @router.get("/t_payments",)
 async def t_payments():
     t_payments = session.query(m_employeestable, t_paymentstable)\
-    .join(m_employeestable, m_employeestable.id == m_employeestable.employee_id).all()
+    .join(m_employeestable, m_employeestable.id == t_paymentstable.employee_id).all()
 
     return t_payments
 
