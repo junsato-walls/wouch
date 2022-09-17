@@ -66,3 +66,22 @@ http://localhost:8000/menus?category_id=1&menu=ピザ&price=1200&view_no=10
 $メニューの編集　post
 http://localhost:8000/menus?id=1&category_id=1&menu=やきそば&price=1100&view_no=99
 
+
+GET
+/m_companies
+GET
+/m_employees
+GET
+/m_payments
+GET
+/m_calendar
+GET
+/m_jobshift
+GET
+/m_admin
+GET
+/t_attends
+GET
+/t_paidvacation
+GET
+/t_payments
