@@ -6,8 +6,14 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+
+
 
 function Input() {
+
+    const [nfcid, setNFCID] = useState("");
+
     return (
         <>
             <Box sx={{ '& button': { m: 1 } }}>
@@ -16,6 +22,9 @@ function Input() {
                 <Button variant="contained" size="large">退勤</Button>
             </Box>
             <Button variant="contained" size="medium">有給申請</Button>
+            <input type="text" id="nfc_input" name="name" maxlength="20" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
+                style={{ color: 'white', border: 'none', outline: 'none' }}></input>
+            <p>{nfcid}</p>
         </>
     );
 }
