@@ -14,8 +14,16 @@ function Input() {
 
     const [nfcid, setNFCID] = useState("");
 
+    const countup = () => {
+        const nowTime = new Date();
+        const msg = nowTime.getFullYear() + "/" +  (nowTime.getMonth() + 1) + "/"+ nowTime.getDate()  + "/" + ('00' + nowTime.getHours()).slice(-2) + ":" + ('00' + nowTime.getMinutes()).slice(-2) + ":" + ('00' + nowTime.getSeconds()).slice(-2);
+        document.getElementById("localClock").innerHTML = msg;
+    };
+    setInterval(countup, 1000);
+
     return (
         <>
+            <div id="localClock"></div>
             <Box sx={{ '& button': { m: 1 } }}>
                 <Button variant="contained" size="large">出勤</Button>
                 <Button variant="contained" size="large">休憩</Button>
