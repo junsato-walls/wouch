@@ -1,3 +1,7 @@
+INSERT INTO user (name, age) VALUES ("太郎", 15);
+INSERT INTO user (name, age) VALUES ("次郎", 18);
+INSERT INTO user (name, age) VALUES ("花子", 20);
+
 Insert Into m_companies ( 
 company_name, post_code, address_pref, address_city, address_other, facility_name, tell, ceo, capital, pay_cutoff_date, pay_date, empl_insur_apply_office_num, empl_insur_estab_date, labor_insur_num, labor_insur_estab_date, social_insur_num, social_insur_estab_date, welfare_pension_insur_office_num, corporate_num, industry_class, industry_type, start, paidvacanmt_cutoff_date, end, create_at, create_acc, update_at, update_acc
  ) values ( 
@@ -5,29 +9,29 @@ company_name, post_code, address_pref, address_city, address_other, facility_nam
  );
 
 Insert Into m_employees ( 
-shift_id, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
+shift_id, employee_num, idm, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
  ) values ( 
-'1', '神谷太郎', 'カミヤタロウ', '1990-04-01', '2010-04-01', NULL, '1', '1', '188000', '40', '0', '1234567890123', '1234567890', '123456789012', NULL, '1', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022/04/03', '1', NULL
+'1', NULL, NULL, '神谷太郎', 'カミヤタロウ', '1990-04-01', '2010-04-01', NULL, '1', '1', '188000', '40', '0', '1234567890123', '1234567890', '123456789012', NULL, '1', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022/04/03', '1', NULL
  );
 Insert Into m_employees ( 
-shift_id, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
+shift_id, employee_num, idm, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
  ) values ( 
-'1', '吉田次郎', 'ヨシダジロウ', '1990-04-01', '2010-04-01', NULL, '1', '1', '221000', '40', '300000', '1234567890123', '1234567890', '123456789012', NULL, '0', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
+'1', NULL, NULL, '吉田次郎', 'ヨシダジロウ', '1990-04-01', '2010-04-01', NULL, '1', '1', '221000', '40', '300000', '1234567890123', '1234567890', '123456789012', NULL, '0', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
  );
 Insert Into m_employees ( 
-shift_id, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
+shift_id, employee_num, idm, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
  ) values ( 
-'1', '奥村三郎', 'オクムラサブロウ', '1990-04-01', '2010-04-01', NULL, '1', '1', '221000', '40', '150000', '1234567890123', '1234567890', '123456789012', NULL, '3', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
+'1', NULL, NULL, '奥村三郎', 'オクムラサブロウ', '1990-04-01', '2010-04-01', NULL, '1', '1', '221000', '40', '150000', '1234567890123', '1234567890', '123456789012', NULL, '3', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
  );
 Insert Into m_employees ( 
-shift_id, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
+shift_id, employee_num, idm, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
  ) values ( 
-'1', '佐藤花子', 'サトウハナコ', '1990-04-01', '2010-04-01', NULL, '2', '1', '284000', '40', '220000', '1234567890123', '1234567890', '123456789012', NULL, '2', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
+'1', NULL, NULL, '佐藤花子', 'サトウハナコ', '1990-04-01', '2010-04-01', NULL, '2', '1', '284000', '40', '220000', '1234567890123', '1234567890', '123456789012', NULL, '2', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
  );
 Insert Into m_employees ( 
-shift_id, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
+shift_id, employee_num, idm, name, name_kana, birthday, in_company, exit_company, sex, salary_type, base, weekly_work_time, std_monthly_compensation, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
  ) values ( 
-'2', '加藤愛', 'カトウアイ', '1990-04-01', '2010-04-01', NULL, '2', '2', '2300', '55', '0', '1234567890123', '1234567890', '123456789012', NULL, '0', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', '社長秘書'
+'2', NULL, NULL, '加藤愛', 'カトウアイ', '1990-04-01', '2010-04-01', NULL, '2', '2', '2300', '55', '0', '1234567890123', '1234567890', '123456789012', NULL, '0', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', '社長秘書'
  );
 
 Insert Into m_payments ( 
@@ -60,52 +64,52 @@ employee_id, base, commuting_pay, health_insur, care_insur, pension_insur, incom
  );
 
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visiblr_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-2', '2023', '3', '2', 'wed', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visiblr_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-3', '2023', '3', '3', 'thu', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visiblr_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-4', '2023', '3', '4', 'sta', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visiblr_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-5', '2023', '3', '5', 'sun', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visiblr_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-6', '2023', '3', '6', 'mon', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visiblr_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-7', '2023', '3', '7', 'tue', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visiblr_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-8', '2023', '3', '8', 'wed', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visiblr_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-9', '2023', '3', '9', 'thu', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visiblr_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-10', '2023', '3', '10', 'sta', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visiblr_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-11', '2023', '3', '11', 'sun', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
@@ -122,19 +126,19 @@ shift_name, delete_flg, job_type, work_in_time, work_out_time, rest, memo, creat
  );
 
 Insert Into m_admin ( 
-employee_id, admin_id, password, fail_count, edit_flg, attend_flg, vacation_flg,employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
+employee_id, admin_id, password, fail_count, edit_flg, attend_flg, vacation_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
  ) values ( 
-'2', 'admin1', 'aiai41', '4', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
+'2', 'admin1', 'aiai41', '4', '1', '1', '1', '1', '1', '1', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
  );
 Insert Into m_admin ( 
-employee_id, admin_id, password, fail_count, edit_flg, attend_flg, vacation_flg,employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
+employee_id, admin_id, password, fail_count, edit_flg, attend_flg, vacation_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
  ) values ( 
-'3', 'admin2', '09360', '0', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
+'3', 'admin2', '09360', '0', '1', '1', '1', '1', '1', '1', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
  );
 Insert Into m_admin ( 
-employee_id, admin_id, password, fail_count, edit_flg, attend_flg, vacation_flg,employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
+employee_id, admin_id, password, fail_count, edit_flg, attend_flg, vacation_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
  ) values ( 
-'4', 'admin3', 'Saha5', '0', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
+'4', 'admin3', 'Saha5', '0', '1', '1', '1', '1', '1', '1', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
  );
 
 Insert Into t_attends ( 
@@ -163,10 +167,10 @@ employee_id, working_st, round_work_in_time, work_in, round_work_out_time, work_
 '5', '1', '2022-08-04 11:00:00', '2022-08-04 10:53:39', '2022-08-05 03:00:00', NULL, '11:00', '2:00', '0:00', '5:00', '0:00', '2022-08-04 10:53:39', '5', 'rumoi1', '2022-08-05 11:03:01', '1', 'hanaPC'
  );
 
-Insert Into t_paidvacasubm ( 
-employee_id, subm_date, target_date, subm_st, create_at, create_acc, update_at, update_acc
+Insert Into t_paidvacation ( 
+employee_id, subm_date, target_date, subm_st, authorizer, create_at, create_acc, update_at, update_acc
  ) values ( 
-'3', '2022-08-01 10:03:11', '2022-08-21', '1', '2022-08-01 10:03:11', '3', '2022-08-01 10:12:51', '2'
+'3', '2022-08-01 10:03:11', '2022-08-21', '1', '2', '2022-08-01 10:03:11', '3', '2022-08-01 10:12:51', '2'
  );
 Insert Into t_payments ( 
 employee_ID, payment_date, income, base, overtime_pay, nighttime_pay, holiday_pay, commuting_pay, health_insur, care_insur, pension_insur, employee_insur, income_tax, inhabitant_tax, withholding_tax, adj_pay, others, create_at, create_acc, update_at, update_acc

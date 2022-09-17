@@ -1,76 +1,45 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, APIRouter
 from typing import List  # ネストされたBodyを定義するために必要
 from starlette.middleware.cors import CORSMiddleware  # CORSを回避するために必要
 from db import session  # DBと接続するためのセッション
 from sqlalchemy.exc import SQLAlchemyError
-from routers import m01_companies  # 今回使うモデルをインポート
-# from cruds.router import router as  m_employees_router  # 今回使うモデルをインポート
-# from cruds.router import router as  m_payments_router  # 今回使うモデルをインポート
-# from cruds.router import router as  m_calendar_router  # 今回使うモデルをインポート
-# from cruds.router import router as  m_jobshift_router  # 今回使うモデルをインポート
-# from cruds.router import router as  m_admin_router  # 今回使うモデルをインポート
-# from cruds.router import router as  t_attends_router  # 今回使うモデルをインポート
-# from cruds.router import router as  t_paidvacation_router  # 今回使うモデルをインポート
-# from cruds.router import router as  t_payments_router  # 今回使うモデルをインポート
-
-# from routers import user
+from routers import m01_companies
+from routers import m02_employees
+from routers import m03_payments
+from routers import m04_calendar
+from routers import m05_jobshift
+from routers import m06_admin
+from routers import t07_attends
+from routers import t08_paidvacation
+from routers import t09_payments
+from models.m01_companies import m_companies, m_companiestable
+from models.m02_employees import m_employees, m_employeestable
+from models.m03_payments import m_payments, m_paymentstable
+from models.m04_calendar import m_calendar, m_calendartable
+from models.m05_jobshift import m_jobshift, m_jobshifttable
+from models.m06_admin import m_admin, m_admintable
+from models.t07_attends import t_attends, t_attendstable
+from models.t08_paidvacation import t_paidvacation, t_paidvacationtable
+from models.t09_payments import t_payments, t_paymentstable
 
 app = FastAPI()
-aap.include_router(m01_companies.router)
 
+app.include_router(m01_companies.router)
+app.include_router(m02_employees.router)
+app.include_router(m03_payments.router)
+app.include_router(m04_calendar.router)
+app.include_router(m05_jobshift.router)
+app.include_router(m06_admin.router)
+app.include_router(t07_attends.router)
+app.include_router(t08_paidvacation.router)
+app.include_router(t09_payments.router)
 
-# # CORSを回避するために設定
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],
-# )
+# CORSを回避するために設定
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-
-# # ----------APIの定義------------
-# # テーブルにいる全ユーザ情報を取得 GET
-
-
-# @app.get("/users")
-# def read_users():
-#     users = session.query(UserTable).all()
-#     return users
-
-# # idにマッチするユーザ情報を取得 GET
-
-
-# @app.get("/users/{user_id}")
-# def read_user(user_id: int):
-#     user = session.query(UserTable).\
-#         filter(UserTable.id == user_id).first()
-#     return user
-
-# # ユーザ情報を登録 POST
-
-
-# @app.post("/user")
-# # クエリでnameとstrを受け取る
-# # /user?name="三郎"&age=10
-# async def create_user(name: str, age: int):
-#     user = UserTable()
-#     user.name = name
-#     user.age = age
-#     session.add(user)
-#     session.commit()
-
-# # 複数のユーザ情報を更新 PUT
-
-
-# @app.put("/users")
-# # modelで定義したUserモデルのリクエストbodyをリストに入れた形で受け取る
-# # users=[{"id": 1, "name": "一郎", "age": 16},{"id": 2, "name": "二郎", "age": 20}]
-# async def update_users(users: List[User]):
-#     for new_user in users:
-#         user = session.query(UserTable).\
-#             filter(UserTable.id == new_user.id).first()
-#         user.name = new_user.name
-#         user.age = new_user.age
-#         session.commit()
-        

@@ -1,3 +1,10 @@
+CREATE TABLE user (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(30) NOT NULL,
+    age INT,
+    PRIMARY KEY (id)
+);
+
 CREATE TABLE m_companies (
     id int NOT NULL AUTO_INCREMENT,
     company_name varchar(100) NOT NULL,
@@ -33,6 +40,8 @@ CREATE TABLE m_companies (
 
 CREATE TABLE m_employees (
     id int NOT NULL AUTO_INCREMENT,
+    employee_num varchar(15),
+    idm varchar(20),
     shift_id int,
     name varchar(50) NOT NULL,
     name_kana varchar(100) NOT NULL,
@@ -89,7 +98,7 @@ CREATE TABLE m_calendar (
     month int NOT NULL,
     day int NOT NULL,
     day_of_week varchar(3) NOT NULL,
-    visiblr_flg tinyint NOT NULL,
+    visible_flg tinyint NOT NULL,
     working_st tinyint NOT NULL,
     memo varchar(100),
     create_at datetime NOT NULL,
@@ -159,12 +168,13 @@ CREATE TABLE t_attends (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE t_paidvacasubm (
+CREATE TABLE t_paidvacation (
     id int NOT NULL AUTO_INCREMENT,
     employee_id int NOT NULL,
     subm_date datetime NOT NULL,
     target_date date NOT NULL,
     subm_st tinyint NOT NULL,
+    authorizer int,
     create_at datetime NOT NULL,
     create_acc int NOT NULL,
     update_at datetime,

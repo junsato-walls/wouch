@@ -1,28 +1,30 @@
 # -*- coding: utf-8 -*-
 # モデルの定義
-from sqlalchemy import Column, Integer, String, text, decimal, datetime, time, date, boolean
-from sqlalchemy.dialects.mysql import DATETIME, DATE, TIME, DECIMAL
+from sqlalchemy import Column, Integer, String, text
+from sqlalchemy.types import Date, DateTime, Time, Float
 from pydantic import BaseModel
 from db import Base
 from db import ENGINE
 from datetime import datetime, time, date
-from decimal import decimal
+import sys
     
 # wouch #################################################################
 # m_employees テーブルのモデル定義
 class m_employeestable(Base):
     __tablename__ = 'm_employees'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    employee_num = Column(String)
+    idm = Column(String)
     shift_id =Column(Integer, nullable=False)
     name =Column(String, nullable=False)
     name_kana =Column(String, nullable=False)
-    birthday =Column(DATE, nullable=False)
-    in_company =Column(DATE, nullable=False)
-    exit_company =Column(DATE)
+    birthday =Column(Date, nullable=False)
+    in_company =Column(Date, nullable=False)
+    exit_company =Column(Date)
     sex =Column(Integer, nullable=False)
     salary_type =Column(Integer, nullable=False)
     base =Column(Integer, nullable=False)
-    weekly_work_time =Column(decimal, nullable=False)
+    weekly_work_time =Column(Float, nullable=False)
     std_monthly_compensation =Column(Integer, nullable=False)
     empl_insur_insured_num =Column(String)
     pension_num =Column(String)
@@ -31,20 +33,22 @@ class m_employeestable(Base):
     dependent =Column(Integer, nullable=False)
     health_insur_num =Column(String)
     nationality =Column(String)
-    empl_insur_insur_qual_acq_date =Column(DATE)
-    empl_insur_insur_qual_lost_date =Column(DATE)
-    soc_insur_insur_qual_acq_date =Column(DATE)
-    soc_insur_insur_qual_lost_date =Column(DATE)
-    start =Column(DATE)
-    end =Column(DATE)
-    create_at =Column(DATETIME, nullable=False)
+    empl_insur_insur_qual_acq_date =Column(Date)
+    empl_insur_insur_qual_lost_date =Column(Date)
+    soc_insur_insur_qual_acq_date =Column(Date)
+    soc_insur_insur_qual_lost_date =Column(Date)
+    start =Column(Date)
+    end =Column(Date)
+    create_at =Column(DateTime, nullable=False)
     create_acc =Column(Integer, nullable=False)
-    update_at =Column(DATETIME)
+    update_at =Column(DateTime)
     update_acc =Column(Integer)
     memo =Column(String)
 
 class m_employees(BaseModel):
     id: int
+    employee_num: str
+    idm: str
     shift_id: int
     name: str
     name_kana: str
@@ -54,7 +58,7 @@ class m_employees(BaseModel):
     sex: int
     salary_type: int
     base: int
-    weekly_work_time: decimal
+    weekly_work_time: float
     std_monthly_compensation: int
     empl_insur_insured_num: str
     pension_num: str
@@ -75,7 +79,7 @@ class m_employees(BaseModel):
     update_acc: int
     memo: str
 
-    def main():
+def main():
     # テーブルが存在しなければ、テーブルを作成
     Base.metadata.create_all(bind=ENGINE)
 

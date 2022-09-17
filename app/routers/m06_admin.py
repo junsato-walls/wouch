@@ -1,5 +1,5 @@
 from fastapi import APIRouter, FastAPI, HTTPException
-from models.m01_companies import m_companies, m_companiestable
+from models.m06_admin import m_admin, m_admintable
 from sqlalchemy.orm import session
 from typing import List  # ネストされたBodyを定義するために必要
 from db import session  # DBと接続するためのセッション
@@ -7,17 +7,11 @@ from db import session  # DBと接続するためのセッション
 
 router = APIRouter()
 
-@router.get('/test')
-async def select_test():
-    test = session.query(UserTable).all()
-    return test
 
-
-@router.get("/m_companies",)
-async def m_companies():
-    m_companies_s = session.query(m_companiestable).all()
-    return m_companies_s
-    # pass
+@router.get("/m_admin",)
+async def m_admin():
+    m_admin = session.query(m_admintable).all()
+    return m_admin
 
 # @router.put("/m_companies_i")
 # async def insert_m_companies():

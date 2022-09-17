@@ -1,5 +1,5 @@
 from fastapi import APIRouter, FastAPI, HTTPException
-from models.m01_companies import m_companies, m_companiestable
+from models.t08_paidvacation import t_paidvacation, t_paidvacationtable
 from sqlalchemy.orm import session
 from typing import List  # ネストされたBodyを定義するために必要
 from db import session  # DBと接続するためのセッション
@@ -7,17 +7,11 @@ from db import session  # DBと接続するためのセッション
 
 router = APIRouter()
 
-@router.get('/test')
-async def select_test():
-    test = session.query(UserTable).all()
-    return test
 
-
-@router.get("/m_companies",)
-async def m_companies():
-    m_companies_s = session.query(m_companiestable).all()
-    return m_companies_s
-    # pass
+@router.get("/t_paidvacation",)
+async def t_paidvacation():
+    t_paidvacation = session.query(t_paidvacationtable).all()
+    return t_paidvacation
 
 # @router.put("/m_companies_i")
 # async def insert_m_companies():
