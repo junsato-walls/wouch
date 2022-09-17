@@ -11,7 +11,9 @@ router = APIRouter()
 
 @router.get("/t_attends",)
 async def t_attends():
-    t_attends = session.query(t_attendstable).all()
+    t_attends = session.query(m_employeestable,t_attendstable)\
+    .join(m_employeestable, m_employeestable.id == t_attendstable.employee_id).all()
+
     return t_attends
 
 # @router.put("/m_companies_i")

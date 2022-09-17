@@ -11,13 +11,10 @@ router = APIRouter()
 
 @router.get("/m_admin",)
 async def m_admin():
-    m_admin = session.query(m_employeestable,m_paymentstable)\
-    .join(m_employeestable, m_employeestable.id == m_admintable.employee_id).all()
-    m_pay = session.query(m_employeestable,m_paymentstable)\
-    .join(m_employeestable, m_employeestable.id == m_admintable.employee_id).all()
-    
-    
-    return {m_admin,m_pay}
+    m_admin = session.query(m_employeestable,m_admin)\
+    .join(m_employeestable, m_employeestable.id == m_admin.employee_id).all()
+        
+    return m_admin
 
 # @router.put("/m_companies_i")
 # async def insert_m_companies():
