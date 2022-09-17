@@ -3,6 +3,7 @@ from typing import List  # ネストされたBodyを定義するために必要
 from starlette.middleware.cors import CORSMiddleware  # CORSを回避するために必要
 from db import session  # DBと接続するためのセッション
 from sqlalchemy.exc import SQLAlchemyError
+from routers import user
 from routers import m01_companies
 from routers import m02_employees
 from routers import m03_payments
@@ -12,6 +13,7 @@ from routers import m06_admin
 from routers import t07_attends
 from routers import t08_paidvacation
 from routers import t09_payments
+from models.user import User, UserTable
 from models.m01_companies import m_companies, m_companiestable
 from models.m02_employees import m_employees, m_employeestable
 from models.m03_payments import m_payments, m_paymentstable
@@ -24,6 +26,7 @@ from models.t09_payments import t_payments, t_paymentstable
 
 app = FastAPI()
 
+app.include_router(user.router)
 app.include_router(m01_companies.router)
 app.include_router(m02_employees.router)
 app.include_router(m03_payments.router)
