@@ -27,6 +27,7 @@ class m_employeestable(Base):
     address_pref = Column(String, nullable=False)
     address_city = Column(String, nullable=False)
     address_other = Column(String, nullable=False)
+    tell = Column(String, nullable=False)
     empl_insur_insured_num =Column(String)
     pension_num =Column(String)
     mynumber =Column(String)
@@ -62,6 +63,7 @@ class m_employees(BaseModel):
     address_pref: str
     address_city: str
     address_other: str
+    tell: str
     empl_insur_insured_num: str
     pension_num: str
     mynumber: str

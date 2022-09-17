@@ -54,6 +54,7 @@ CREATE TABLE m_employees (
     address_pref varchar(100) NOT NULL,
     address_city varchar(100) NOT NULL,
     address_other varchar(100) NOT NULL,
+    tell varchar(20) NOT NULL,
     empl_insur_insured_num varchar(13),
     pension_num varchar(10),
     mynumber varchar(12),
