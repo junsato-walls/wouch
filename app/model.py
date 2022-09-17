@@ -8,8 +8,6 @@ from db import ENGINE
 from datetime import datetime, time, date
 import sys
 
-a = 1  
-
 # サンプル
 # userテーブルのモデルUserTableを定義
 class UserTable(Base):
