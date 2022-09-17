@@ -11,7 +11,6 @@ router = APIRouter()
 async def m_companies():
     m_companies_s = session.query(m_companiestable).all()
     return m_companies_s
-    # pass
 
 # @router.put("/m_companies_i")
 # async def insert_m_companies():

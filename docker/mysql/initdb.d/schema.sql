@@ -50,7 +50,6 @@ CREATE TABLE m_employees (
     exit_company date,
     sex tinyint NOT NULL,
     salary_type tinyint NOT NULL,
-    base int NOT NULL,
     weekly_work_time decimal NOT NULL,
     std_monthly_compensation int NOT NULL,
     empl_insur_insured_num varchar(13),

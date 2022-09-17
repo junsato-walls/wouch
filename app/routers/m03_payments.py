@@ -1,4 +1,5 @@
 from fastapi import APIRouter, FastAPI, HTTPException
+from models.m02_employees import m_employees, m_employeestable
 from models.m03_payments import m_payments, m_paymentstable
 from sqlalchemy.orm import session
 from typing import List  # ネストされたBodyを定義するために必要
@@ -9,7 +10,8 @@ router = APIRouter()
 
 @router.get("/m_payments",)
 async def m_payments():
-    m_payments = session.query(m_paymentstable).all()
+    m_payments = session.query(m_employeestable,m_paymentstable)\
+    .join(m_employeestable, m_employeestable.id == m_paymentstable.employee_id).all()
     return m_payments
 
 # @router.put("/m_companies_i")

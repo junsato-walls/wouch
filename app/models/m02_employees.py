@@ -23,7 +23,6 @@ class m_employeestable(Base):
     exit_company =Column(Date)
     sex =Column(Integer, nullable=False)
     salary_type =Column(Integer, nullable=False)
-    base =Column(Integer, nullable=False)
     weekly_work_time =Column(Float, nullable=False)
     std_monthly_compensation =Column(Integer, nullable=False)
     empl_insur_insured_num =Column(String)
@@ -57,7 +56,6 @@ class m_employees(BaseModel):
     exit_company: date
     sex: int
     salary_type: int
-    base: int
     weekly_work_time: float
     std_monthly_compensation: int
     empl_insur_insured_num: str
