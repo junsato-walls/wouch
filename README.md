@@ -68,7 +68,7 @@ http://localhost:8000/menus?id=1&category_id=1&menu=やきそば&price=1100&view
 
 # apiの命名規則
 $ localhost:{テーブル名} 
-$ localhost:{画面ID}/{APINo.}
+$ localhost:{画面ID}/{APINum}
 
 GET
 /m_companies

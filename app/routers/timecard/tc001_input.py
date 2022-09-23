@@ -46,14 +46,14 @@ async def tc001_01(item:tc001):
 
         case 1:
             if len(attend) != 0:
-                attend.t_attends.rest = get_time
-                attend.t_attend.updated_at = get_time
+                attend[0].t_attendstable.rest = get_time
+                attend[0].t_attendstable.updated_at = get_time
                 session.commit()
 
         case 2:
-            if en(attend) != 0:
-                attend.t_attends.work_in = get_time
-                attend.t_attend.updated_at = get_time
+            if len(attend) != 0:
+                attend[0].t_attendstable.work_out = get_time
+                attend[0].t_attendstable.updated_at = get_time
                 session.commit()
 
     param = {
@@ -61,5 +61,5 @@ async def tc001_01(item:tc001):
         'employee_num': emp[0].employee_num,
         'time': get_time.strftime('%H:%M:%S')
     }
-
-    return json.dumps(param, ensure_ascii=False)
+    return param
+    # return json.dumps(param, ensure_ascii=False)
