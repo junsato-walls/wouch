@@ -10,3 +10,8 @@ router = APIRouter()
 async def select_test():
     user = session.query(UserTable).all()
     return user
+
+@router.get('/user/count')
+async def count_test():
+    user = session.query(UserTable).filter(UserTable.id == 1).all()
+    return user
