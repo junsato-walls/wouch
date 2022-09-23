@@ -7,6 +7,7 @@ from db import Base
 from db import ENGINE
 from datetime import datetime, time, date
 import sys
+from typing import Union
     
 # wouch #################################################################
 # t_attends テーブルのモデル定義
@@ -32,24 +33,26 @@ class t_attendstable(Base):
     update_mac =Column(String)
 
 class t_attends(BaseModel):
-    id: int
-    employee_id: int
-    working_st: int
-    round_work_in_time: datetime
-    work_in: datetime
-    round_work_out_time: datetime
-    work_out: datetime
-    work_time: time
-    rest: time
-    orvertime: time
-    nighttime: time
-    holiday_time: time
-    create_at: datetime
-    create_acc: int
-    create_mac: str
-    update_at: datetime
-    update_acc: int
-    update_mac: str
+    id: Union[int, None] = None
+    employee_id: Union[int, None] = None
+    working_st: Union[int, None] = None
+    round_work_in_time: Union[datetime, None] = None
+    work_in: Union[datetime, None] = None
+    round_work_out_time: Union[datetime, None] = None
+    work_out: Union[datetime, None] = None
+    work_time: Union[time, None] = None
+    rest: Union[time, None] = None
+    orvertime: Union[time, None] = None
+    nighttime: Union[time, None] = None
+    holiday_time: Union[time, None] = None
+    create_at: Union[datetime, None] = None
+    create_acc: Union[int, None] = None
+    create_mac: Union[str, None] = None
+    update_at: Union[datetime, None] = None
+    update_acc: Union[int, None] = None
+    update_mac: Union[str, None] = None
+    workMode: Union[int, None] = None
+    idm: Union[str, None] = None
 
 def main():
     # テーブルが存在しなければ、テーブルを作成
