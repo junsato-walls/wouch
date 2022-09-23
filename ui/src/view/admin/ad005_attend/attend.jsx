@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect, useRef } from "react";
 import AppBar from '@mui/material/AppBar';
 import Stack from '@mui/material/Stack';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -17,7 +18,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
+
 function Attend() {
+  const baseURL = 'http://localhost:8000'
+  const [ attendData, setAttendData] = useState([])
+
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -26,6 +31,19 @@ function Attend() {
       },
     },
   });
+
+  useEffect(() => {
+    GetAttend()
+  }, [])
+
+  //勤怠データ取得
+  const GetAttend = () => {
+    axios.get(baseURL + '/t_attends').then(res => {
+      setAttendData(res.data)
+      console.log(res.data)
+    })
+  }
+
   return (
   <>
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
@@ -35,32 +53,46 @@ function Attend() {
       </AppBar>
     </ThemeProvider>
   </Stack>
+    <Container maxWidth="xls">
+      {/* <Typography variant="h6" align="">登録済みメニュー</Typography> */}
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 900 }} aria-label="spanning table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">名前</TableCell>
+                <TableCell align="center">出勤時間</TableCell>
+                <TableCell align="center">休憩時間</TableCell>
+                <TableCell align="center">退勤時間</TableCell>
+                <TableCell align="center">残業時間</TableCell>
+                <TableCell align="center">実働時間</TableCell>                
+              </TableRow>
+            </TableHead>
+            <TableBody>
+            {/* <TableRow>
+                  <TableCell align="center">ccc</TableCell>
+                  <TableCell align="center">bbb</TableCell>
+                  <TableCell align="center">aaa</TableCell>
+            </TableRow> */}
+              {attendData.map((data) => (
+                <TableRow>
+                  <TableCell align="center">{data.m_employeestable.name}</TableCell>
+                  <TableCell align="center">{data.t_attendstable.work_in}</TableCell>
+                  <TableCell align="center">{data.t_attendstable.rest}</TableCell>
+                  <TableCell align="center">{data.t_attendstable.work_out}</TableCell>
+                  <TableCell align="center">{data.t_attendstable.orvertime}</TableCell>
+                  <TableCell align="center">{data.t_attendstable.work_time}</TableCell>                
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+    </Container>
+
       <div><TextField id="outlined-basic" label="勤務ステータス" variant="outlined"/></div>
       <div><TextField id="outlined-basic" label="出勤時間" variant="outlined"/></div>
       <div><TextField id="outlined-basic" label="退勤時間" variant="outlined"/></div>
       <div><Button /></div>
       <div><Button variant="contained" endIcon={<SendIcon />} >登録</Button></div>
-      {/* <Container maxWidth="sm">
-      <Typography variant="h6" align="">登録済みメニュー</Typography>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 450 }} aria-label="spanning table">
-            <TableHead>
-              <TableRow>
-              <TableCell align="center">メニュー名</TableCell>
-                <TableCell align="center">価格</TableCell>
-                <TableCell align="center">表示順番</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-                <TableRow>
-                  <TableCell align="center">{SelectOrderData.menu}</TableCell>
-                  <TableCell align="center">{SelectOrderData.price}</TableCell>
-                  <TableCell align="center">{SelectOrderData.view_no}</TableCell>
-                </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Container> */}
   </>
   )
     }

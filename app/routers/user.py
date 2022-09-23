@@ -36,3 +36,8 @@ async def create_user(Item:User):
 #         user.name = new_user.name
 #         user.age = new_user.age
 #         session.commit()
+
+@router.get('/user/count')
+async def count_test():
+    user = session.query(UserTable).filter(UserTable.id == 1).all()
+    return user
