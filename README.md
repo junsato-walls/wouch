@@ -1,4 +1,4 @@
-#Git alias
+#　Git Alias
 git config --global alias.co checkout
 git config --global alias.br branch
 git config --global alias.cm commit
@@ -66,6 +66,9 @@ http://localhost:8000/menus?category_id=1&menu=ピザ&price=1200&view_no=10
 $メニューの編集　post
 http://localhost:8000/menus?id=1&category_id=1&menu=やきそば&price=1100&view_no=99
 
+# apiの命名規則
+$ localhost:{テーブル名} 
+$ localhost:{画面ID}/{APINo.}
 
 GET
 /m_companies
