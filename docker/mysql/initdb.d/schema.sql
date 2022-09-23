@@ -160,7 +160,7 @@ CREATE TABLE t_attends (
     work_out datetime,
     work_time time,
     rest time,
-    orvertime time,
+    overtime time,
     nighttime time,
     holiday_time time,
     create_at datetime,

@@ -22,7 +22,7 @@ class t_attendstable(Base):
     work_out =Column(DateTime)
     work_time =Column(Time)
     rest =Column(Time)
-    orvertime =Column(Time)
+    overtime =Column(Time)
     nighttime =Column(Time)
     holiday_time =Column(Time)
     create_at =Column(DateTime)
@@ -42,7 +42,7 @@ class t_attends(BaseModel):
     work_out: Union[datetime, None] = None
     work_time: Union[time, None] = None
     rest: Union[time, None] = None
-    orvertime: Union[time, None] = None
+    overtime: Union[time, None] = None
     nighttime: Union[time, None] = None
     holiday_time: Union[time, None] = None
     create_at: Union[datetime, None] = None
