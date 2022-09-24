@@ -1,6 +1,6 @@
 from fastapi import APIRouter, FastAPI, HTTPException
 from models.m02_employees import m_employees, m_employeestable
-from models.t07_attends import t_attends, t_attendstable
+from models.t01_attends import t_attends, t_attendstable
 from models.timecard.tc001_input import tc001
 from sqlalchemy.orm import session
 from typing import List  # ネストされたBodyを定義するために必要
@@ -26,12 +26,12 @@ async def tc001_01(item:tc001):
                 .filter(m_employees.idm == item.idm, t_attends.work_in > ymd).all()
 
     if len(emp) ==0:
-        errorcode = "tc001-eoo1"
-        return errorcode 
-
-    if attend == 0 & item.workMode != 0:
-        errorcode = "tc001-eoo2"
-        return errorcode
+        raise HTTPException(status_code=400, detail="tc001-eo001")
+        return
+        
+    if len(attend) == 0 and item.workMode != 0:
+        raise HTTPException(status_code=400, detail="tc001-eo002")
+        return
 
     match workMode:
         case 0:
@@ -43,18 +43,24 @@ async def tc001_01(item:tc001):
                 t_attend.created_at = get_time
                 session.add(t_attend)
                 session.commit()
+            else:
+                get_time = attend[0].t_attendstable.work_in
 
         case 1:
-            if len(attend) != 0:
-                attend[0].t_attendstable.rest = get_time
+            if attend[0].t_attendstable.rest == "":
+                attend[0].t_attendstable.rest = "1:00:00"
                 attend[0].t_attendstable.updated_at = get_time
                 session.commit()
+            else:
+                get_time = attend[0].t_attendstable.updated_at
 
         case 2:
-            if len(attend) != 0:
+            if attend[0].t_attendstable.work_out == "":
                 attend[0].t_attendstable.work_out = get_time
                 attend[0].t_attendstable.updated_at = get_time
                 session.commit()
+            else:
+                get_time = attend[0].t_attendstable.updated_at
 
     param = {
         'name': emp[0].name,
@@ -62,4 +68,3 @@ async def tc001_01(item:tc001):
         'time': get_time.strftime('%H:%M:%S')
     }
     return param
-    # return json.dumps(param, ensure_ascii=False)
