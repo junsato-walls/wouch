@@ -21,9 +21,9 @@ function Input() {
     const baseURL = "http://localhost:8000/";
     const [nfcid, setNFCID] = useState("");
     const [UserDate, setUserDate] = useState();
-    const [workMode, setworkMode] = useState();
+    const [workMode, setworkMode] = useState(0);
     const [ModeWord, setModeWord] = useState("モードは選択されていません");
-
+    const [DateFlg, setDateFlg] = useState(false);
 
     const countup = () => {
         const nowTime = new Date();
@@ -44,7 +44,7 @@ function Input() {
         }
     }
 
-    const BreakTime= () => {
+    const BreakTime = () => {
         if (workMode !== 1) {
             setworkMode(1);
             setModeWord("休憩")
@@ -59,6 +59,9 @@ function Input() {
             return;
         }
     }
+    const test = (event) => {
+                                                                                                                           
+    }
 
     //リクエストをDBへ投げる
     //testID : 012e5524f1463b3d
@@ -70,6 +73,9 @@ function Input() {
             })
             .then((res) => {
                 setUserDate(res.data);
+                setDateFlg(true);
+                setTimeout(() =>{
+                    setDateFlg(false)},2000);
             });
     };
 
@@ -82,10 +88,16 @@ function Input() {
                 <Button variant="contained" size="large" onClick={WorkOut}>退勤</Button>
                 <Button variant="contained" size="large">有給申請</Button>
                 <Button variant="contained" id="SendID" size="large" onClick={PostID}>ID送信</Button>
-                <div>現在モード : {ModeWord} </div>
-                {/* <div>{UserDate.employee_num}{UserDate.name}{UserDate.time}{UserDate.errorcode}</div> */}
+                {DateFlg &&
+                    <div>
+                        <p>現在モード : {ModeWord}</p>
+                        <p>社員番号：{UserDate.employee_num}</p>
+                        <p>名前：{UserDate.name}</p>
+                        <p>時間  {UserDate.time}</p>
+                    </div>
+                }
             </Box>
-            <input type="text" id="nfc_input" name="name" maxlength="20" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
+            <input type="text" id="nfc_input" name="name" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
                 style={{ color: 'white', border: 'none', outline: 'none' }}></input>
             <p>{nfcid}</p>
         </>
