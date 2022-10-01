@@ -11,8 +11,9 @@ import Employee from './view/admin/ad007_employee/employee';
 import Calendar from './view/admin/ad008_calendar/calendar';
 import Shift from './view/admin/ad009_shift/shift';
 import Payment from './view/admin/ad010_payment/payment';
-import Admin from './view/admin/ad011_admin/admin';
 
+import Admin from './view/admin/ad011_admin/admin';
+import Test from './view/admin/test/checkout';
 import NoMatch from './view/nomatch';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Route path="/shift" element={<Shift />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/test" element={<Test />} />          
           <Route path="*" element={<NoMatch />} />
         </Routes>
       </BrowserRouter>

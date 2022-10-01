@@ -7,7 +7,6 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Toolbar from '../../components/toolbar'
 import Test from '../../components/dialog'
 
-
 function Admin(props) {
   const childRef = useRef()
   const handleSubmit = () => {
