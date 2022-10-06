@@ -14,15 +14,15 @@ from typing import Union
 class t_attendstable(Base):
     __tablename__ = 't_attends'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    employee_id =Column(Integer, nullable=False)
-    working_st =Column(Integer, nullable=False)
+    employee_id =Column(Integer)
+    working_st =Column(Integer)
     round_work_in_time =Column(DateTime)
-    work_in =Column(DateTime, nullable=False)
+    work_in =Column(DateTime)
     round_work_out_time =Column(DateTime)
     work_out =Column(DateTime)
     work_time =Column(Time)
     rest =Column(Time)
-    orvertime =Column(Time)
+    overtime =Column(Time)
     nighttime =Column(Time)
     holiday_time =Column(Time)
     create_at =Column(DateTime)
@@ -42,7 +42,7 @@ class t_attends(BaseModel):
     work_out: Union[datetime, None] = None
     work_time: Union[time, None] = None
     rest: Union[time, None] = None
-    orvertime: Union[time, None] = None
+    overtime: Union[time, None] = None
     nighttime: Union[time, None] = None
     holiday_time: Union[time, None] = None
     create_at: Union[datetime, None] = None

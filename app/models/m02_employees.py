@@ -7,6 +7,7 @@ from db import Base
 from db import ENGINE
 from datetime import datetime, time, date
 import sys
+from typing import Union
     
 # wouch #################################################################
 # m_employees テーブルのモデル定義
@@ -48,40 +49,40 @@ class m_employeestable(Base):
     memo =Column(String)
 
 class m_employees(BaseModel):
-    id: int
-    employee_num: str
-    idm: str
-    shift_id: int
-    name: str
-    name_kana: str
-    birthday: date
-    in_company: date
-    exit_company: date
-    sex: int
-    weekly_work_time: float
-    post_code: str
-    address_pref: str
-    address_city: str
-    address_other: str
-    tell: str
-    empl_insur_insured_num: str
-    pension_num: str
-    mynumber: str
-    former_job: str
-    dependent: int
-    health_insur_num: str
-    nationality: str
-    empl_insur_insur_qual_acq_date: date
-    empl_insur_insur_qual_lost_date: date
-    soc_insur_insur_qual_acq_date: date
-    soc_insur_insur_qual_lost_date: date
-    start: date
-    end: date
-    create_at: datetime
-    create_acc: int
-    update_at: datetime
-    update_acc: int
-    memo: str
+    id: Union[int, None] = None
+    employee_num: Union[str, None] = None
+    idm: Union[str, None] = None
+    shift_id: Union[int, None] = None
+    name: Union[str, None] = None
+    name_kana: Union[str, None] = None
+    birthday: Union[date, None] = None
+    in_company: Union[date, None] = None
+    exit_company: Union[date, None] = None
+    sex: Union[int, None] = None
+    weekly_work_time: Union[float, None] = None
+    post_code: Union[str, None] = None
+    address_pref: Union[str, None] = None
+    address_city: Union[str, None] = None
+    address_other: Union[str, None] = None
+    tell: Union[str, None] = None
+    empl_insur_insured_num: Union[str, None] = None
+    pension_num: Union[str, None] = None
+    mynumber: Union[str, None] = None
+    former_job: Union[str, None] = None
+    dependent: Union[int, None] = None
+    health_insur_num: Union[str, None] = None
+    nationality: Union[str, None] = None
+    empl_insur_insur_qual_acq_date: Union[date, None] = None
+    empl_insur_insur_qual_lost_date: Union[date, None] = None
+    soc_insur_insur_qual_acq_date: Union[date, None] = None
+    soc_insur_insur_qual_lost_date: Union[date, None] = None
+    start: Union[date, None] = None
+    end: Union[date, None] = None
+    create_at: Union[datetime, None] = None
+    create_acc: Union[int, None] = None
+    update_at: Union[datetime, None] = None
+    update_acc: Union[int, None] = None
+    memo: Union[str, None] = None
 
 def main():
     # テーブルが存在しなければ、テーブルを作成

@@ -29,7 +29,7 @@ CREATE TABLE m_companies (
     industry_class tinyint,
     industry_type varchar(30),
     start date,
-    paidvacanmt_cutoff_date varchar(5),
+    paidleave_cutoff_date varchar(5),
     end date,
     create_at datetime,
     create_acc int,
@@ -136,7 +136,7 @@ CREATE TABLE m_admin (
     fail_count int,
     edit_flg tinyint,
     attend_flg tinyint,
-    vacation_flg tinyint,
+    leave_flg tinyint,
     employee_flg tinyint,
     calendar_flg tinyint,
     shift_flg tinyint,
@@ -145,6 +145,21 @@ CREATE TABLE m_admin (
     end date,
     create_at datetime NOT NULL,
     create_acc int NOT NULL,
+    update_at datetime,
+    update_acc int,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE m_leavemanage (
+    id int NOT NULL AUTO_INCREMENT,
+    employee_id int,
+    remaine tinyint,
+    add_day tinyint,
+    memo varchar(400),
+    start date,
+    end date,
+    create_at datetime,
+    create_acc int,
     update_at datetime,
     update_acc int,
     PRIMARY KEY (id)
@@ -160,7 +175,7 @@ CREATE TABLE t_attends (
     work_out datetime,
     work_time time,
     rest time,
-    orvertime time,
+    overtime time,
     nighttime time,
     holiday_time time,
     create_at datetime,
@@ -172,7 +187,7 @@ CREATE TABLE t_attends (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE t_paidvacation (
+CREATE TABLE t_leaverequest (
     id int NOT NULL AUTO_INCREMENT,
     employee_id int NOT NULL,
     subm_date datetime NOT NULL,

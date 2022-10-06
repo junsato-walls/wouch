@@ -10,31 +10,27 @@ import sys
 from typing import Union
     
 # wouch #################################################################
-# m_jobshift テーブルのモデル定義
-class m_jobshifttable(Base):
-    __tablename__ = 'm_jobshift'
+# t_leaverequest テーブルのモデル定義
+class t_leaverequesttable(Base):
+    __tablename__ = 't_leaverequest'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    shift_name =Column(String, nullable=False)
-    delete_flg =Column(Integer, nullable=False)
-    job_type =Column(Integer, nullable=False)
-    work_in_time =Column(Time, nullable=False)
-    work_out_time =Column(Time, nullable=False)
-    rest =Column(Time, nullable=False)
-    memo =Column(String)
+    employee_id =Column(Integer, nullable=False)
+    subm_date =Column(DateTime, nullable=False)
+    target_date =Column(Date, nullable=False)
+    subm_st =Column(Integer, nullable=False)
+    authorizer =Column(Integer, nullable=False)
     create_at =Column(DateTime, nullable=False)
     create_acc =Column(Integer, nullable=False)
     update_at =Column(DateTime)
     update_acc =Column(Integer)
 
-class m_jobshift(BaseModel):
+class t_leaverequest(BaseModel):
     id: Union[int, None] = None
-    shift_name: Union[str, None] = None
-    delete_flg: Union[int, None] = None
-    job_type: Union[int, None] = None
-    work_in_time: Union[time, None] = None
-    work_out_time: Union[time, None] = None
-    rest: Union[time, None] = None
-    memo: Union[str, None] = None
+    employee_id: Union[int, None] = None
+    subm_date: Union[datetime, None] = None
+    target_date: Union[date, None] = None
+    subm_st: Union[int, None] = None
+    authorizer: Union[int, None] = None
     create_at: Union[datetime, None] = None
     create_acc: Union[int, None] = None
     update_at: Union[datetime, None] = None

@@ -7,6 +7,7 @@ from db import Base
 from db import ENGINE
 from datetime import datetime, time, date
 import sys
+from typing import Union
     
 # wouch #################################################################
 # m_calendar テーブルのモデル定義
@@ -27,19 +28,19 @@ class m_calendartable(Base):
     update_acc =Column(Integer)
 
 class m_calendar(BaseModel):
-    id: int
-    ymd: date
-    year: int
-    month: int
-    day: int
-    day_of_week: str
-    visible_flg: int
-    working_st: int
-    memo: str
-    create_at: datetime
-    create_acc: int
-    update_at: datetime
-    update_acc: int
+    id: Union[int, None] = None
+    ymd: Union[date, None] = None
+    year: Union[int, None] = None
+    month: Union[int, None] = None
+    day: Union[int, None] = None
+    day_of_week: Union[str, None] = None
+    visible_flg: Union[int, None] = None
+    working_st: Union[int, None] = None
+    memo: Union[str, None] = None
+    create_at: Union[datetime, None] = None
+    create_acc: Union[int, None] = None
+    update_at: Union[datetime, None] = None
+    update_acc: Union[int, None] = None
 
 def main():
     # テーブルが存在しなければ、テーブルを作成

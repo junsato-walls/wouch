@@ -7,6 +7,7 @@ from db import Base
 from db import ENGINE
 from datetime import datetime, time, date
 import sys
+from typing import Union
 
 # wouch #################################################################
 # m_companies テーブルのモデル定義
@@ -35,7 +36,7 @@ class m_companiestable(Base):
     industry_class = Column(Integer)
     industry_type = Column(String)
     start = Column(Date)
-    paidvacanmt_cutoff_date = Column(String)
+    paidleave_cutoff_date = Column(String)
     end = Column(Date)
     create_at = Column(DateTime, nullable=False)
     create_acc = Column(Integer, nullable=False)
@@ -44,35 +45,35 @@ class m_companiestable(Base):
 
 
 class m_companies(BaseModel):
-    id: int
-    company_name: str
-    post_code: str
-    address_pref: str
-    address_city: str
-    address_other: str
-    facility_name: str
-    tell: str
-    ceo: str
-    capital: str
-    pay_cutoff_date: str
-    pay_date: str
-    empl_insur_apply_office_num: str
-    empl_insur_estab_date: date
-    labor_insur_num: str
-    labor_insur_estab_date: date
-    social_insur_num: str
-    social_insur_estab_date: date
-    welfare_pension_insur_office_num: str
-    corporate_num: str
-    industry_class: int
-    industry_type: str
-    start: date
-    paidvacanmt_cutoff_date: str
-    end: date
-    create_at: datetime
-    create_acc: int
-    update_at: datetime
-    update_acc: int
+    id: Union[int, None] = None
+    company_name: Union[str, None] = None
+    post_code: Union[str, None] = None
+    address_pref: Union[str, None] = None
+    address_city: Union[str, None] = None
+    address_other: Union[str, None] = None
+    facility_name: Union[str, None] = None
+    tell: Union[str, None] = None
+    ceo: Union[str, None] = None
+    capital: Union[str, None] = None
+    pay_cutoff_date: Union[str, None] = None
+    pay_date: Union[str, None] = None
+    empl_insur_apply_office_num: Union[str, None] = None
+    empl_insur_estab_date: Union[date, None] = None
+    labor_insur_num: Union[str, None] = None
+    labor_insur_estab_date: Union[date, None] = None
+    social_insur_num: Union[str, None] = None
+    social_insur_estab_date: Union[date, None] = None
+    welfare_pension_insur_office_num: Union[str, None] = None
+    corporate_num: Union[str, None] = None
+    industry_class: Union[int, None] = None
+    industry_type: Union[str, None] = None
+    start: Union[date, None] = None
+    paidleave_cutoff_date: Union[str, None] = None
+    end: Union[date, None] = None
+    create_at: Union[datetime, None] = None
+    create_acc: Union[int, None] = None
+    update_at: Union[datetime, None] = None
+    update_acc: Union[int, None] = None
 
 
 def main():

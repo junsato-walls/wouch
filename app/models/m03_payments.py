@@ -7,6 +7,7 @@ from db import Base
 from db import ENGINE
 from datetime import datetime, time, date
 import sys
+from typing import Union
     
 # wouch #################################################################
 # m_payments テーブルのモデル定義
@@ -29,21 +30,21 @@ class m_paymentstable(Base):
     update_acc =Column(Integer)
 
 class m_payments(BaseModel):
-    id: int
-    employee_id: int
-    base: int
-    salary_type: int
-    std_monthly_compensation: int
-    commuting_pay: int
-    health_insur: int
-    care_insur: int
-    pension_insur: int
-    income_tax: int
-    inhabitant_tax: int
-    create_at: datetime
-    create_acc: int
-    update_at: datetime
-    update_acc: int
+    id: Union[int, None] = None
+    employee_id: Union[int, None] = None
+    base: Union[int, None] = None
+    salary_type: Union[int, None] = None
+    std_monthly_compensation: Union[int, None] = None
+    commuting_pay: Union[int, None] = None
+    health_insur: Union[int, None] = None
+    care_insur: Union[int, None] = None
+    pension_insur: Union[int, None] = None
+    income_tax: Union[int, None] = None
+    inhabitant_tax: Union[int, None] = None
+    create_at: Union[datetime, None] = None
+    create_acc: Union[int, None] = None
+    update_at: Union[datetime, None] = None
+    update_acc: Union[int, None] = None
 
 def main():
     # テーブルが存在しなければ、テーブルを作成
