@@ -3,7 +3,7 @@ INSERT INTO user (name, age) VALUES ("次郎", 18);
 INSERT INTO user (name, age) VALUES ("花子", 20);
 
 Insert Into m_companies ( 
-company_name, post_code, address_pref, address_city, address_other, facility_name, tell, ceo, capital, pay_cutoff_date, pay_date, empl_insur_apply_office_num, empl_insur_estab_date, labor_insur_num, labor_insur_estab_date, social_insur_num, social_insur_estab_date, welfare_pension_insur_office_num, corporate_num, industry_class, industry_type, start, paidvacanmt_cutoff_date, end, create_at, create_acc, update_at, update_acc
+company_name, post_code, address_pref, address_city, address_other, facility_name, tell, ceo, capital, pay_cutoff_date, pay_date, empl_insur_apply_office_num, empl_insur_estab_date, labor_insur_num, labor_insur_estab_date, social_insur_num, social_insur_estab_date, welfare_pension_insur_office_num, corporate_num, industry_class, industry_type, start, paidleave_cutoff_date, end, create_at, create_acc, update_at, update_acc
  ) values ( 
 '株式会社Walls', '123-4567', '北海道', '留萌市', '大字留萌1-1', '神居岩', '1234-567-890', '吉田次郎', '10000000', '27', '15', '1234567890123', '2019-04-01', '123456789012345', '2019-04-01', '123456', '2019-04-01', '1234', '1234567890123', '0', '陸空運輸', '2019-04-01', '04-01', NULL, '2020-02-20', '1', '2022-02-02', '1'
  );
@@ -126,17 +126,17 @@ shift_name, delete_flg, job_type, work_in_time, work_out_time, rest, memo, creat
  );
 
 Insert Into m_admin ( 
-employee_id, admin_id, password, fail_count, edit_flg, attend_flg, vacation_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
+employee_id, admin_id, password, fail_count, edit_flg, attend_flg, leave_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2', 'admin1', 'aiai41', '4', '1', '1', '1', '1', '1', '1', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
  );
 Insert Into m_admin ( 
-employee_id, admin_id, password, fail_count, edit_flg, attend_flg, vacation_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
+employee_id, admin_id, password, fail_count, edit_flg, attend_flg, leave_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
  ) values ( 
 '3', 'admin2', '09360', '0', '1', '1', '1', '1', '1', '1', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
  );
 Insert Into m_admin ( 
-employee_id, admin_id, password, fail_count, edit_flg, attend_flg, vacation_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
+employee_id, admin_id, password, fail_count, edit_flg, attend_flg, leave_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
  ) values ( 
 '4', 'admin3', 'Saha5', '0', '1', '1', '1', '1', '1', '1', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
  );
@@ -167,7 +167,7 @@ employee_id, working_st, round_work_in_time, work_in, round_work_out_time, work_
 '5', '1', '2022-08-04 11:00:00', '2022-08-04 10:53:39', '2022-08-05 03:00:00', NULL, '11:00', '2:00', '0:00', '5:00', '0:00', '2022-08-04 10:53:39', '5', 'rumoi1', '2022-08-05 11:03:01', '1', 'hanaPC'
  );
 
-Insert Into t_paidvacation ( 
+Insert Into t_leaverequest ( 
 employee_id, subm_date, target_date, subm_st, authorizer, create_at, create_acc, update_at, update_acc
  ) values ( 
 '3', '2022-08-01 10:03:11', '2022-08-21', '1', '2', '2022-08-01 10:03:11', '3', '2022-08-01 10:12:51', '2'

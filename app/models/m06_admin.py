@@ -7,6 +7,7 @@ from db import Base
 from db import ENGINE
 from datetime import datetime, time, date
 import sys
+from typing import Union
     
 # wouch #################################################################
 # m_admin テーブルのモデル定義
@@ -19,7 +20,7 @@ class m_admintable(Base):
     fail_count =Column(Integer)
     edit_flg =Column(Integer)
     attend_flg =Column(Integer)
-    vacation_flg =Column(Integer)
+    leave_flg =Column(Integer)
     employee_flg =Column(Integer)
     calendar_flg =Column(Integer)
     shift_flg =Column(Integer)
@@ -32,24 +33,24 @@ class m_admintable(Base):
     update_acc =Column(Integer)
 
 class m_admin(BaseModel):
-    id: int
-    employee_id: int
-    admin_id: str
-    password: str
-    fail_count: int
-    edit_flg: int
-    attend_flg: int
-    vacation_flg: int
-    employee_flg: int
-    calendar_flg: int
-    shift_flg: int
-    payment_flg: int
-    start: date
-    end: date
-    create_at: datetime
-    create_acc: int
-    update_at: datetime
-    update_acc: int
+    id: Union[int, None] = None
+    employee_id: Union[int, None] = None
+    admin_id: Union[str, None] = None
+    password: Union[str, None] = None
+    fail_count: Union[int, None] = None
+    edit_flg: Union[int, None] = None
+    attend_flg: Union[int, None] = None
+    leave_flg: Union[int, None] = None
+    employee_flg: Union[int, None] = None
+    calendar_flg: Union[int, None] = None
+    shift_flg: Union[int, None] = None
+    payment_flg: Union[int, None] = None
+    start: Union[date, None] = None
+    end: Union[date, None] = None
+    create_at: Union[datetime, None] = None
+    create_acc: Union[int, None] = None
+    update_at: Union[datetime, None] = None
+    update_acc: Union[int, None] = None
 
 def main():
     # テーブルが存在しなければ、テーブルを作成

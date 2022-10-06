@@ -40,7 +40,7 @@ async def m_companies():
 #     m_companies.industry_class = Item.industry_class
 #     m_companies.industry_type = Item.industry_type
 #     m_companies.start = Item.start
-#     m_companies.paidvacanmt_cutoff_date = Item.paidvacanmt_cutoff_date
+#     m_companies.C = Item.paidleave_cutoff_date
 #     m_companies.end = Item.end
 #     m_companies.create_acc = Item.create_acc
 #     m_companies.update_acc = Item.update_acc

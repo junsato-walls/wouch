@@ -11,9 +11,10 @@ from routers import m04_calendar
 from routers import m05_jobshift
 from routers import m06_admin
 from routers import t01_attends
-from routers import t02_paidvacation
+from routers import t02_leaverequest
 from routers import t03_payments
 from routers.timecard import tc001_input
+from routers.admin import ad005_attend
 from models.user import User, UserTable
 from models.m01_companies import m_companies, m_companiestable
 from models.m02_employees import m_employees, m_employeestable
@@ -22,9 +23,10 @@ from models.m04_calendar import m_calendar, m_calendartable
 from models.m05_jobshift import m_jobshift, m_jobshifttable
 from models.m06_admin import m_admin, m_admintable
 from models.t01_attends import t_attends, t_attendstable
-from models.t02_paidvacation import t_paidvacation, t_paidvacationtable
+from models.t02_leaverequest import t_leaverequest, t_leaverequesttable
 from models.t03_payments import t_payments, t_paymentstable
 from models.timecard.tc001_input import tc001
+from models.admin.ad005_attend import ad005
 
 app = FastAPI()
 
@@ -36,9 +38,10 @@ app.include_router(m04_calendar.router)
 app.include_router(m05_jobshift.router)
 app.include_router(m06_admin.router)
 app.include_router(t01_attends.router)
-app.include_router(t02_paidvacation.router)
+app.include_router(t02_leaverequest.router)
 app.include_router(t03_payments.router)
 app.include_router(tc001_input.router)
+app.include_router(ad005_attend.router)
 
 # CORSを回避するために設定
 app.add_middleware(

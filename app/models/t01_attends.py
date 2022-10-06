@@ -14,10 +14,10 @@ from typing import Union
 class t_attendstable(Base):
     __tablename__ = 't_attends'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    employee_id =Column(Integer, nullable=False)
-    working_st =Column(Integer, nullable=False)
+    employee_id =Column(Integer)
+    working_st =Column(Integer)
     round_work_in_time =Column(DateTime)
-    work_in =Column(DateTime, nullable=False)
+    work_in =Column(DateTime)
     round_work_out_time =Column(DateTime)
     work_out =Column(DateTime)
     work_time =Column(Time)

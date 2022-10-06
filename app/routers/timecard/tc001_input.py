@@ -11,7 +11,7 @@ import json
 router = APIRouter()
 
 
-@router.post("/tc001/01",)
+@router.post("/tc001/01")
 async def tc001_01(item:tc001):
     workMode = item.workMode
     m_employees = m_employeestable
@@ -19,6 +19,7 @@ async def tc001_01(item:tc001):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
+    round_time = "9:00"
     ymd = date.today()
     emp = session.query(m_employees).filter(m_employees.idm == item.idm).all()
     attend = session.query(t_attends,m_employees)\
@@ -36,12 +37,16 @@ async def tc001_01(item:tc001):
     match workMode:
         case 0:
             if len(attend) == 0:
-                t_attend = t_attendstable()
-                t_attend.employee_id = emp[0].id
-                t_attend.working_st = 0
-                t_attend.work_in = get_time
-                t_attend.created_at = get_time
-                session.add(t_attend)
+                t_attendstable.employee_id = emp[0].id
+                t_attendstable.working_st = 0
+                t_attendstable.work_in = get_time
+                t_attendstable.created_at = get_time
+                session.add(t_attendstable)
+                session.commit()
+            elif len(attend[0].t_attendstable.work_in) == 0:
+                t_attendstable.working_st = 0
+                t_attendstable.work_in = get_time
+                attend[0].t_attendstable.updated_at = get_time
                 session.commit()
             else:
                 get_time = attend[0].t_attendstable.work_in

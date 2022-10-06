@@ -7,6 +7,7 @@ from db import Base
 from db import ENGINE
 from datetime import datetime, time, date
 import sys
+from typing import Union
 
 
 # サンプル
@@ -20,8 +21,9 @@ class UserTable(Base):
 
 # POSTやPUTのとき受け取るRequest Bodyのモデルを定義
 class User(BaseModel):
-    name: str
-    age: int
+    id: Union[int, None] = None
+    name: Union[str, None] = None
+    age: Union[int, None] = None
 
 
 def main():

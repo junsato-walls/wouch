@@ -7,6 +7,7 @@ from db import Base
 from db import ENGINE
 from datetime import datetime, time, date
 import sys
+from typing import Union
     
 # wouch #################################################################
 # t_payments テーブルのモデル定義
@@ -36,28 +37,28 @@ class t_paymentstable(Base):
     update_acc =Column(Integer)
 
 class t_payments(BaseModel):
-    id: int
-    employee_id: int
-    payment_date: date
-    income: int
-    base: int
-    overtime_pay: int
-    nighttime_pay: int
-    holiday_pay: int
-    commuting_pay: int
-    health_insur: int
-    care_insur: int
-    pension_insur: int
-    employee_insur: int
-    income_tax: int
-    inhabitant_tax: int
-    withholding_tax: int
-    adj_pay: int
-    others: int
-    create_at: datetime
-    create_acc: int
-    update_at: datetime
-    update_acc: int
+    id: Union[int, None] = None
+    employee_id: Union[int, None] = None
+    payment_date: Union[date, None] = None
+    income: Union[int, None] = None
+    base: Union[int, None] = None
+    overtime_pay: Union[int, None] = None
+    nighttime_pay: Union[int, None] = None
+    holiday_pay: Union[int, None] = None
+    commuting_pay: Union[int, None] = None
+    health_insur: Union[int, None] = None
+    care_insur: Union[int, None] = None
+    pension_insur: Union[int, None] = None
+    employee_insur: Union[int, None] = None
+    income_tax: Union[int, None] = None
+    inhabitant_tax: Union[int, None] = None
+    withholding_tax: Union[int, None] = None
+    adj_pay: Union[int, None] = None
+    others: Union[int, None] = None
+    create_at: Union[datetime, None] = None
+    create_acc: Union[int, None] = None
+    update_at: Union[datetime, None] = None
+    update_acc: Union[int, None] = None
 
 def main():
     # テーブルが存在しなければ、テーブルを作成

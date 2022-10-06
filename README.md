@@ -85,6 +85,6 @@ GET
 GET
 /t_attends
 GET
-/t_paidvacation
+/t_leaverequest
 GET
 /t_payments
