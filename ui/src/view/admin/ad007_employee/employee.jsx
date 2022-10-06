@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect, useRef } from "react";
 import AppBar from '@mui/material/AppBar';
 import Stack from '@mui/material/Stack';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -17,8 +18,31 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
+import Test from './addEmp/addEmployee'
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+
+// const StyledFab = styled(Fab)({
+//   position: 'absolute',
+//   zIndex: 1,
+//   top: -30,
+//   left: 0,
+//   right: 0,
+//   margin: '0 auto',
+// });
 
 function Employee() {
+  const [open, setOpen] = useState(false);
+  const baseURL = 'http://localhost:8000'
+  // const StyledFab = styled(Fab)({
+  //   position: 'absolute',
+  //   zIndex: 1,
+  //   top: -30,
+  //   left: 0,
+  //   right: 0,
+  //   margin: '0 auto',
+  // });
+  const [ EmployeeData, setEmployeeData] = useState([])
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -27,6 +51,21 @@ function Employee() {
       },
     },
   });
+
+  useEffect(() => {
+    GetAttend()
+  }, [])
+  //勤怠データ取得
+  const GetAttend = () => {
+    axios.get(baseURL + '/m_employees').then(res => {
+      setEmployeeData(res.data)
+      console.log(res.data)
+    })
+  }
+
+  const test = () =>{
+    setOpen('true')
+  }
   return (
   <>
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
@@ -35,62 +74,45 @@ function Employee() {
         <Toolbar label='Employee'/>
       </AppBar>
     </ThemeProvider>
-  </Stack>
-  <div><TextField id="outlined-basic" label="社員番号" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="nfc_idm" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="シフト_ID" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="氏名" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="フリガナ" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="生年月日" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="入社日" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="退職日" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="性別" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="給与形態" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="基本給" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="週所定労働時間" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="標準月額報酬" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="雇用保険被保険者番号" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="基礎年金番号" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="マイナンバー" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="前職名" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="被扶養者" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="健康保険被保険者整理記号" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="国籍" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="雇用保険被保険者資格取得日" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="雇用保険被保険者資格喪失日" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="社会保険被保険者資格取得日" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="社会保険被保険者資格喪失日" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="開始日" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="終了日" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="作成日" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="作成者" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="更新日" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="最終更新者" variant="outlined"/></div>
-  <div><TextField id="outlined-basic" label="備考" variant="outlined"/></div>
-      <div><Button /></div>
-      <div><Button variant="contained" endIcon={<SendIcon />} >登録</Button></div>
-      {/* <Container maxWidth="sm">
-      <Typography variant="h6" align="">登録済みメニュー</Typography>
+    </Stack>
+
+    <Container maxWidth="xls">
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 450 }} aria-label="spanning table">
+          <Table sx={{ minWidth: 900 }} aria-label="spanning table">
             <TableHead>
               <TableRow>
-              <TableCell align="center">メニュー名</TableCell>
-                <TableCell align="center">価格</TableCell>
-                <TableCell align="center">表示順番</TableCell>
+                <TableCell align="center">社員番号</TableCell>
+                <TableCell align="center">名前</TableCell>
+                <TableCell align="center">フリガナ</TableCell>
+                <TableCell align="center"></TableCell>
+                {/* <TableCell align="center">残業時間</TableCell>
+                <TableCell align="center">実働時間</TableCell>                 */}
               </TableRow>
             </TableHead>
             <TableBody>
+              {EmployeeData.map((data) => (
                 <TableRow>
-                  <TableCell align="center">{SelectOrderData.menu}</TableCell>
-                  <TableCell align="center">{SelectOrderData.price}</TableCell>
-                  <TableCell align="center">{SelectOrderData.view_no}</TableCell>
+                  <TableCell align="center">{data.m_employeestable.pension_num}</TableCell>
+                  <TableCell align="center">{data.m_employeestable.name}</TableCell>
+                  <TableCell align="center">{data.m_employeestable.name_kana}</TableCell>
+                  <TableCell align="center"><Button onClick={test}>詳細</Button></TableCell>
+                  {/* <TableCell align="center">{data.m_employeestable.orvertime}</TableCell>
+                  <TableCell align="center">{data.m_employeestable.work_time}</TableCell>                 */}
                 </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
-      </Container> */}
+    </Container>
+
+
+      {/* <div><Button variant="contained" endIcon={<SendIcon />} onClick={test}>登録</Button></div> */}
+      <Fab color="primary" aria-label="add" variant="extended" onClick={test}>
+        <AddIcon />add employee
+      </Fab>
+      <Test open={open} setOpen={setOpen}/>
   </>
   )
     }
     export default Employee;
+
