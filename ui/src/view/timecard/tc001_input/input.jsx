@@ -1,29 +1,20 @@
 import * as React from 'react';
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
+import { Link } from 'react-router-dom'
 import axios from "axios";
 import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import ErrorDialog from '../../../components/dialog';
 
+function Input(props) {
 
-function Input() {
-
+    const childRef = useRef()
     const baseURL = "http://localhost:8000/";
     const [nfcid, setNFCID] = useState("");
     const [UserDate, setUserDate] = useState();
-    const [workMode, setworkMode] = useState();
+    const [workMode, setworkMode] = useState(0);
     const [ModeWord, setModeWord] = useState("モードは選択されていません");
-
+    const [VisibleFlg, setVisibleFlg] = useState(false);
 
     const countup = () => {
         const nowTime = new Date();
@@ -44,7 +35,7 @@ function Input() {
         }
     }
 
-    const BreakTime= () => {
+    const BreakTime = () => {
         if (workMode !== 1) {
             setworkMode(1);
             setModeWord("休憩")
@@ -69,7 +60,15 @@ function Input() {
                 idm: nfcid
             })
             .then((res) => {
-                setUserDate(res.data);
+                if (res.status === 200) {
+                    setUserDate(res.data);
+                    setVisibleFlg(true);
+                    setTimeout(() => {
+                        setVisibleFlg(false)
+                    }, 2000);
+                } if (res.status === 400) {
+                    childRef.current.MessageOpen(res.data.errorcode)
+                }
             });
     };
 
@@ -80,12 +79,23 @@ function Input() {
                 <Button variant="contained" size="large" onClick={WorkIn}>出勤</Button>
                 <Button variant="contained" size="large" onClick={BreakTime}>休憩</Button>
                 <Button variant="contained" size="large" onClick={WorkOut}>退勤</Button>
-                <Button variant="contained" size="large">有給申請</Button>
-                <Button variant="contained" id="SendID" size="large" onClick={PostID}>ID送信</Button>
-                <div>現在モード : {ModeWord} </div>
-                {/* <div>{UserDate.employee_num}{UserDate.name}{UserDate.time}{UserDate.errorcode}</div> */}
+                <a href="http://localhost:3000/submission">
+                    <Button variant="contained" size="large">
+                        有給申請
+                    </Button>
+                </a>
+                <Button variant="contained" id="SendID" size="large" onClick={PostID} >ID送信</Button>
+                {VisibleFlg &&
+                    <div>
+                        <p>現在モード : {ModeWord}</p>
+                        <p>社員番号：{UserDate.employee_num}</p>
+                        <p>名前：{UserDate.name}</p>
+                        <p>時間  {UserDate.time}</p>
+                    </div>
+                }
+                <ErrorDialog ref={childRef}></ErrorDialog>
             </Box>
-            <input type="text" id="nfc_input" name="name" maxlength="20" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
+            <input type="text" id="nfc_input" name="name" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
                 style={{ color: 'white', border: 'none', outline: 'none' }}></input>
             <p>{nfcid}</p>
         </>

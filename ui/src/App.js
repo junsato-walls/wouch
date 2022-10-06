@@ -1,8 +1,8 @@
 import './App.css';
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import TimeCard from './view/timecard/timecard';
 import Input from './view/timecard/tc001_input/input';
+import Submission from './view/timecard/tc002_submission/submission';
 import Top from './view/admin/admin';
 import Login from './view/admin/ad001_login/login';
 import Attend from './view/admin/ad005_attend/attend';
@@ -20,8 +20,9 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<TimeCard />} />
-          <Route path="/input" element={<Input />} />
+          <Route path="/" element={<Input />} />
+          {/* <Route path="/input" element={<Input />} /> */}
+          <Route path="/submission" element={<Submission />} />
           <Route path="/top" element={<Top />} />
           <Route path="/login" element={<Login />} />
           <Route path="/attend" element={<Attend />} />
