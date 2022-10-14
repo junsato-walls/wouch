@@ -10,12 +10,12 @@ import sys
 from typing import Union
     
 # wouch #################################################################
-# m_admin テーブルのモデル定義
+# m_leavemanage テーブルのモデル定義
 class m_leavemanagetable(Base):
-    __tablename__ = 'm_admin'
+    __tablename__ = 'm_leavemanage'
     id = Column(Integer, primary_key=True, autoincrement=True)
     employee_id =Column(Integer, nullable=False)
-    remaine_day =Column(Integer, nullable=False)
+    remain_day =Column(Integer, nullable=False)
     add_day =Column(Integer, nullable=False)
     memo =Column(String)
     start =Column(Date, nullable=False)
@@ -28,7 +28,7 @@ class m_leavemanagetable(Base):
 class m_leavemanage(BaseModel):
     id: Union[int, None] = None
     employee_id: Union[int, None] = None
-    remaine_day: Union[int, None] = None
+    remain_day: Union[int, None] = None
     add_day: Union[int, None] = None
     memo: Union[str, None] = None
     start: Union[date, None] = None
