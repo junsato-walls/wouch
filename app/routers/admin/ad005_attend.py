@@ -17,34 +17,28 @@ router = APIRouter()
 
 @router.get("/ad005_01/")
 async def ad005_01(employee_id: int, YYYY: str, MM: str):
-    test = session.query(t_attendstable)\
+    get_ad005 = session.query(t_attendstable)\
                 .filter(t_attendstable.employee_id == employee_id)\
                 .filter(extract('year',t_attendstable.round_work_in_time) == YYYY )\
                 .filter(extract('month',t_attendstable.round_work_in_time) == MM ).all()
-    lam_test = test
     session.close
     m_range = calendar.monthrange(int(YYYY), int(MM))[1]
     param = []
-    for i in range(m_range):
-        # day = date(int(YYYY), int(MM), i)
-        day = date(2022, 8, 1)
-        rec = filter(lambda x: x.round_work_in_time.day == 4, lam_test)
-        return rec
-        if list(rec):
-            li = list(rec)
-            param.append({
+    for i in range(1, m_range + 1):
+        day = date(int(YYYY), int(MM), i)
+        rec = list(filter(lambda x: x.round_work_in_time.day == i, get_ad005))
+        rwit = ''
+        rwot = ''
+        rest = ''
+        if len(rec) != 0:
+            rwit = rec[0].round_work_in_time
+            rwot = rec[0].round_work_out_time
+            rest = rec[0].rest
+        param.append({
             'dd': i,
             'dow': day.strftime('%a'),
-            # 'round_work_in_time': li[0].round_work_in_time,
-            # 'round_work_out_time': li[0].round_work_out_time,
-            # 'rest': li[0].rest
+            'round_work_in_time': rwit,
+            'round_work_out_time': rwot,
+            'rest': rest
             })
-        else:
-            param.append({
-            'dd': i,
-            'dow': day.strftime('%a'),
-            'round_work_in_time': '',
-            'round_work_out_time': '',
-            'rest': ''
-            })
-    return test
+    return param

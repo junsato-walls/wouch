@@ -21,7 +21,7 @@ shift_id, employee_num, idm, name, name_kana, birthday, in_company, exit_company
 Insert Into m_employees ( 
 shift_id, employee_num, idm, name, name_kana, birthday, in_company, exit_company, sex, weekly_work_time, post_code, address_pref, address_city, address_other, tell, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
  ) values ( 
-'1', NULL, NULL, '奥村三郎', 'オクムラサブロウ', '1990-04-01', '2010-04-01', NULL, '1', '40', '123-4567', '北海道', '留萌市', '大字留萌1-1', '1234-567-890', '1234567890123', '1234567890', '123456789012', NULL, '3', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
+'1', '3', '3', '奥村三郎', 'オクムラサブロウ', '1990-04-01', '2010-04-01', NULL, '1', '40', '123-4567', '北海道', '留萌市', '大字留萌1-1', '1234-567-890', '1234567890123', '1234567890', '123456789012', NULL, '3', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022-04-03', '1', NULL
  );
 Insert Into m_employees ( 
 shift_id, employee_num, idm, name, name_kana, birthday, in_company, exit_company, sex, weekly_work_time, post_code, address_pref, address_city, address_other, tell, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
@@ -141,6 +141,42 @@ employee_id, admin_id, password, fail_count, edit_flg, attend_flg, leave_flg, em
 '4', 'admin3', 'Saha5', '0', '1', '1', '1', '1', '1', '1', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
  );
 
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'3', 2, 18, NULL, '2018-04-01', '2020-03-31', '2018-3-20', '1', NULL, NULL
+);
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'3', 0, 19, NULL, '2019-04-01', '2021-03-31', '2018-3-20', '1', NULL, NULL
+);
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'3', 3, 20, NULL, '2020-04-01', '2022-03-31', '2018-3-20', '1', NULL, NULL
+);
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'3', 9, 20, NULL, '2021-04-01', '2023-03-31', '2018-3-20', '1', NULL, NULL
+);
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'3', 20, 20, NULL, '2022-04-01', '2024-03-31', '2018-3-20', '1', NULL, NULL
+);
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'3', 20, 20, NULL, '2024-04-01', '2026-03-31', '2018-3-20', '1', NULL, NULL
+);
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'3', 20, 20, NULL, '2023-04-01', '2025-03-31', '2018-3-20', '1', NULL, NULL
+);
+
 Insert Into t_attends ( 
 employee_id, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
  ) values ( 
@@ -168,32 +204,38 @@ employee_id, working_st, round_work_in_time, work_in, round_work_out_time, work_
  );
 
 Insert Into t_leaverequest ( 
-employee_id, subm_date, target_date, subm_st, authorizer, create_at, create_acc, update_at, update_acc
+employee_id, request_date, target_date, subm_st, authorizer, create_at, create_acc, update_at, update_acc
  ) values ( 
 '3', '2022-08-01 10:03:11', '2022-08-21', '1', '2', '2022-08-01 10:03:11', '3', '2022-08-01 10:12:51', '2'
  );
+Insert Into t_leaverequest ( 
+employee_id, request_date, target_date, subm_st, authorizer, create_at, create_acc, update_at, update_acc
+ ) values ( 
+'3', '2022-08-01 10:03:11', '2022-08-22', '0', '2', '2022-08-01 10:03:11', '3', '2022-08-01 10:12:51', '2'
+ );
+
 Insert Into t_payments ( 
-employee_ID, payment_date, income, base, overtime_pay, nighttime_pay, holiday_pay, commuting_pay, health_insur, care_insur, pension_insur, employee_insur, income_tax, inhabitant_tax, withholding_tax, adj_pay, others, create_at, create_acc, update_at, update_acc
+employee_id, payment_date, income, base, overtime_pay, nighttime_pay, holiday_pay, commuting_pay, health_insur, care_insur, pension_insur, employee_insur, income_tax, inhabitant_tax, withholding_tax, adj_pay, others, create_at, create_acc, update_at, update_acc
  ) values ( 
 '1', '2020-05-15', '113200', '188000', '0', '0', '0', '30000', '16000', '16000', '16000', '21800', '30000', '5000', '0', '0', '0', '2020-04-01', '1', '2020-04-07', '1'
  );
 Insert Into t_payments ( 
-employee_ID, payment_date, income, base, overtime_pay, nighttime_pay, holiday_pay, commuting_pay, health_insur, care_insur, pension_insur, employee_insur, income_tax, inhabitant_tax, withholding_tax, adj_pay, others, create_at, create_acc, update_at, update_acc
+employee_id, payment_date, income, base, overtime_pay, nighttime_pay, holiday_pay, commuting_pay, health_insur, care_insur, pension_insur, employee_insur, income_tax, inhabitant_tax, withholding_tax, adj_pay, others, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2', '2020-05-15', '156200', '221000', '0', '0', '0', '50000', '16000', '16000', '16000', '21800', '40000', '5000', '0', '0', '0', '2020-04-01', '1', '2020-04-07', '1'
  );
 Insert Into t_payments ( 
-employee_ID, payment_date, income, base, overtime_pay, nighttime_pay, holiday_pay, commuting_pay, health_insur, care_insur, pension_insur, employee_insur, income_tax, inhabitant_tax, withholding_tax, adj_pay, others, create_at, create_acc, update_at, update_acc
+employee_id, payment_date, income, base, overtime_pay, nighttime_pay, holiday_pay, commuting_pay, health_insur, care_insur, pension_insur, employee_insur, income_tax, inhabitant_tax, withholding_tax, adj_pay, others, create_at, create_acc, update_at, update_acc
  ) values ( 
 '3', '2020-05-15', '153200', '221000', '15000', '0', '0', '32000', '16000', '16000', '16000', '21800', '40000', '5000', '0', '0', '0', '2020-04-01', '1', '2020-04-07', '1'
  );
 Insert Into t_payments ( 
-employee_ID, payment_date, income, base, overtime_pay, nighttime_pay, holiday_pay, commuting_pay, health_insur, care_insur, pension_insur, employee_insur, income_tax, inhabitant_tax, withholding_tax, adj_pay, others, create_at, create_acc, update_at, update_acc
+employee_id, payment_date, income, base, overtime_pay, nighttime_pay, holiday_pay, commuting_pay, health_insur, care_insur, pension_insur, employee_insur, income_tax, inhabitant_tax, withholding_tax, adj_pay, others, create_at, create_acc, update_at, update_acc
  ) values ( 
 '4', '2020-05-15', '197200', '284000', '30000', '0', '0', '8000', '16000', '16000', '16000', '21800', '50000', '5000', '0', '0', '0', '2020-04-01', '1', '2020-04-07', '1'
  );
 Insert Into t_payments ( 
-employee_ID, payment_date, income, base, overtime_pay, nighttime_pay, holiday_pay, commuting_pay, health_insur, care_insur, pension_insur, employee_insur, income_tax, inhabitant_tax, withholding_tax, adj_pay, others, create_at, create_acc, update_at, update_acc
+employee_id, payment_date, income, base, overtime_pay, nighttime_pay, holiday_pay, commuting_pay, health_insur, care_insur, pension_insur, employee_insur, income_tax, inhabitant_tax, withholding_tax, adj_pay, others, create_at, create_acc, update_at, update_acc
  ) values ( 
 '5', '2020-05-15', '461200', '276000', '0', '230000', '0', '150000', '16000', '16000', '16000', '21800', '120000', '5000', '0', '0', '0', '2020-04-01', '1', '2020-04-07', '1'
  );

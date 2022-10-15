@@ -45,8 +45,8 @@ async def m_companies():
 #     m_companies.create_acc = Item.create_acc
 #     m_companies.update_acc = Item.update_acc
 
-#     # m_companies.created_at = datetime.datetime.now(JST)
-#     # m_companies.updated_at = datetime.datetime.now(JST)
+#     # m_companies.create_at = datetime.datetime.now(JST)
+#     # m_companies.update_at = datetime.datetime.now(JST)
 
 #     session.add(m_companies)
 #     session.commit()

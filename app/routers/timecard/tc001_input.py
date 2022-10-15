@@ -40,7 +40,7 @@ async def tc001_01(item:tc001):
                 t_attendstable.employee_id = emp[0].id
                 t_attendstable.working_st = 0
                 t_attendstable.work_in = get_time
-                t_attendstable.created_at = get_time
+                t_attendstable.create_at = get_time
                 session.add(t_attendstable)
                 session.commit()
             elif len(attend[0].t_attendstable.work_in) == 0:
