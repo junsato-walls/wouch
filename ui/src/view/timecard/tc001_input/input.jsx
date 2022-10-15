@@ -1,10 +1,24 @@
 import * as React from 'react';
 import { useState, useRef } from "react";
-import { Link } from 'react-router-dom'
 import axios from "axios";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import ErrorDialog from '../../../components/dialog';
+import Dialog from '@mui/material/Dialog';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const test = [{ title: "申請", start: "2022-10-18", display: "background" }]
 
 function Input(props) {
 
@@ -15,6 +29,7 @@ function Input(props) {
     const [workMode, setworkMode] = useState(0);
     const [ModeWord, setModeWord] = useState("モードは選択されていません");
     const [VisibleFlg, setVisibleFlg] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const countup = () => {
         const nowTime = new Date();
@@ -51,6 +66,14 @@ function Input(props) {
         }
     }
 
+    const leaveRequest = () => {
+        if (workMode !== 3) {
+            setModeWord("有給申請")
+            setworkMode(3);
+            return;
+        }
+    } 
+
     //リクエストをDBへ投げる
     //testID : 012e5524f1463b3d
     const PostID = () => {
@@ -62,6 +85,7 @@ function Input(props) {
             .then((res) => {
                 if (res.status === 200) {
                     setUserDate(res.data);
+                    
                     setVisibleFlg(true);
                     setTimeout(() => {
                         setVisibleFlg(false)
@@ -72,6 +96,14 @@ function Input(props) {
             });
     };
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <>
             <div id="localClock"></div>
@@ -79,11 +111,9 @@ function Input(props) {
                 <Button variant="contained" size="large" onClick={WorkIn}>出勤</Button>
                 <Button variant="contained" size="large" onClick={BreakTime}>休憩</Button>
                 <Button variant="contained" size="large" onClick={WorkOut}>退勤</Button>
-                <a href="http://localhost:3000/submission">
-                    <Button variant="contained" size="large">
-                        有給申請
-                    </Button>
-                </a>
+                <Button variant="contained" size="large" onClick={handleClickOpen}>
+                    有給申請
+                </Button>
                 <Button variant="contained" id="SendID" size="large" onClick={PostID} >ID送信</Button>
                 {VisibleFlg &&
                     <div>
@@ -98,6 +128,43 @@ function Input(props) {
             <input type="text" id="nfc_input" name="name" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
                 style={{ color: 'white', border: 'none', outline: 'none' }}></input>
             <p>{nfcid}</p>
+
+            <div>
+                <Dialog
+                    fullScreen
+                    open={open}
+                    onClose={handleClose}
+                    TransitionComponent={Transition}
+                >
+                    <AppBar sx={{ position: 'relative' }}>
+                        <Toolbar>
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                onClick={handleClose}
+                                aria-label="close"
+                            >
+                                <CloseIcon />
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
+                    <FullCalendar
+                        plugins={[dayGridPlugin, interactionPlugin]}
+                        initialView={props.initialView}
+                        contentHeight="auto"
+                        locale="ja"
+                        selectable="true"
+                        // 取得データを配列に挿入
+                        events={test}
+                        // 日付クリック動作
+                        dateClick={
+                            function (infoDate) {
+                                console.log(infoDate.dateStr)
+                            }
+                        }
+                    />
+                </Dialog>
+            </div>
         </>
     );
 }
