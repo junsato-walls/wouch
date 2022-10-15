@@ -28,7 +28,7 @@ import Test from './attend_dialog'
 
 function Attend() {
   const baseURL = 'http://localhost:8000'
-  const [ attendData, setAttendData] = useState([])
+  const [attendData, setAttendData] = useState([])
   const [open, setOpen] = useState(false);
 
   const darkTheme = createTheme({
