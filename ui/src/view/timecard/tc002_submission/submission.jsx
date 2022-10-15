@@ -1,24 +1,40 @@
-import * as React from 'react';
-import { useState, useRef } from "react";
-import TextField from '@mui/material/TextField';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import React, { useCallback, useState, useEffect } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import Container from '@mui/material/Container';
 
-export default function BasicDatePicker() {
-    const [LeaveDay, setLeaveDay] = useState(null);
-  
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+
+const Item = [
+    { title: "申請", start: "2022-10-09", display: "background" }
+]
+
+const CalendarData = (props) => {
     return (
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker
-          label="有給取得日を入力"
-          value={LeaveDay}
-          onChange={(newValue) => {
-            setLeaveDay(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </LocalizationProvider>
+        <Container maxWidth="md">
+
+            <FullCalendar
+                plugins={[dayGridPlugin, interactionPlugin]}
+                initialView={props.initialView}
+                contentHeight="auto"
+                locale="ja"
+                selectable="true"
+                // 取得データを配列に挿入
+                events={Item}
+                // 日付クリック動作
+                dateClick={
+                    function (infoDate) {
+                        console.log(infoDate.dateStr)
+                    }
+                }
+            />
+        </Container>
     );
-  }
-  
+};
+export default CalendarData;
