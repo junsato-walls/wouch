@@ -1,7 +1,7 @@
 from fastapi import APIRouter, FastAPI, HTTPException
 from models.m02_employees import m_employees, m_employeestable
 from models.m03_payments import m_payments, m_paymentstable
-from models.timecard.tc001_input import tc001
+from models.admin.ad007_employee import ad007
 from sqlalchemy.orm import session
 from typing import List  # ネストされたBodyを定義するために必要
 from db import session  # DBと接続するためのセッション
@@ -47,8 +47,8 @@ async def ad007_01(item:ad007):
     m_employeestable.memo = item.memo
     m_employeestable.create_at = today
     m_employeestable.create_acc = item.id
-    m_employeestable.update_at =
-    m_employeestable.update_acc =
+    m_employeestable.update_at = JST
+    m_employeestable.update_acc = JST
     session.add(m_employeestable)
     session.commit()
 
@@ -64,8 +64,8 @@ async def ad007_01(item:ad007):
     m_paymentstable.inhabitant_tax = item.inhabitant_tax
     m_paymentstable.create_at = today
     m_paymentstable.create_acc = item.id
-    m_paymentstable.update_at =
-    m_paymentstable.update_acc =
+    m_paymentstable.update_at = JST
+    m_paymentstable.update_acc = JST
     session.add(m_paymentstable)
     session.commit()
 
@@ -74,4 +74,4 @@ async def ad007_01(item:ad007):
         'employee_num': emp[0].employee_num,
         'time': get_time.strftime('%H:%M:%S')
     }
-    return param
+    return JST
