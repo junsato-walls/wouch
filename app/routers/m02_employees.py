@@ -59,8 +59,8 @@ async def insert_m_companies(m_employees):
     m_employees.update_acc = update_acc
     m_employees.memo = memo
 
-    m_employees.created_at = datetime.datetime.now(JST)
-    m_employees.updated_at = datetime.datetime.now(JST)
+    m_employees.create_at = datetime.datetime.now(JST)
+    m_employees.update_at = datetime.datetime.now(JST)
 
 
 # @router.post("/m_companies_u")
