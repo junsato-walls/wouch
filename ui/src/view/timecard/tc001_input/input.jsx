@@ -1,18 +1,28 @@
 import * as React from 'react';
 import { useState, useRef } from "react";
+import styled from "styled-components";
 import axios from "axios";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import ErrorDialog from '../../../components/dialog';
+import Hedder from '../../../components/hedder';
+import Footer from '../../../components/footer';
+import Button from '../../../components/button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
+
+
+const Title = styled.h1`
+font-size: 4.5em;
+text-align: center;
+color: black;
+`;
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -27,15 +37,16 @@ function Input(props) {
     const [nfcid, setNFCID] = useState("");
     const [UserDate, setUserDate] = useState();
     const [workMode, setworkMode] = useState(0);
-    const [ModeWord, setModeWord] = useState("モードは選択されていません");
+    const [ModeWord, setModeWord] = useState("出勤");
     const [VisibleFlg, setVisibleFlg] = useState(false);
     const [open, setOpen] = useState(false);
 
     const countup = () => {
         const nowTime = new Date();
-        const msg = nowTime.getFullYear() + "/" + (nowTime.getMonth() + 1) + "/" + nowTime.getDate() +
-            ('00' + nowTime.getHours()).slice(-2) + ":" + ('00' + nowTime.getMinutes()).slice(-2) + ":" + ('00' + nowTime.getSeconds()).slice(-2);
-        document.getElementById("localClock").innerHTML = msg;
+        const YMD = nowTime.getFullYear() + "/" + (nowTime.getMonth() + 1) + "/" + nowTime.getDate()
+        document.getElementById("localYMD").innerHTML = YMD;
+        const HMS = ('00' + nowTime.getHours()).slice(-2) + ":" + ('00' + nowTime.getMinutes()).slice(-2) + ":" + ('00' + nowTime.getSeconds()).slice(-2);
+        document.getElementById("localHMS").innerHTML = HMS;
     };
     setInterval(countup, 1000);
 
@@ -46,6 +57,7 @@ function Input(props) {
         if (workMode !== 0) {
             setworkMode(0);
             setModeWord("出勤")
+            console.log(setworkMode)
             return;
         }
     }
@@ -66,13 +78,14 @@ function Input(props) {
         }
     }
 
-    const leaveRequest = () => {
+    const LeaveRequest = () => {
         if (workMode !== 3) {
             setModeWord("有給申請")
             setworkMode(3);
+            setOpen(true);
             return;
         }
-    } 
+    }
 
     //リクエストをDBへ投げる
     //testID : 012e5524f1463b3d
@@ -85,7 +98,7 @@ function Input(props) {
             .then((res) => {
                 if (res.status === 200) {
                     setUserDate(res.data);
-                    
+
                     setVisibleFlg(true);
                     setTimeout(() => {
                         setVisibleFlg(false)
@@ -96,9 +109,9 @@ function Input(props) {
             });
     };
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    // const handleClickOpen = () => {
+    //     setOpen(true);
+    // };
 
     const handleClose = () => {
         setOpen(false);
@@ -106,28 +119,32 @@ function Input(props) {
 
     return (
         <>
-            <div id="localClock"></div>
-            <Box sx={{ '& button': { m: 1 } }}>
-                <Button variant="contained" size="large" onClick={WorkIn}>出勤</Button>
-                <Button variant="contained" size="large" onClick={BreakTime}>休憩</Button>
-                <Button variant="contained" size="large" onClick={WorkOut}>退勤</Button>
-                <Button variant="contained" size="large" onClick={handleClickOpen}>
-                    有給申請
-                </Button>
-                <Button variant="contained" id="SendID" size="large" onClick={PostID} >ID送信</Button>
-                {VisibleFlg &&
-                    <div>
-                        <p>現在モード : {ModeWord}</p>
-                        <p>社員番号：{UserDate.employee_num}</p>
-                        <p>名前：{UserDate.name}</p>
-                        <p>時間  {UserDate.time}</p>
-                    </div>
-                }
-                <ErrorDialog ref={childRef}></ErrorDialog>
-            </Box>
+            <Hedder theme={HedderTheme}><p>現在モード : {ModeWord}</p></Hedder>
+            <h1><div id="localYMD" ></div></h1>
+            <Title><div id="localHMS"></div></Title>
+
             <input type="text" id="nfc_input" name="name" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
                 style={{ color: 'white', border: 'none', outline: 'none' }}></input>
             <p>{nfcid}</p>
+
+            {VisibleFlg &&
+                <div>
+                    <p>現在モード : {ModeWord}</p>
+                    <p>社員番号：{UserDate.employee_num}</p>
+                    <p>名前：{UserDate.name}</p>
+                    <p>時間  {UserDate.time}</p>
+                </div>
+            }
+            <ErrorDialog ref={childRef}></ErrorDialog>
+            <Footer theme={FooterTheme}>
+                <Box sx={{ '& button': { m: 1 } }}>
+                    <Button theme={WorkInButton} onClick={WorkIn}>出勤</Button>
+                    <Button theme={BreakTimeButton} onClick={BreakTime}>休憩</Button>
+                    <Button theme={WWorkOutButton} onClick={WorkOut}>退勤</Button>
+                    <Button theme={LeaveRequestButton} onClick={LeaveRequest}>有給申請</Button>
+                    {/* <Button variant="contained" id="SendID" size="large" onClick={PostID} >ID送信</Button> */}
+                </Box>
+            </Footer>
 
             <div>
                 <Dialog
@@ -169,3 +186,31 @@ function Input(props) {
     );
 }
 export default Input;
+
+const WorkInButton = {
+    background: "#FFFFAA",
+    color: "#00000"
+};
+
+const BreakTimeButton = {
+    background: "#AADDFF",
+    color: "#00000"
+};
+
+const WWorkOutButton = {
+    background: "#FFBBBB",
+    color: "#00000"
+};
+
+const LeaveRequestButton = {
+    background: "#AAFF88",
+    color: "#00000"
+};
+
+const FooterTheme = {
+    background: ""
+};
+
+const HedderTheme = {
+    background: ""
+};
