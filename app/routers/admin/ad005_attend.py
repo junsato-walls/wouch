@@ -16,29 +16,38 @@ locale.setlocale(locale.LC_TIME, "ja_JP.UTF-8")
 router = APIRouter()
 
 @router.get("/ad005_01/")
-async def ad005_01(employee_id: int, YYYY: str, MM: str):
+async def ad005_01(employee_id: int, YYYY: int, MM: int):
     get_ad005 = session.query(t_attendstable)\
                 .filter(t_attendstable.employee_id == employee_id)\
                 .filter(extract('year',t_attendstable.round_work_in_time) == YYYY )\
                 .filter(extract('month',t_attendstable.round_work_in_time) == MM ).all()
     session.close
-    m_range = calendar.monthrange(int(YYYY), int(MM))[1]
+    m_range = calendar.monthrange(YYYY, MM)[1]
     param = []
     for i in range(1, m_range + 1):
-        day = date(int(YYYY), int(MM), i)
+        day = date(YYYY, MM, i)
         rec = list(filter(lambda x: x.round_work_in_time.day == i, get_ad005))
+        workst = ''
         rwit = ''
         rwot = ''
         rest = ''
+        worktime = ''
+        over = ''
         if len(rec) != 0:
-            rwit = rec[0].round_work_in_time
-            rwot = rec[0].round_work_out_time
+            workst = rec[0].working_st
+            rwit = rec[0].round_work_in_time.time()
+            rwot = rec[0].round_work_out_time.time()
             rest = rec[0].rest
+            worktime = rec[0].work_time
+            over = rec[0].overtime
         param.append({
-            'dd': i,
-            'dow': day.strftime('%a'),
+            'day': i,
+            'day_of_week': day.strftime('%a'),
+            'working_st': workst,
             'round_work_in_time': rwit,
             'round_work_out_time': rwot,
-            'rest': rest
+            'rest': rest,
+            'worktime': worktime,
+            'overtime': over
             })
     return param

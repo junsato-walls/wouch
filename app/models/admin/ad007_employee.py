@@ -10,6 +10,8 @@ import sys
 from typing import Union
 
 class ad007(BaseModel):
+    emp_upd_flg: Union[int, None] = None
+    pay_upd_flg: Union[int, None] = None
     id: Union[int, None] = None
     employee_num: Union[str, None] = None
     idm: Union[str, None] = None

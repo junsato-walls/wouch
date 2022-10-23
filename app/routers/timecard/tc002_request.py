@@ -16,7 +16,7 @@ async def tc002_01(employee_id: int):
     remain_day = 0
     get_request = session.query(t_leaverequesttable)\
                     .filter(t_leaverequesttable.employee_id == employee_id)\
-                    .filter(t_leaverequesttable.target_date > ymd + timedelta(days=-30))\
+                    .filter(t_leaverequesttable.target_date > ymd + timedelta(days=-90))\
                     .all()
     session.close
     get_remain = session.query(m_leavemanagetable)\
