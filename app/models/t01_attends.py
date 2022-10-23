@@ -51,8 +51,6 @@ class t_attends(BaseModel):
     update_at: Union[datetime, None] = None
     update_acc: Union[int, None] = None
     update_mac: Union[str, None] = None
-    workMode: Union[int, None] = None
-    idm: Union[str, None] = None
 
 def main():
     # テーブルが存在しなければ、テーブルを作成
