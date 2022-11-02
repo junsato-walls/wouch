@@ -9,7 +9,7 @@ from db import session  # DBと接続するためのセッション
 router = APIRouter()
 
 
-@router.get("/t_leaverequest",)
+@router.get("/t_leaverequest")
 async def t_leaverequest():
     t_leaverequest = session.query(m_employeestable, t_leaverequesttable)\
     .join(m_employeestable, m_employeestable.id == t_leaverequesttable.employee_id).all()

@@ -74,11 +74,11 @@ async def tc001_01(item:tc001):
                 get_time = attend[0].t_attendstable.update_at
 
         case "2":
-            round_out = round_out_time(rt)
-            worktime = work_time(round_out, rest)
-            overtime = over_time(round_out, attend, rest, work_time)
-            nighttime = night_time(atted, round_out, worktime, night_start, night_end):
             if attend[0].t_attendstable.work_out == None:
+                round_out = round_out_time(rt)
+                worktime = work_time(round_out, rest)
+                overtime = over_time(round_out, attend, rest, work_time)
+                nighttime = night_time(atted, round_out, worktime, night_start, night_end)
                 attend[0].t_attendstable.work_out = get_time
                 attend[0].t_attendstable.round_work_out_time = round_out
                 attend[0].t_attendstable.work_time = worktime
@@ -161,10 +161,10 @@ def over_time(round_out, attend, rest, work_time):
     return ovt
 
 def night_time(atted, round_out, worktime, night_start, night_end):
-    if night_start < round_out and round_out < night_end
+    if night_start < round_out and round_out < night_end:
         nt = round_out - night_start
-    elif night_start < attend[0].t_attendstable.round_work_in_time and  attend[0].t_attendstable.round_work_in_time < night_end
+    elif night_start < attend[0].t_attendstable.round_work_in_time and  attend[0].t_attendstable.round_work_in_time < night_end:
         nt = night_end - attend[0].t_attendstable.round_work_in_time
-    elif night_start < attend[0].t_attendstable.round_work_in_time and round_out <night_end
+    elif night_start < attend[0].t_attendstable.round_work_in_time and round_out <night_end:
         nt = worktime
     return nt
