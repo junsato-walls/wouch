@@ -10,6 +10,8 @@ import sys
 from typing import Union
 
 class ad007(BaseModel):
+    emp_upd_flg: Union[int, None] = None
+    pay_upd_flg: Union[int, None] = None
     id: Union[int, None] = None
     employee_num: Union[str, None] = None
     idm: Union[str, None] = None
@@ -50,6 +52,8 @@ class ad007(BaseModel):
     pension_insur: Union[int, None] = None
     income_tax: Union[int, None] = None
     inhabitant_tax: Union[int, None] = None
+    emp_upd_flg: Union[int, None] = None
+    pay_upd_flg: Union[int, None] = None
 
 def main():
     # テーブルが存在しなければ、テーブルを作成

@@ -6,5 +6,6 @@ import sys
 from typing import Union
 
 class tc001(BaseModel):
-    workMode: int
-    idm: str
+    workMode: Union[str, None] = None
+    idm: Union[str, None] = None
+    employee_id: Union[int, None] = None
