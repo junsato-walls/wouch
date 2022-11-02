@@ -17,13 +17,6 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 
-
-const Title = styled.h1`
-font-size: 4.5em;
-text-align: center;
-color: black;
-`;
-
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -43,7 +36,8 @@ function Input(props) {
 
     const countup = () => {
         const nowTime = new Date();
-        const YMD = nowTime.getFullYear() + "/" + (nowTime.getMonth() + 1) + "/" + nowTime.getDate()
+        const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
+        const YMD = nowTime.getFullYear() + "年" + (nowTime.getMonth() + 1) + "月" + nowTime.getDate() + "日" + dayOfWeekStrJP[nowTime.getDay()];
         document.getElementById("localYMD").innerHTML = YMD;
         const HMS = ('00' + nowTime.getHours()).slice(-2) + ":" + ('00' + nowTime.getMinutes()).slice(-2) + ":" + ('00' + nowTime.getSeconds()).slice(-2);
         document.getElementById("localHMS").innerHTML = HMS;
@@ -119,23 +113,24 @@ function Input(props) {
 
     return (
         <>
-            <Hedder theme={HedderTheme}><p>現在モード : {ModeWord}</p></Hedder>
             <h1><div id="localYMD" ></div></h1>
-            <Title><div id="localHMS"></div></Title>
-
-            <input type="text" id="nfc_input" name="name" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
-                style={{ color: 'white', border: 'none', outline: 'none' }}></input>
-            <p>{nfcid}</p>
-
-            {VisibleFlg &&
+            <Test>
+                <p>{nfcid}</p>
+                <Title><div id="localHMS"></div></Title>
+                {/* <Hedder>現在モード : {ModeWord}</Hedder> */}
+                <Label>9:00　　　012345678　　　佐藤　太郎</Label>
+            </Test>
+            {
+                VisibleFlg &&
                 <div>
-                    <p>現在モード : {ModeWord}</p>
                     <p>社員番号：{UserDate.employee_num}</p>
                     <p>名前：{UserDate.name}</p>
                     <p>時間  {UserDate.time}</p>
                 </div>
             }
             <ErrorDialog ref={childRef}></ErrorDialog>
+            <input type="text" id="nfc_input" name="name" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
+                style={{ color: 'white', border: 'none', outline: 'none' }}></input>
             <Footer theme={FooterTheme}>
                 <Box sx={{ '& button': { m: 1 } }}>
                     <Button theme={WorkInButton} onClick={WorkIn}>出勤</Button>
@@ -187,6 +182,25 @@ function Input(props) {
 }
 export default Input;
 
+const Test = styled.div`
+display: flex;
+justify-content: center;
+flex-direction: column;
+align-items: center;
+min-height: 60vh;
+`;
+
+const Label = styled.div`
+    width: 100%;
+    font-weight: bold;
+    font-size:2.5em
+`;
+
+const Title = styled.div`
+font-size: 10.0em;
+color: black;
+`;
+
 const WorkInButton = {
     background: "#FFFFAA",
     color: "#00000"
@@ -208,7 +222,7 @@ const LeaveRequestButton = {
 };
 
 const FooterTheme = {
-    background: ""
+    background: "white"
 };
 
 const HedderTheme = {
