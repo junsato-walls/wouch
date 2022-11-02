@@ -7,7 +7,7 @@ from db import session  # DBと接続するためのセッション
 
 router = APIRouter()
 
-@router.get("/m_jobshift",)
+@router.get("/m_jobshift")
 async def m_jobshift():
     m_jobshift = session.query(m_jobshifttable).all()
     return m_jobshift

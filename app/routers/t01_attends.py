@@ -8,7 +8,7 @@ from db import session  # DBと接続するためのセッション
 router = APIRouter()
 
 
-@router.get("/t_attends",)
+@router.get("/t_attends")
 async def t_attends():
     t_attends = session.query(m_employeestable,t_attendstable)\
     .join(m_employeestable, m_employeestable.id == t_attendstable.employee_id).all()
