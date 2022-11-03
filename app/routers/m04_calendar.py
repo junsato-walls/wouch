@@ -7,7 +7,7 @@ from db import session  # DBと接続するためのセッション
 
 router = APIRouter()
 
-@router.get("/m_calendar",)
+@router.get("/m_calendar")
 async def m_calendar():
     m_calendar = session.query(m_calendartable).all()
     return m_calendar

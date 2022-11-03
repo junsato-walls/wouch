@@ -1,24 +1,27 @@
-import * as React from 'react';
-import { useState, useRef } from "react";
-import TextField from '@mui/material/TextField';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import React, { useCallback, useState, useEffect } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import interactionPlugin from "@fullcalendar/interaction";
 
-export default function BasicDatePicker() {
-    const [LeaveDay, setLeaveDay] = useState(null);
-  
+const test = [{ title: "承認", start: "2022-10-24" }]
+
+const CalendarData = (props) => {
     return (
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker
-          label="有給取得日を入力"
-          value={LeaveDay}
-          onChange={(newValue) => {
-            setLeaveDay(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} />}
+        <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView={props.initialView}
+            contentHeight="auto"
+            locale="ja"
+            selectable="true"
+            // 取得データを配列に挿入
+            events={test}
+            // 日付クリック動作
+            dateClick={
+                function (infoDate) {
+                    console.log(infoDate.dateStr)
+                }
+            }           
         />
-      </LocalizationProvider>
     );
-  }
-  
+};
+export default CalendarData;

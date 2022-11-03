@@ -7,7 +7,7 @@ from datetime import datetime, time, date, timedelta
 
 router = APIRouter()
 
-@router.get("/m_companies",)
+@router.get("/m_companies")
 async def m_companies():
     m_companies = session.query(m_companiestable).all()
     return m_companies
