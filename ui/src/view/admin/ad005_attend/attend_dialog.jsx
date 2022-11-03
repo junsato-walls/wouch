@@ -9,10 +9,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
 
 const AlertDialog = (props) => {
-    const {open,setOpen} = props
-    // const [open, setOpen] = useState(false);
+    const {open,setOpen,ymd,empNum,name} = props
     const [title, setTitle] = useState('2022年9月 神谷太郎');
-    const [message, setMessage] = useState('testMessage  aaaabbbbcccceewwaagtrh');
 
     const dialogclose = () => {
         setOpen(false);
@@ -27,7 +25,7 @@ const AlertDialog = (props) => {
             aria-describedby="alert-dialog-description"
           >
             <DialogTitle id="alert-dialog-title">
-            {title}          
+            {ymd}{name}          
             </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
