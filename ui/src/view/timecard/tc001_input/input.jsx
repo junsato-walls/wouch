@@ -113,93 +113,96 @@ function Input(props) {
 
     return (
         <>
-            <h1><div id="localYMD" ></div></h1>
             <Test>
-                <p>{nfcid}</p>
-                <Title><div id="localHMS"></div></Title>
-                {/* <Hedder>現在モード : {ModeWord}</Hedder> */}
-                <Label>9:00　　　012345678　　　佐藤　太郎</Label>
-            </Test>
-            {
-                VisibleFlg &&
-                <div>
-                    <p>社員番号：{UserDate.employee_num}</p>
-                    <p>名前：{UserDate.name}</p>
-                    <p>時間  {UserDate.time}</p>
-                </div>
-            }
-            <ErrorDialog ref={childRef}></ErrorDialog>
-            <input type="text" id="nfc_input" name="name" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
-                style={{ color: 'white', border: 'none', outline: 'none' }}></input>
-            <Footer theme={FooterTheme}>
-                <Box sx={{ '& button': { m: 1 } }}>
+                <h1><div id="localYMD" ></div></h1>
+                <Main>
+                    <p>{nfcid}</p>
+                    <Title><div id="localHMS"></div></Title>
+                    {/* <Hedder>現在モード : {ModeWord}</Hedder> */}
+                    <Label>9:00　　　012345678　　　佐藤　太郎</Label>
+                </Main>
+                {
+                    VisibleFlg &&
+                    <div>
+                        <p>社員番号：{UserDate.employee_num}</p>
+                        <p>名前：{UserDate.name}</p>
+                        <p>時間  {UserDate.time}</p>
+                    </div>
+                }
+                <ErrorDialog ref={childRef}></ErrorDialog>
+                <Footer theme={FooterTheme}>
                     <Button theme={WorkInButton} onClick={WorkIn}>出勤</Button>
                     <Button theme={BreakTimeButton} onClick={BreakTime}>休憩</Button>
                     <Button theme={WWorkOutButton} onClick={WorkOut}>退勤</Button>
                     <Button theme={LeaveRequestButton} onClick={LeaveRequest}>有給申請</Button>
                     {/* <Button variant="contained" id="SendID" size="large" onClick={PostID} >ID送信</Button> */}
-                </Box>
-            </Footer>
-
-            <div>
-                <Dialog
-                    fullScreen
-                    open={open}
-                    onClose={handleClose}
-                    TransitionComponent={Transition}
-                >
-                    <AppBar sx={{ position: 'relative' }}>
-                        <Toolbar>
-                            <IconButton
-                                edge="start"
-                                color="inherit"
-                                onClick={handleClose}
-                                aria-label="close"
-                            >
-                                <CloseIcon />
-                            </IconButton>
-                        </Toolbar>
-                    </AppBar>
-                    <FullCalendar
-                        plugins={[dayGridPlugin, interactionPlugin]}
-                        initialView={props.initialView}
-                        contentHeight="auto"
-                        locale="ja"
-                        selectable="true"
-                        // 取得データを配列に挿入
-                        events={test}
-                        // 日付クリック動作
-                        dateClick={
-                            function (infoDate) {
-                                console.log(infoDate.dateStr)
+                </Footer>
+                <input type="text" id="nfc_input" name="name" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
+                    style={{ background: 'transparent', border: 'none', outline: 'none' }}>
+                </input>
+                <div>
+                    <Dialog
+                        fullScreen
+                        open={open}
+                        onClose={handleClose}
+                        TransitionComponent={Transition}
+                    >
+                        <AppBar sx={{ position: 'relative' }}>
+                            <Toolbar>
+                                <IconButton
+                                    edge="start"
+                                    color="inherit"
+                                    onClick={handleClose}
+                                    aria-label="close"
+                                >
+                                    <CloseIcon />
+                                </IconButton>
+                            </Toolbar>
+                        </AppBar>
+                        <FullCalendar
+                            plugins={[dayGridPlugin, interactionPlugin]}
+                            initialView={props.initialView}
+                            contentHeight="auto"
+                            locale="ja"
+                            selectable="true"
+                            // 取得データを配列に挿入
+                            events={test}
+                            // 日付クリック動作
+                            dateClick={
+                                function (infoDate) {
+                                    console.log(infoDate.dateStr)
+                                }
                             }
-                        }
-                    />
-                </Dialog>
-            </div>
+                        />
+                    </Dialog>
+                </div>
+            </Test>
         </>
     );
 }
 export default Input;
 
-const Test = styled.div`
-display: flex;
-justify-content: center;
-flex-direction: column;
-align-items: center;
-min-height: 60vh;
-`;
+const Test = styled.body`
+background-color: rgba(0, 255, 20, 0.7);`;
+
+const Main = styled.div`
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            min-height: 60vh;
+            `;
 
 const Label = styled.div`
-    width: 100%;
-    font-weight: bold;
-    font-size:2.5em
-`;
+            width: 100%;
+            font-weight: bold;
+            font-size:2.5em
+            `;
 
 const Title = styled.div`
-font-size: 10.0em;
-color: black;
-`;
+            font-size: 10.0em;
+            color: black;
+            `;
 
 const WorkInButton = {
     background: "#FFFFAA",
@@ -222,9 +225,4 @@ const LeaveRequestButton = {
 };
 
 const FooterTheme = {
-    background: "white"
-};
-
-const HedderTheme = {
-    background: ""
 };
