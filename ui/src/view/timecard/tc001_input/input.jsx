@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useTime } from "react";
+import ErrorDialog from '../../../components/dialog';
+import Footer from '../../../components/footer';
+import Button from '../../../components/button';
+import Label from '../../../components/label';
 import styled from "styled-components";
 import axios from "axios";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import Box from '@mui/material/Box';
-import ErrorDialog from '../../../components/dialog';
-import Hedder from '../../../components/hedder';
-import Footer from '../../../components/footer';
-import Button from '../../../components/button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -24,41 +23,60 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const test = [{ title: "申請", start: "2022-10-18", display: "background" }]
 
 function Input(props) {
-
     const childRef = useRef()
-    const baseURL = "http://localhost:8000/";
+    const baseURL = "http://localhost:8000";
     const [nfcid, setNFCID] = useState("");
     const [UserDate, setUserDate] = useState();
-    const [workMode, setworkMode] = useState(0);
+    const [workMode, setWorkMode] = useState(0);
     const [ModeWord, setModeWord] = useState("出勤");
     const [VisibleFlg, setVisibleFlg] = useState(false);
+    const [YMD, setYMD] = useState();
+    const [HMS, setHMS] = useState();
     const [open, setOpen] = useState(false);
+
+    //リクエストをDBへ投げる
+    useEffect(() => {
+        if (nfcid !== "") {
+            axios.post(baseURL + "/tc001_01/", {
+                workMode: workMode,
+                idm: nfcid
+            })
+                .then((res) => {
+                    if (res.status === 200) {
+                        console.log(workMode)
+                        setUserDate(res.data);
+                        setVisibleFlg(true);
+                        setTimeout(() => {
+                            setVisibleFlg(false)
+                        }, 500000);
+                        if (workMode === 3) {
+                            setOpen(true);
+                        }
+                    } if (res.status === 500) {
+                        childRef.current.MessageOpen(res.data.errorcode)
+                    }
+                });
+        }
+    }, [nfcid]);
 
     const countup = () => {
         const nowTime = new Date();
         const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
-        const YMD = nowTime.getFullYear() + "年" + (nowTime.getMonth() + 1) + "月" + nowTime.getDate() + "日" + dayOfWeekStrJP[nowTime.getDay()];
-        document.getElementById("localYMD").innerHTML = YMD;
-        const HMS = ('00' + nowTime.getHours()).slice(-2) + ":" + ('00' + nowTime.getMinutes()).slice(-2) + ":" + ('00' + nowTime.getSeconds()).slice(-2);
-        document.getElementById("localHMS").innerHTML = HMS;
-    };
-    setInterval(countup, 1000);
+        setYMD(nowTime.getFullYear() + "年" + (nowTime.getMonth() + 1) + "月" + nowTime.getDate() + "日" + dayOfWeekStrJP[nowTime.getDay()]);
+        setHMS(('00' + nowTime.getHours()).slice(-2) + ":" + ('00' + nowTime.getMinutes()).slice(-2) + ":" + ('00' + nowTime.getSeconds()).slice(-2));
+    }; setInterval(countup, 1000);
 
-    /////////モード参照処理///////////
-    // 0 = 出勤 , 1 = 休憩 , 2 = 退勤
-    /////////////////////////////////
     const WorkIn = () => {
         if (workMode !== 0) {
-            setworkMode(0);
+            setWorkMode(0);
             setModeWord("出勤")
-            console.log(setworkMode)
             return;
         }
     }
 
     const BreakTime = () => {
         if (workMode !== 1) {
-            setworkMode(1);
+            setWorkMode(1);
             setModeWord("休憩")
             return;
         }
@@ -67,7 +85,7 @@ function Input(props) {
     const WorkOut = () => {
         if (workMode !== 2) {
             setModeWord("退勤")
-            setworkMode(2);
+            setWorkMode(2);
             return;
         }
     }
@@ -75,33 +93,10 @@ function Input(props) {
     const LeaveRequest = () => {
         if (workMode !== 3) {
             setModeWord("有給申請")
-            setworkMode(3);
-            setOpen(true);
+            setWorkMode(3);
             return;
         }
     }
-
-    //リクエストをDBへ投げる
-    //testID : 012e5524f1463b3d
-    const PostID = () => {
-        axios
-            .post(baseURL + "tc001/01", {
-                workMode: workMode,
-                idm: nfcid
-            })
-            .then((res) => {
-                if (res.status === 200) {
-                    setUserDate(res.data);
-
-                    setVisibleFlg(true);
-                    setTimeout(() => {
-                        setVisibleFlg(false)
-                    }, 2000);
-                } if (res.status === 400) {
-                    childRef.current.MessageOpen(res.data.errorcode)
-                }
-            });
-    };
 
     // const handleClickOpen = () => {
     //     setOpen(true);
@@ -113,94 +108,91 @@ function Input(props) {
 
     return (
         <>
-            <Test>
-                <h1><div id="localYMD" ></div></h1>
+            <Back>
+                <ClockYMD>{YMD}</ClockYMD>
+                <input type="text" id="nfc_input" name="name" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
+                    style={{ background: 'transparent', border: 'none', outline: 'none' }}>
+                </input>
                 <Main>
-                    <p>{nfcid}</p>
-                    <Title><div id="localHMS"></div></Title>
-                    {/* <Hedder>現在モード : {ModeWord}</Hedder> */}
-                    <Label>9:00　　　012345678　　　佐藤　太郎</Label>
+                    <ClockHMS>{HMS}</ClockHMS>
+                    {
+                        VisibleFlg &&
+                        <Label>
+                            {UserDate.employee_num + " " + UserDate.name}
+                            <p>{ModeWord + " " + UserDate.time}</p>
+                        </Label>
+                    }
                 </Main>
-                {
-                    VisibleFlg &&
-                    <div>
-                        <p>社員番号：{UserDate.employee_num}</p>
-                        <p>名前：{UserDate.name}</p>
-                        <p>時間  {UserDate.time}</p>
-                    </div>
-                }
                 <ErrorDialog ref={childRef}></ErrorDialog>
                 <Footer theme={FooterTheme}>
                     <Button theme={WorkInButton} onClick={WorkIn}>出勤</Button>
                     <Button theme={BreakTimeButton} onClick={BreakTime}>休憩</Button>
                     <Button theme={WWorkOutButton} onClick={WorkOut}>退勤</Button>
-                    <Button theme={LeaveRequestButton} onClick={LeaveRequest}>有給申請</Button>
-                    {/* <Button variant="contained" id="SendID" size="large" onClick={PostID} >ID送信</Button> */}
+                    <Button theme={LeaveRequestButton} onClick={LeaveRequest}>有給</Button>
                 </Footer>
-                <input type="text" id="nfc_input" name="name" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
-                    style={{ background: 'transparent', border: 'none', outline: 'none' }}>
-                </input>
-                <div>
-                    <Dialog
-                        fullScreen
-                        open={open}
-                        onClose={handleClose}
-                        TransitionComponent={Transition}
-                    >
-                        <AppBar sx={{ position: 'relative' }}>
-                            <Toolbar>
-                                <IconButton
-                                    edge="start"
-                                    color="inherit"
-                                    onClick={handleClose}
-                                    aria-label="close"
-                                >
-                                    <CloseIcon />
-                                </IconButton>
-                            </Toolbar>
-                        </AppBar>
-                        <FullCalendar
-                            plugins={[dayGridPlugin, interactionPlugin]}
-                            initialView={props.initialView}
-                            contentHeight="auto"
-                            locale="ja"
-                            selectable="true"
-                            // 取得データを配列に挿入
-                            events={test}
-                            // 日付クリック動作
-                            dateClick={
-                                function (infoDate) {
-                                    console.log(infoDate.dateStr)
-                                }
+            </Back>
+
+            <div>
+                <Dialog
+                    fullScreen
+                    open={open}
+                    onClose={handleClose}
+                    TransitionComponent={Transition}
+                >
+                    <AppBar sx={{ position: 'relative' }}>
+                        <Toolbar>
+                            <IconButton
+                                edge="start"
+                                color="inherit"
+                                onClick={handleClose}
+                                aria-label="close"
+                            >
+                                <CloseIcon />
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
+                    <FullCalendar
+                        plugins={[dayGridPlugin, interactionPlugin]}
+                        initialView={props.initialView}
+                        contentHeight="auto"
+                        locale="ja"
+                        selectable="true"
+                        // 取得データを配列に挿入
+                        events={test}
+                        // 日付クリック動作
+                        dateClick={
+                            function (infoDate) {
+                                console.log(infoDate.dateStr)
                             }
-                        />
-                    </Dialog>
-                </div>
-            </Test>
+                        }
+                    />
+                </Dialog>
+            </div>
         </>
     );
 }
 export default Input;
 
-const Test = styled.body`
-background-color: rgba(0, 255, 20, 0.7);`;
+const Back = styled.div`
+            background-color: #FFFFFF;
+            min-height: 90vh;
+            `;
 
 const Main = styled.div`
             display: flex;
             justify-content: center;
             flex-direction: column;
             align-items: center;
-            min-height: 60vh;
+            min-height: 65vh;
             `;
 
-const Label = styled.div`
-            width: 100%;
-            font-weight: bold;
-            font-size:2.5em
+const ClockYMD = styled.div`
+            font-size: 5.0vw;
+            color: black;
             `;
 
-const Title = styled.div`
-            font-size: 10.0em;
+const ClockHMS = styled.div`
+            font-size: 15.0vw;
             color: black;
             `;
 

@@ -6,7 +6,7 @@ const Button = styled.button`
 	border: none;
 	cursor: ${({ isDisabled }) => (isDisabled ? "cursor" : "pointer")};
 	color: ${({ theme }) => (theme && theme.color) || "#333333"};
-	font-size: ${({ size }) => (size && size.fontSize) || "2.5em"};
+	font-size: ${({ size }) => (size && size.fontSize) || "2.5vw"};
 	outline: none;
 	opacity: ${({ isDisabled }) => (isDisabled ? 0.5 : 1)};
     width: 25%;
