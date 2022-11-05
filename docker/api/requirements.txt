@@ -2,3 +2,4 @@ uvicorn
 fastapi
 mysqlclient
 sqlalchemy==1.4.40
+python-dateutil
