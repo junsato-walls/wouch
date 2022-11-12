@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useRef, useEffect, useTime } from "react";
+import { useState, useRef, useEffect } from "react";
 import ErrorDialog from '../../../components/dialog';
 import Footer from '../../../components/footer';
 import Button from '../../../components/button';
@@ -42,16 +42,18 @@ function Input(props) {
                 idm: nfcid
             })
                 .then((res) => {
+                    console.log(workMode)
+
                     if (res.status === 200) {
-                        console.log(workMode)
+                        if (workMode === 3) {
+                            setOpen(true);
+                        }
                         setUserDate(res.data);
                         setVisibleFlg(true);
                         setTimeout(() => {
                             setVisibleFlg(false)
-                        }, 500000);
-                        if (workMode === 3) {
-                            setOpen(true);
-                        }
+                        }, 5000);
+
                     } if (res.status === 500) {
                         childRef.current.MessageOpen(res.data.errorcode)
                     }
@@ -97,10 +99,6 @@ function Input(props) {
             return;
         }
     }
-
-    // const handleClickOpen = () => {
-    //     setOpen(true);
-    // };
 
     const handleClose = () => {
         setOpen(false);
@@ -180,9 +178,9 @@ const Back = styled.div`
 
 const Main = styled.div`
             display: flex;
-            justify-content: center;
+            justify-content: top;
             flex-direction: column;
-            align-items: center;
+            align-items: top;
             min-height: 65vh;
             `;
 
