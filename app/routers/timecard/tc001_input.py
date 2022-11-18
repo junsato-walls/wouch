@@ -35,11 +35,11 @@ async def tc001_01(item:tc001):
     shift = session.query(m_jobshifttable).filter(m_jobshifttable.id == emp[0].shift_id).all()
 
     if len(emp) == 0:
-        raise HTTPException(status_code=400, detail="tc001-eo001")
+        raise HTTPException(status_code=400, detail="tc001-e001")
         return
         
     if (len(attend) == 0 and item.workMode != "0") and item.workMode != "3":
-        raise HTTPException(status_code=400, detail="tc001-eo002")
+        raise HTTPException(status_code=400, detail="tc001-e002")
         return
 
     match workMode:
