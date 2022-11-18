@@ -16,7 +16,9 @@ from routers import t03_payments
 from routers.timecard import tc001_input
 from routers.timecard import tc002_request
 from routers.admin import ad005_attend
+from routers.admin import ad006_leaverequest
 from routers.admin import ad007_employee
+from routers.admin import ad012_leavemanage
 from models.user import User, UserTable
 from models.m01_companies import m_companies, m_companiestable
 from models.m02_employees import m_employees, m_employeestable
@@ -30,6 +32,7 @@ from models.t03_payments import t_payments, t_paymentstable
 from models.timecard.tc001_input import tc001
 from models.timecard.tc002_request import tc002
 from models.admin.ad005_attend import ad005
+from models.admin.ad006_leaverequest import ad006
 from models.admin.ad007_employee import ad007
 
 app = FastAPI()
@@ -47,7 +50,9 @@ app.include_router(t03_payments.router)
 app.include_router(tc001_input.router)
 app.include_router(tc002_request.router)
 app.include_router(ad005_attend.router)
+app.include_router(ad006_leaverequest.router)
 app.include_router(ad007_employee.router)
+app.include_router(ad012_leavemanage.router)
 
 # CORSを回避するために設定
 app.add_middleware(
