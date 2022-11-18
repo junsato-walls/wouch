@@ -27,7 +27,10 @@ const AlertDialog = (props, ref) => {
     { id: 'ad000-i001', title: 'データ更新', message: 'データが更新されました。' },
     { id: 'ad000-i001', title: 'データ削除', message: 'データが削除されました。' },
     { id: 'ad001-i001', title: 'ログイン', message: 'ログインが完了しました。' },
-    { id: 'ad001-i001', title: 'ログアウト', message: 'ログアウトが完了しました。' }
+    { id: 'ad001-i001', title: 'ログアウト', message: 'ログアウトが完了しました。' },
+    { id: 'ad006-i001', title: '承認', message: '有給休暇を承認しました。' },
+    { id: 'ad006-i002', title: '否認', message: '有給休暇を否認しました。' }
+    
     ]
 
     const QuestionMessage = [{ id: 'ad000-q001', title: '作成', message: 'データを追加してもよろしいですか？' },

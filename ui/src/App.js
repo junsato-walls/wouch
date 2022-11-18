@@ -13,7 +13,7 @@ import Shift from './view/admin/ad009_shift/shift';
 import Payment from './view/admin/ad010_payment/payment';
 import LeaveManage from './view/admin/ad012_leavemanage/leavemanage';
 import Admin from './view/admin/ad011_admin/admin';
-import Test from './view/admin/test/table';
+import Test from './view/admin/test/checkout';
 import NoMatch from './view/nomatch';
 
 function App() {

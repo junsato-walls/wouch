@@ -34,6 +34,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import ja from 'date-fns/locale/ja'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import Test from './addAttend/addEmployee'
+import AddAttend from './attend_dialog'
 
 function Attend() {
   const baseURL = 'http://localhost:8000'
@@ -41,14 +43,21 @@ function Attend() {
   const [attendData, setAttendData] = useState([])
   const [open, setOpen] = useState(false);
   const [value, setValue] = React.useState(dayjs('2022-10-01'));
+  const [empId,setEmpId] = React.useState('');
   const [empName, setEmpName] = React.useState('');
-  const [empNum,setEmpNum] = React.useState('');  
-  
+  const [empNum,setEmpNum] = React.useState('');
+  const [overtime,setOvertime] = React.useState('0h');
+  const [worktime,setWorktime] = React.useState('0h');  
+  const [selectedrow,setSelectedRow] = React.useState([]);
+
+  const working_st ={1: '出勤',2: '有給',3: '遅刻',4: '早退',5: '欠勤',6:'特別休暇'} 
+
   const handleChange = (event) => {
-    setEmpName(event.target.value);
+    setEmpId(event.target.value);
     let valuess = employeesData.filter((emp)=>{
       return emp.m_employeestable.id == event.target.value
     });
+    setEmpName(valuess[0].m_employeestable.name)
     if (valuess.length){
       setEmpNum(valuess[0].m_employeestable.employee_num)
     }
@@ -59,8 +68,9 @@ function Attend() {
     let valuess = employeesData.filter((emp)=>{
       return emp.m_employeestable.employee_num == event.target.value
     });
+    setEmpName(valuess[0].m_employeestable.name)
     if (valuess.length){
-      setEmpName(valuess[0].m_employeestable.id)
+      setEmpId(valuess[0].m_employeestable.id)
     }
   };
   
@@ -77,6 +87,21 @@ function Attend() {
     GetEmpoyees()
   }, [])
 
+  useEffect(() => {
+    if (attendData.length != 0)  {
+      let over = 0
+      let work = 0
+      attendData.map((data) => (
+        over = over + data.overtime
+      ))
+      attendData.map((data) => (
+        work = work + data.worktime      
+      ))
+      setWorktime(work + 'h')
+      setOvertime(over + 'h')
+    }
+  }, [attendData])
+
   const GetEmpoyees = () => { 
     axios.get(baseURL + '/m_employees').then(res => {
       setEmployeesData(res.data)
@@ -86,7 +111,7 @@ function Attend() {
 
   //勤怠データ取得
   const SearchAttend = () => {
-    let param = '/ad005_01/?employee_id=' + empName +'&YYYY=' + value.format("YYYY") +'&MM=' + value.format("MM")
+    let param = '/ad005_01/?employee_id=' + empId +'&YYYY=' + value.format("YYYY") +'&MM=' + value.format("MM")
     // let param = '/ad005_01/?employee_id=01&YYYY=2022&MM=8'
     if (empName){
       axios.get(baseURL + param).then(res => {
@@ -98,7 +123,11 @@ function Attend() {
 
   const UpdateAttend = (event, name) =>{
     setOpen(true)
-    console.log(name)
+    console.log(value.format("YYYY年MM月"))
+    console.log(attendData[name -1])
+    // console.log(value.)
+    setSelectedRow(attendData[name - 1])
+
   }
   return (
   <>
@@ -125,8 +154,7 @@ function Attend() {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={empName}
-          label="Name"
+          value={empId}
           onChange={handleChange}
         >
           {employeesData.map((emp, i) =>
@@ -185,16 +213,16 @@ function Attend() {
                 // key={data.dd}
                 hover
                 >
-                  <TableCell align="center">{data.dd}</TableCell>
-                  <TableCell align="center">{data.dow}</TableCell>
-                  <TableCell align="center">出勤</TableCell>
+                  <TableCell align="center">{data.day}</TableCell>
+                  <TableCell align="center">{data.day_of_week}</TableCell>
+                  <TableCell align="center">{working_st[data.working_st]}</TableCell>
                   <TableCell align="center">{data.round_work_in_time}</TableCell>
                   <TableCell align="center">{data.rest}</TableCell>
                   <TableCell align="center">{data.round_work_out_time}</TableCell>
-                  <TableCell align="center">1:00</TableCell>
-                  <TableCell align="center">8:00</TableCell>
+                  <TableCell align="center">{data.overtime}</TableCell>
+                  <TableCell align="center">{data.worktime}</TableCell>
                   <TableCell align="center">
-                    <Button variant="contained" onClick={(event) => UpdateAttend(event,data.dd)}>編集</Button>
+                    <Button variant="contained" onClick={(event) => UpdateAttend(event,data.day)}>編集</Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -206,16 +234,15 @@ function Attend() {
                 <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell align="center">合計</TableCell>
-                <TableCell align="center">30h</TableCell>
-                <TableCell align="center">180h</TableCell>
+                <TableCell align="center">{overtime}</TableCell>
+                <TableCell align="center">{worktime}</TableCell>
             </TableRow>
           </Table>
         </TableContainer>
     </Container>
-    <Dialog  open={open} setOpen={setOpen} ymd={"2022/10/10"} empNum={"w001"} name={"神谷太郎"}/>
+    <AddAttend open={open} setOpen={setOpen} ym={value} empNum={empNum} name={empName} empId={empId} attend={selectedrow} />
+    {/* <Test open={open} setOpen={setOpen} ym={value} empNum={empNum} name={empName} empId={empId} attend={selectedrow}/> */}
   </>
   )
     }
     export default Attend;
-
-    

@@ -58,7 +58,11 @@ function Vacation() {
     })
   }
 
-  const test = (value) =>{
+  const leavePlus = (event, value) =>{
+    // console.log('testdata:'+ value)
+    console.log(value)
+  }
+  const leaveMinus = (event, value) =>{
     // console.log('testdata:'+ value)
     console.log(value)
   }
@@ -94,10 +98,10 @@ function Vacation() {
                   <TableCell align="center">{data.t_leaverequesttable.target_date}</TableCell>
                   <TableCell align="center">{data.t_leaverequesttable.request_date}</TableCell>
                   <TableCell align="center">
-                    <Button variant="contained" onClick={test(data.dd)}>+</Button>
+                    <Button variant="contained" onClick={(event) => leavePlus(event,data.t_leaverequesttable.id)}>＋</Button>
                   </TableCell>
                   <TableCell align="center">
-                    <Button variant="contained" onClick={test(data.dd)}>-</Button>
+                    <Button variant="contained" onClick={(event) => leaveMinus(event,data.t_leaverequesttable.id)}>ー</Button>
                   </TableCell>
                 </TableRow>
               ))}

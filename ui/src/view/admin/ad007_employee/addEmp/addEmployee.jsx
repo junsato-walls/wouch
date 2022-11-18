@@ -19,9 +19,9 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import AddressForm from './addressform';
-import PaymentForm from './paymentform';
-import Review from './review';
+import AddressForm from './EmployeeForm';
+import PaymentForm from './InsuranceForm';
+import Review from './ContractForm';
 
 const steps = ['社員情報', '各種保険', '契約情報'];
 const theme = createTheme();

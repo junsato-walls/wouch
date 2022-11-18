@@ -33,6 +33,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import ja from 'date-fns/locale/ja'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import Test from '../../../components/dialog'
 
 function Vacation() {
   const darkTheme = createTheme({
@@ -43,6 +44,11 @@ function Vacation() {
       },
     },
   });
+  const childRef = useRef()
+
+  const handleSubmit = (value) => {
+            childRef.current.MessageOpen(value)
+        }
 
   const baseURL = 'http://localhost:8000'
   const [leaveRequest,setLeaveRequest] = React.useState([]);  
@@ -58,11 +64,14 @@ function Vacation() {
     })
   }
 
-  const test = (value) =>{
-    // console.log('testdata:'+ value)
+  const leavePlus = (event, value) =>{
+    handleSubmit('ad006-i001')
     console.log(value)
   }
-  
+  const leaveMinus = (event, value) =>{
+    handleSubmit('ad006-i002')
+    console.log(value)
+  }
 
   return (
   <>
@@ -101,17 +110,17 @@ function Vacation() {
                   <TableCell align="center">{data.t_leaverequesttable.target_date}</TableCell>
                   <TableCell align="center">{data.t_leaverequesttable.request_date}</TableCell>
                   <TableCell align="center">
-                    <Button variant="contained" onClick={test(data.dd)}>承認</Button>
+                    <Button variant="contained" onClick={(event) => leavePlus(event,data.t_leaverequesttable.id)}>承認</Button>
                   </TableCell>
                   <TableCell align="center">
-                    <Button variant="contained" onClick={test(data.dd)}>否認</Button>
+                    <Button variant="contained" onClick={(event) => leaveMinus(event,data.t_leaverequesttable.id)}>否認</Button>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-    
+        <Test ref={childRef} />
   </>
   )}
   export default Vacation;
