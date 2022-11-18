@@ -22,26 +22,9 @@ import Test from './addEmp/addEmployee'
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 
-// const StyledFab = styled(Fab)({
-//   position: 'absolute',
-//   zIndex: 1,
-//   top: -30,
-//   left: 0,
-//   right: 0,
-//   margin: '0 auto',
-// });
-
 function Employee() {
   const [open, setOpen] = useState(false);
   const baseURL = 'http://localhost:8000'
-  // const StyledFab = styled(Fab)({
-  //   position: 'absolute',
-  //   zIndex: 1,
-  //   top: -30,
-  //   left: 0,
-  //   right: 0,
-  //   margin: '0 auto',
-  // });
   const [ EmployeeData, setEmployeeData] = useState([])
   const darkTheme = createTheme({
     palette: {
@@ -66,6 +49,10 @@ function Employee() {
   const test = () =>{
     setOpen('true')
   }
+  const UpdateAttend = (event, name) =>{
+    console.log(name)
+  }
+
   return (
   <>
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
@@ -76,9 +63,10 @@ function Employee() {
     </ThemeProvider>
     </Stack>
 
+    {/* <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> */}
     <Container maxWidth="xls">
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 900 }} aria-label="spanning table">
+          <Table sx={{ minWidth: 600 }} aria-label="spanning table">
             <TableHead>
               <TableRow>
                 <TableCell align="center">社員番号</TableCell>
@@ -95,7 +83,11 @@ function Employee() {
                   <TableCell align="center">{data.m_employeestable.pension_num}</TableCell>
                   <TableCell align="center">{data.m_employeestable.name}</TableCell>
                   <TableCell align="center">{data.m_employeestable.name_kana}</TableCell>
-                  <TableCell align="center"><Button onClick={test}>詳細</Button></TableCell>
+                  <TableCell align="center">
+                    {/* <Button onClick={test}>詳細</Button> */}
+                  <Button variant="contained" onClick={(event) => UpdateAttend(event,data)}>編集</Button>
+                  </TableCell>
+
                   {/* <TableCell align="center">{data.m_employeestable.orvertime}</TableCell>
                   <TableCell align="center">{data.m_employeestable.work_time}</TableCell>                 */}
                 </TableRow>
@@ -104,7 +96,7 @@ function Employee() {
           </Table>
         </TableContainer>
     </Container>
-
+   {/* </Paper> */}
 
       {/* <div><Button variant="contained" endIcon={<SendIcon />} onClick={test}>登録</Button></div> */}
       <Fab color="primary" aria-label="add" variant="extended" onClick={test}>

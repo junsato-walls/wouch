@@ -13,9 +13,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Input from '@mui/material/Input';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
@@ -28,8 +25,12 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import AddressForm from './addressform';
 
-const AttendDialog = (props) => {
+const steps = ['社員情報', '各種保険', '契約情報'];
+const theme = createTheme();
+
+const AlertDialog = (props) => {
   const {open,setOpen,ym,empNum,name,empId,attend } = props
 
   const [activeStep, setActiveStep] = React.useState(0);
@@ -39,26 +40,6 @@ const AttendDialog = (props) => {
   const [workOutTimeM, setWorkOutTimeM] = React.useState("00");
   const [restH, setRestH] = React.useState("01");
   const [restM, setRestM] = React.useState("00");
-  const [workingSt, setWorkingSt] = React.useState(1);
-  const working_st = [{id:1,value:'出勤'},
-                      {id:2,value:'有給'},
-                      {id:3,value:'遅刻'},
-                      {id:4,value:'早退'},
-                      {id:5,value:'欠勤'},
-                      {id:6,value:'特別休暇'}
-                      ]
-  // const working_st ={1: '出勤',2: '有給',3: '遅刻',4: '早退',5: '欠勤',6:'特別休暇'} 
-
-  const handleChange = (event) => {
-    setWorkingSt(event.target.value);
-    // let valuess = employeesData.filter((emp)=>{
-    //   return emp.m_employeestable.id == event.target.value
-    // });
-    // setEmpName(valuess[0].m_employeestable.name)
-    // if (valuess.length){
-    //   setEmpNum(valuess[0].m_employeestable.employee_num)
-    // }
-  };
 
   const valueChange = (event) => {
     // console.log(event.target.id)
@@ -125,22 +106,6 @@ const AttendDialog = (props) => {
               <FormControl sx={{ m: 1, minWidth: '30ch' }} >
                 <TextField id="standard-basic" value={name} variant="standard" />
               </FormControl>
-            </Grid>
-            {/* working_st */}
-            <Grid item xs={12} sm={12}>
-            <FormControl sx={{ m: 1, minWidth: 200 }} >
-              <InputLabel id="demo-simple-select-label">名前</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={workingSt}
-                  onChange={handleChange}
-                >
-                {working_st.map((st, i) =>
-                  <MenuItem value={st.id}>{st.value}</MenuItem>
-                )}
-                </Select>
-            </FormControl>
             </Grid>
 
             <Grid item xs={12} sm={12}>
@@ -247,5 +212,4 @@ const AttendDialog = (props) => {
     </>
   )
 }
-export default AttendDialog
-// export default forwardRef(AttendDialog)
+export default forwardRef(AlertDialog)
