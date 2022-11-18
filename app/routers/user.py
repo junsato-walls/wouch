@@ -39,10 +39,16 @@ async def update_users(users: List[User]):
 
 @router.post("/user/")
 async def post_user(item:User):
-    user.name = item.name
-    user.age = item.age
-    session.add(user)
+    for i in range(1,5):
+        user = UserTable()
+        user.name = i
+        user.age = i
+        session.add(user)
     session.commit()
+    # user.name = item.name
+    # user.age = item.age
+    # session.add(user)
+    # session.commit()
 
 @router.get('/user/count')
 async def count_test():

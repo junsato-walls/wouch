@@ -1,18 +1,19 @@
 from fastapi import APIRouter, FastAPI, HTTPException
 from models.m02_employees import m_employees, m_employeestable
 from models.m03_payments import m_payments, m_paymentstable
+from models.m07_leavemanage import m_leavemanage, m_leavemanagetable
 from models.admin.ad007_employee import ad007
 from sqlalchemy.orm import session
 from typing import List  # ネストされたBodyを定義するために必要
 from db import session  # DBと接続するためのセッション
 from datetime import datetime, time, date, timedelta, timezone
+from dateutil.relativedelta import relativedelta
 import json
 
 router = APIRouter()
 
-
 @router.put("/ad007_01/")
-async def ad007_01(item:ad007):
+async def ad007_01_put(item:ad007):
     m_employees = m_employeestable()
     m_payments = m_paymentstable()
     t_delta = timedelta(hours=9)
@@ -52,11 +53,10 @@ async def ad007_01(item:ad007):
         m_employees.update_acc = get_time
         session.commit()
 
-    if pay_upd_flg == 1:
-        m_paymentstable.end
+    if item.pay_upd_flg == 1:
+        m_payments.end = date.today()
         session.commit()
-
-        # m_payments.employee_id = m_employeestable.id
+        m_payments.employee_id = item.employee_num
         m_payments.base = item.base
         m_payments.salary_type = item.salary_type
         m_payments.std_monthly_compensation = item.std_monthly_compensation
@@ -72,15 +72,15 @@ async def ad007_01(item:ad007):
         session.commit()
 
     param = {
-        # 'name': emp[0].name,
-        # 'employee_num': emp[0].employee_num,
+        'name': item.name,
+        'employee_num': item.employee_num,
         'time': get_time.strftime('%H:%M:%S')
     }
     session.close
-    return 1
+    return param
 
 @router.post("/ad007_01/")
-async def ad007_01(item:ad007):
+async def ad007_01_post(item:ad007):
     m_employees = m_employeestable()
     m_payments = m_paymentstable()
     t_delta = timedelta(hours=9)
@@ -120,7 +120,10 @@ async def ad007_01(item:ad007):
     session.add(m_employees)
     session.commit()
 
-    # m_payments.employee_id = m_employeestable.id
+    current_id = m_employees.id
+    in_comp = m_employees.in_company
+
+    m_payments.employee_id = current_id
     m_payments.base = item.base
     m_payments.salary_type = item.salary_type
     m_payments.std_monthly_compensation = item.std_monthly_compensation
@@ -134,11 +137,35 @@ async def ad007_01(item:ad007):
     m_payments.create_acc = item.id
     session.add(m_payments)
     session.commit()
+    session.close()
+
+    text = create_leaves(get_time, current_id, in_comp)
 
     param = {
-        # 'name': emp[0].name,
-        # 'employee_num': emp[0].employee_num,
-        'time': get_time.strftime('%H:%M:%S')
+        'name': item.name,
+        'employee_num': item.employee_num,
+        'time': get_time.strftime('%H:%M:%S'),
+        'text': text
     }
-    session.close
-    return 1
+    return param
+
+def create_leaves(get_time, current_id, in_comp):
+    start = in_comp + relativedelta(months=6)
+    end = start + relativedelta(years=2) - timedelta(days=1)
+    for i in range(0,51):
+        m_leavemanage = m_leavemanagetable()
+        if i < 10:
+            m_leavemanage.remain_day = 10 + i
+            m_leavemanage.add_day = 10 + i
+        elif i >= 10:
+            m_leavemanage.remain_day = 20
+            m_leavemanage.add_day = 20
+        m_leavemanage.employee_id = current_id
+        m_leavemanage.start = start + relativedelta(years=i)
+        m_leavemanage.end = end + relativedelta(years=i)
+        m_leavemanage.create_at = get_time
+        m_leavemanage.create_acc = None
+        session.add(m_leavemanage)
+    session.commit()
+    session.close()
+    return '完了'

@@ -14,16 +14,16 @@ from typing import Union
 class m_leavemanagetable(Base):
     __tablename__ = 'm_leavemanage'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    employee_id =Column(Integer, nullable=False)
-    remain_day =Column(Integer, nullable=False)
-    add_day =Column(Integer, nullable=False)
-    memo =Column(String)
-    start =Column(Date, nullable=False)
-    end =Column(Date, nullable=False)
-    create_at =Column(DateTime, nullable=False)
-    create_acc =Column(Integer, nullable=False)
-    update_at =Column(DateTime)
-    update_acc =Column(Integer)
+    employee_id = Column(Integer, nullable=False)
+    remain_day = Column(Integer, nullable=False)
+    add_day = Column(Integer, nullable=False)
+    memo = Column(String)
+    start = Column(Date, nullable=False)
+    end = Column(Date, nullable=False)
+    create_at = Column(DateTime, nullable=False)
+    create_acc = Column(Integer, nullable=False)
+    update_at = Column(DateTime)
+    update_acc = Column(Integer)
 
 class m_leavemanage(BaseModel):
     id: Union[int, None] = None

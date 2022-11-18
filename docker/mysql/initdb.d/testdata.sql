@@ -176,6 +176,41 @@ employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, updat
 ) values (
 '3', 20, 20, NULL, '2023-04-01', '2025-03-31', '2018-3-20', '1', NULL, NULL
 );
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'1', 2, 18, NULL, '2018-04-01', '2020-03-31', '2018-3-20', '1', NULL, NULL
+);
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'1', 0, 19, NULL, '2019-04-01', '2021-03-31', '2018-3-20', '1', NULL, NULL
+);
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'1', 3, 20, NULL, '2020-04-01', '2022-03-31', '2018-3-20', '1', NULL, NULL
+);
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'1', 9, 20, NULL, '2021-04-01', '2023-03-31', '2018-3-20', '1', NULL, NULL
+);
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'1', 20, 20, NULL, '2022-04-01', '2024-03-31', '2018-3-20', '1', NULL, NULL
+);
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc
+) values (
+'1', 20, 20, NULL, '2024-04-01', '2026-03-31', '2018-3-20', '1', NULL, NULL
+);
+INSERT Into m_leavemanage(
+employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, update_at, update_acc 
+) values (
+'1', 20, 20, NULL, '2023-04-01', '2025-03-31', '2018-3-20', '1', NULL, NULL
+);
 
 Insert Into t_attends ( 
 employee_id, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
