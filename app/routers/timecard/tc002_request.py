@@ -11,7 +11,7 @@ import json
 router = APIRouter()
 
 @router.get("/tc002_01/")
-async def tc002_01(employee_id: int):
+async def tc002_get(employee_id: int):
     ymd = date.today()
     remain_day = 0
     get_request = session.query(t_leaverequesttable)\
@@ -40,3 +40,20 @@ async def tc002_01(employee_id: int):
         "add_at": get_add.add_day
     }
     return param
+
+@router.post("/tc002_01/")
+async def tc002_post(item:tc002):
+    t_delta = timedelta(hours=9)
+    JST = timezone(t_delta, 'JST')
+    get_time = datetime.now(JST)
+    req = t_leaverequesttable()
+    req.employee_id = item.employee_id
+    req.request_date = get_time
+    req.target_date = item.target_date
+    req.subm_st = 0
+    req.create_at = get_time
+    # req.create_acc = item.acc_id
+    session.add(req)
+    session.commit()
+    session.close()
+    return
