@@ -38,12 +38,13 @@ function Input(props) {
     const [UserDate, setUserDate] = useState();
     const [workMode, setWorkMode] = useState(0);
     const [ModeWord, setModeWord] = useState("出勤");
-    const [EmpNum, setEmpNum] = useState();
     const [VisibleFlg, setVisibleFlg] = useState(false);
     const [WorkInColor, setWorkInColor] = useState(true);
     const [BreakTimeColor, setBreakTimeColor] = useState(false);
     const [WorkOutColor, setWorkOutColor] = useState(false);
     const [LeaveRequestColor, setLeaveRequestColor] = useState(false);
+    const [LeaveRequestDate, setLeaveRequestDate] = useState();
+
 
     const [YMD, setYMD] = useState();
     const [HMS, setHMS] = useState();
@@ -57,10 +58,8 @@ function Input(props) {
                 idm: nfcid
             })
                 .then((res) => {
-                    console.log(workMode)
                     if (res.status === 200) {
                         setUserDate(res.data);
-                        setEmpNum(res.data.employee_num)
                         setVisibleFlg(true);
                         setTimeout(() => {
                             setVisibleFlg(false)
@@ -70,13 +69,17 @@ function Input(props) {
                         childRef.current.MessageOpen(res.data.errorcode)
                     }
                 });
-            if (workMode == 3) {
-                console.log(EmpNum)
-                setOpen(true)
-            }
-
+        };
+        if (workMode == 3) {
+            console.log(UserDate.employee_id)
+            // let param = '/tc002_01/?employee_id=' + UserDate.employee_num
+            // axios.get(baseURL + param).then(res => {
+            //     setLeaveRequestDate(res.data)
+            //     console.log(UserDate.employee_num)
+            // })
+            console.log(UserDate.employee_id)
+            setOpen(true)
         }
-
     }, [nfcid]);
 
     const countup = () => {
