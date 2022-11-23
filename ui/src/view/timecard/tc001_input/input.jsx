@@ -75,7 +75,7 @@ function Input(props) {
             // let param = '/tc002_01/?employee_id=' + UserDate.employee_num
             // axios.get(baseURL + param).then(res => {
             //     setLeaveRequestDate(res.data)
-            //     console.log(UserDate.employee_num)
+                console.log(UserDate.employee_num)
             // })
             console.log(UserDate.employee_id)
             setOpen(true)
