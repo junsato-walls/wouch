@@ -33,7 +33,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import ja from 'date-fns/locale/ja'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import Test from '../../../components/dialog'
+import Dialog from '../../../components/dialog'
 
 function Vacation() {
   const darkTheme = createTheme({
@@ -52,6 +52,11 @@ function Vacation() {
     GetEmpoyees()
   }, [])
 
+  const childRef = useRef()
+  const handleSubmit = (value) => {
+    childRef.current.MessageOpen(value)
+  }
+
   const GetEmpoyees = () => { 
     axios.get(baseURL + '/ad012_01').then(res => {
       setLeaveRequest(res.data)
@@ -66,9 +71,12 @@ function Vacation() {
     }).then((res) => {
       setTimeout(() => {
         GetEmpoyees()
-    }, 100);
+      }, 100);
+    }).catch((res)=>{
+      if (res.response.status == 400){
+        handleSubmit(res.response.data.detail)   
+      }    
     })
-    
     console.log(value)
   }
 // 有給減らす 
@@ -79,6 +87,10 @@ function Vacation() {
       setTimeout(() => {
         GetEmpoyees()
     }, 100);
+    }).catch((res)=>{
+      if (res.response.status == 400){
+        handleSubmit(res.response.data.detail)   
+      }    
     })
 
     console.log(value.employee_id)
@@ -110,7 +122,7 @@ function Vacation() {
                 <TableRow
                 hover
                 >
-                  <TableCell align="center">{data.id}</TableCell>
+                  <TableCell align="center">{data.employee_num}</TableCell>
                   <TableCell align="center">{data.name}</TableCell>
                   <TableCell align="center">{data.remain_day}</TableCell>
                   <TableCell align="center">{data.add_day}</TableCell>
@@ -125,7 +137,7 @@ function Vacation() {
             </TableBody>
           </Table>
         </TableContainer>
-    
+        <Dialog ref={childRef} />
   </>
   )}
   export default Vacation;
