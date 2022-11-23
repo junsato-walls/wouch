@@ -2,8 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components'
 
 const Button = styled.button`
-	background-color: ${({ theme }) => (theme && theme.background) || "lightgray"};
-	border: none;
+	background-color: ${({ theme }) => (theme && theme.background) || "#00ccff"};
+	border-radius:10px;
 	cursor: ${({ isDisabled }) => (isDisabled ? "cursor" : "pointer")};
 	color: ${({ theme }) => (theme && theme.color) || "#333333"};
 	font-size: ${({ size }) => (size && size.fontSize) || "2.5vw"};
