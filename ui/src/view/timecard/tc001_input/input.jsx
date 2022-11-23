@@ -38,6 +38,7 @@ function Input(props) {
     const [UserDate, setUserDate] = useState();
     const [workMode, setWorkMode] = useState(0);
     const [ModeWord, setModeWord] = useState("出勤");
+    const [EmpNum, setEmpNum] = useState();
     const [VisibleFlg, setVisibleFlg] = useState(false);
     const [WorkInColor, setWorkInColor] = useState(true);
     const [BreakTimeColor, setBreakTimeColor] = useState(false);
@@ -50,32 +51,32 @@ function Input(props) {
 
     //リクエストをDBへ投げる
     useEffect(() => {
-        if (workMode !== 3) {
-            if (nfcid !== "") {
-                axios.post(baseURL + "/tc001_01/", {
-                    workMode: workMode,
-                    idm: nfcid
-                })
-                    .then((res) => {
-                        console.log(workMode)
-                        if (res.status === 200) {
-                            setUserDate(res.data);
-                            setVisibleFlg(true);
-                            setTimeout(() => {
-                                setVisibleFlg(false)
-                            }, 5000);
+        if (nfcid !== "") {
+            axios.post(baseURL + "/tc001_01/", {
+                workMode: workMode,
+                idm: nfcid
+            })
+                .then((res) => {
+                    console.log(workMode)
+                    if (res.status === 200) {
+                        setUserDate(res.data);
+                        setEmpNum(res.data.employee_num)
+                        setVisibleFlg(true);
+                        setTimeout(() => {
+                            setVisibleFlg(false)
+                        }, 5000);
 
-                        } if (res.status === 500) {
-                            childRef.current.MessageOpen(res.data.errorcode)
-                        }
-                    });
+                    } if (res.status === 500) {
+                        childRef.current.MessageOpen(res.data.errorcode)
+                    }
+                });
+            if (workMode == 3) {
+                console.log(EmpNum)
+                setOpen(true)
             }
-        }
-        else {
-            if (nfcid !== "") {
 
-            }
         }
+
     }, [nfcid]);
 
     const countup = () => {
