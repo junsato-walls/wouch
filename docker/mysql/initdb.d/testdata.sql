@@ -126,17 +126,17 @@ shift_name, delete_flg, job_type, work_in_time, work_out_time, rest, memo, creat
  );
 
 Insert Into m_admin ( 
-employee_id, admin_id, password, fail_count, edit_flg, attend_flg, leave_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
+employee_id, login_id, password, fail_count, edit_flg, attend_flg, leave_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2', 'admin1', 'aiai41', '4', '1', '1', '1', '1', '1', '1', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
  );
 Insert Into m_admin ( 
-employee_id, admin_id, password, fail_count, edit_flg, attend_flg, leave_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
+employee_id, login_id, password, fail_count, edit_flg, attend_flg, leave_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
  ) values ( 
 '3', 'admin2', '09360', '0', '1', '1', '1', '1', '1', '1', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
  );
 Insert Into m_admin ( 
-employee_id, admin_id, password, fail_count, edit_flg, attend_flg, leave_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
+employee_id, login_id, password, fail_count, edit_flg, attend_flg, leave_flg, employee_flg, calendar_flg, payment_flg, start, end, create_at, create_acc, update_at, update_acc
  ) values ( 
 '4', 'admin3', 'Saha5', '0', '1', '1', '1', '1', '1', '1', '2020-04-01', NULL, '2021-01-22', '1', NULL, NULL
  );

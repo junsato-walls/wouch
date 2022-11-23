@@ -14,13 +14,13 @@ async def m_admin(item: m_admin):
     m_admin = session.query(m_admintable)\
             .filter(m_admintable.login_id == item.login_id)\
             .first()
-    if len(m_admin) == 0:
+    if m_admin == None:
         raise HTTPException(status_code=400, detail="ad001-e001")
         return 
     if m_admin.password != item.password:
         raise HTTPException(status_code=400, detail="ad001-e002")
         return
     if m_admin.password == item.password:
-        raise HTTPException(status_code=400, detail="ad001-e002")
         return
-    return m_admin
+    raise HTTPException(status_code=500, detail="bug")
+    return 
