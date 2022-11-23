@@ -28,10 +28,11 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from "axios";
 
 const AttendDialog = (props) => {
   const {open,setOpen,ym,empNum,name,empId,attend } = props
-
+  const baseURL = 'http://localhost:8000'
   const [activeStep, setActiveStep] = React.useState(0);
   const [workInTimeH, setWorkInTimeH] = React.useState("09");
   const [workInTimeM, setWorkInTimeM] = React.useState("00");
@@ -47,17 +48,9 @@ const AttendDialog = (props) => {
                       {id:5,value:'欠勤'},
                       {id:6,value:'特別休暇'}
                       ]
-  // const working_st ={1: '出勤',2: '有給',3: '遅刻',4: '早退',5: '欠勤',6:'特別休暇'} 
 
   const handleChange = (event) => {
     setWorkingSt(event.target.value);
-    // let valuess = employeesData.filter((emp)=>{
-    //   return emp.m_employeestable.id == event.target.value
-    // });
-    // setEmpName(valuess[0].m_employeestable.name)
-    // if (valuess.length){
-    //   setEmpNum(valuess[0].m_employeestable.employee_num)
-    // }
   };
 
   const valueChange = (event) => {
@@ -102,50 +95,34 @@ const AttendDialog = (props) => {
 
   const insertAttend = () =>{
 
-    // axios.post(baseURL + "tc001/01", {
-      
-    //     id: "",
-    //     employee_id: "",
-    //     working_st: "",
-    //     round_work_in_time: "",
-    //     round_work_out_time: "",
-    //     work_time: "",
-    //     rest: "",
-    //     overtime: "",
-    //     nighttime: "",
-    //     holiday_time: ""
+    if (attend.id == ""){
+      axios.post(baseURL + "/ad005_03", {
+        employee_id: empId,
+        working_st: workingSt,
+        round_work_in_time: ym.format("YYYY-MM-") + attend.day + " " + workInTimeH + ":" + workInTimeM,
+        round_work_out_time: ym.format("YYYY-MM-") + attend.day + " " + workOutTimeH + ':' + workOutTimeM,
+        rest: restH + ':' + restM
+      }).then((res) => {
+        setTimeout(() => {
+          setOpen(false);
+      }, 100);
 
-    //     // attend.employee_id = item.employee_id
-    //     // attend.round_work_in_time = item.round_work_in_time
-    //     // attend.rest = item.rest
-    //     // attend.round_work_out_time = item.round_work_out_time
-    //     // attend.create_acc = item.acc_id
-    // })
-    // .then((res) => {
-    //     if (res.status === 200) {
-    //         setUserDate(res.data);
-
-    //         setVisibleFlg(true);
-    //         setTimeout(() => {
-    //             setVisibleFlg(false)
-    //         }, 2000);
-    //     } if (res.status === 400) {
-    //         childRef.current.MessageOpen(res.data.errorcode)
-    //     }
-    // });
-    // };  
-
-    setOpen(false);
+      })
+    }else{
+      axios.put(baseURL + "/ad005_02", {
+        id: attend.id,
+        employee_id: empId,
+        working_st: workingSt,
+        round_work_in_time: ym.format("YYYY-MM-") + attend.day + " " + workInTimeH + ":" + workInTimeM,
+        round_work_out_time: ym.format("YYYY-MM-") + attend.day + " " + workOutTimeH + ':' + workOutTimeM,
+        rest: restH + ':' + restM
+      }).then((res) => {
+        setTimeout(() => {
+          setOpen(false);
+      }, 100);
+      })
+    }
   }
-  // const {open,setOpen,ym,empNum,name,empId,attend } = props
-  // const [activeStep, setActiveStep] = React.useState(0);
-  // const [workInTimeH, setWorkInTimeH] = React.useState("09");
-  // const [workInTimeM, setWorkInTimeM] = React.useState("00");
-  // const [workOutTimeH, setWorkOutTimeH] = React.useState("18");
-  // const [workOutTimeM, setWorkOutTimeM] = React.useState("00");
-  // const [restH, setRestH] = React.useState("01");
-  // const [restM, setRestM] = React.useState("00");
-  // const [workingSt, setWorkingSt] = React.useState(1);
   return (
     <>
       <Dialog

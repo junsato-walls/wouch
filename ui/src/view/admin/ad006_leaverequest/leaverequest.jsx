@@ -58,17 +58,41 @@ function Vacation() {
   }, [])
 
   const GetEmpoyees = () => { 
-    axios.get(baseURL + '/t_leaverequest').then(res => {
+    axios.get(baseURL + '/ad006_01').then(res => {
       setLeaveRequest(res.data)
       console.log(res.data)
     })
   }
+//承認
+  const leaveOK = (event, value) =>{    
+    axios.put(baseURL + "/ad006_01/", {
+      id: value.id,
+      subm_st: 1
+    }).then((res) => {
 
-  const leavePlus = (event, value) =>{
+    })
+    axios.put(baseURL + "/leave_minus", {
+      employee_id: value.employee_id
+    }).then((res) => {
+      setTimeout(() => {
+        GetEmpoyees()
+    }, 100);
+    })
     handleSubmit('ad006-i001')
     console.log(value)
   }
-  const leaveMinus = (event, value) =>{
+
+//否認
+  const leaveNG = (event, value) =>{
+    axios.put(baseURL + "/ad006_01/", {
+      id: value.id,
+      subm_st: "2"
+    }).then((res) => {
+      setTimeout(() => {
+        GetEmpoyees()
+      }, 100);
+    })
+
     handleSubmit('ad006-i002')
     console.log(value)
   }
@@ -110,10 +134,10 @@ function Vacation() {
                   <TableCell align="center">{data.t_leaverequesttable.target_date}</TableCell>
                   <TableCell align="center">{data.t_leaverequesttable.request_date}</TableCell>
                   <TableCell align="center">
-                    <Button variant="contained" onClick={(event) => leavePlus(event,data.t_leaverequesttable.id)}>承認</Button>
+                    <Button variant="contained" onClick={(event) => leaveOK(event,data.t_leaverequesttable)}>承認</Button>
                   </TableCell>
                   <TableCell align="center">
-                    <Button variant="contained" onClick={(event) => leaveMinus(event,data.t_leaverequesttable.id)}>否認</Button>
+                    <Button variant="contained" onClick={(event) => leaveNG(event,data.t_leaverequesttable)}>否認</Button>
                   </TableCell>
                 </TableRow>
               ))}
