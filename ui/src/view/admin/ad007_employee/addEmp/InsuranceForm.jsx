@@ -9,7 +9,8 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-export default function PaymentForm() {
+export default function PaymentForm(props) {
+  const {empData, setEmpData} = props
   const [value, setValue] = React.useState(dayjs('2022-10-01'));
 
   return (
@@ -27,9 +28,11 @@ export default function PaymentForm() {
             fullWidth
             autoComplete="name"
             variant="standard"
+            value={empData.empl_insur_insured_num}
           />
         </Grid>
         <Grid item xs={12}>
+          
           <TextField
             required
             id="Name"
@@ -37,6 +40,7 @@ export default function PaymentForm() {
             fullWidth
             autoComplete="name"
             variant="standard"
+            value={empData.pension_num}
           />
         </Grid>
         <Grid item xs={12}>
@@ -47,6 +51,7 @@ export default function PaymentForm() {
             fullWidth
             autoComplete="name"
             variant="standard"
+            value={empData.health_insur_num}
           />
         </Grid>
         <Grid item xs={12}>
@@ -57,6 +62,7 @@ export default function PaymentForm() {
             fullWidth
             autoComplete="name"
             variant="standard"
+            value={empData.dependent}
           />
         </Grid>
         <Grid item xs={12}>
@@ -67,6 +73,7 @@ export default function PaymentForm() {
             fullWidth
             autoComplete="name"
             variant="standard"
+            value={empData.empl_insur_insured_num}
           />
         </Grid>
 
@@ -76,7 +83,7 @@ export default function PaymentForm() {
           label="雇用保険被保険者資格取得日"
           openTo="year"
           views={['year', 'month', 'day']}
-          value={value}
+          value={empData.empl_insur_insur_qual_acq_date}
           onChange={(newValue) => {
             setValue(newValue);
           }}
@@ -93,7 +100,7 @@ export default function PaymentForm() {
           label="雇用保険被保険者資格喪失日"
           openTo="year"
           views={['year', 'month', 'day']}
-          value={value}
+          value={empData.empl_insur_insur_qual_lost_date}
           onChange={(newValue) => {
             setValue(newValue);
           }}
@@ -110,7 +117,7 @@ export default function PaymentForm() {
           label="社会保険被保険者資格取得日"
           openTo="year"
           views={['year', 'month', 'day']}
-          value={value}
+          value={empData.soc_insur_insur_qual_acq_date}
           onChange={(newValue) => {
             setValue(newValue);
           }}
@@ -127,7 +134,7 @@ export default function PaymentForm() {
           label="社会保険被保険者資格喪失日"
           openTo="year"
           views={['year', 'month', 'day']}
-          value={value}
+          value={empData.soc_insur_insur_qual_lost_date}
           onChange={(newValue) => {
             setValue(newValue);
           }}

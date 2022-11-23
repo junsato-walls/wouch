@@ -88,3 +88,5 @@ GET
 /t_leaverequest
 GET
 /t_payments
+m_leavemanage
+t_leaverequest

@@ -21,7 +21,7 @@ async def tc001_01(item:tc001):
     rest = timedelta(hours=1)
     night_start = datetime.combine(date.today(),time(22,0,0))
     night_end = datetime.combine(date.today() + timedelta(days = 1),time(5,0,0))
-    work_time = timedelta(hours=8)
+    std_work_time = timedelta(hours=8)
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
@@ -35,11 +35,11 @@ async def tc001_01(item:tc001):
     shift = session.query(m_jobshifttable).filter(m_jobshifttable.id == emp[0].shift_id).all()
 
     if len(emp) == 0:
-        raise HTTPException(status_code=400, detail="tc001-eo001")
+        raise HTTPException(status_code=400, detail="tc001-e001")
         return
         
     if (len(attend) == 0 and item.workMode != "0") and item.workMode != "3":
-        raise HTTPException(status_code=400, detail="tc001-eo002")
+        raise HTTPException(status_code=400, detail="tc001-e002")
         return
 
     match workMode:
@@ -76,9 +76,9 @@ async def tc001_01(item:tc001):
         case "2":
             if attend[0].t_attendstable.work_out == None:
                 round_out = round_out_time(rt)
-                worktime = work_time(round_out, rest)
-                overtime = over_time(round_out, attend, rest, work_time)
-                nighttime = night_time(atted, round_out, worktime, night_start, night_end)
+                worktime = work_time(round_out, attend)
+                overtime = over_time(round_out, attend, std_work_time)
+                nighttime = night_time(attend, round_out, worktime, night_start, night_end)
                 attend[0].t_attendstable.work_out = get_time
                 attend[0].t_attendstable.round_work_out_time = round_out
                 attend[0].t_attendstable.work_time = worktime
@@ -149,22 +149,30 @@ def round_out_time(rt):
     round_time = rt.replace(minute=rt.minute, second=0, microsecond=0)
     return round_time
 
-def work_time(round_out, rest):
-    wt = str(round_out - attend[0].t_attendstable.round_work_in_time - rest)
+def work_time(round_out, attend):
+    h = attend[0].t_attendstable.rest.hour
+    m = attend[0].t_attendstable.rest.minute
+    wt = round_out - attend[0].t_attendstable.round_work_in_time
+    if  attend[0].t_attendstable.rest != None  and (wt - timedelta(hours=h, minutes=m)) > 0:
+        wt = round_out - attend[0].t_attendstable.round_work_in_time - timedelta(hours=h, minutes=m)
     return wt
 
-def over_time(round_out, attend, rest, work_time):
-    if (round_out - attend[0].t_attendstable.round_work_in_time) > (rest + work_time):
-        ovt = str((round_out - attend[0].t_attendstable.round_work_in_time) - (rest + work_time))
+def over_time(round_out, attend, std_work_time):
+    h = attend[0].t_attendstable.rest.hour
+    m = attend[0].t_attendstable.rest.minute
+    if (round_out - attend[0].t_attendstable.round_work_in_time) > (std_work_time + timedelta(hours=h, minutes=m)):
+        ovt = str((round_out - attend[0].t_attendstable.round_work_in_time) - (std_work_time + timedelta(hours=h, minutes=m)))
     else:
         ovt = "0:00"
     return ovt
 
-def night_time(atted, round_out, worktime, night_start, night_end):
+def night_time(attend, round_out, worktime, night_start, night_end):
     if night_start < round_out and round_out < night_end:
         nt = round_out - night_start
     elif night_start < attend[0].t_attendstable.round_work_in_time and  attend[0].t_attendstable.round_work_in_time < night_end:
         nt = night_end - attend[0].t_attendstable.round_work_in_time
     elif night_start < attend[0].t_attendstable.round_work_in_time and round_out <night_end:
         nt = worktime
+    else :
+        nt = "0:00"
     return nt

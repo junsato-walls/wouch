@@ -22,27 +22,11 @@ import Test from './addEmp/addEmployee'
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 
-// const StyledFab = styled(Fab)({
-//   position: 'absolute',
-//   zIndex: 1,
-//   top: -30,
-//   left: 0,
-//   right: 0,
-//   margin: '0 auto',
-// });
-
 function Employee() {
   const [open, setOpen] = useState(false);
   const baseURL = 'http://localhost:8000'
-  // const StyledFab = styled(Fab)({
-  //   position: 'absolute',
-  //   zIndex: 1,
-  //   top: -30,
-  //   left: 0,
-  //   right: 0,
-  //   margin: '0 auto',
-  // });
   const [ EmployeeData, setEmployeeData] = useState([])
+  const [updateData,setUpdateData] = useState("")
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -64,8 +48,16 @@ function Employee() {
   }
 
   const test = () =>{
+  setUpdateData("")
     setOpen('true')
   }
+  
+  const UpdateAttend = (event, name) =>{
+    setUpdateData(name)
+    setOpen('true')
+    console.log(name)
+  }
+
   return (
   <>
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
@@ -75,18 +67,15 @@ function Employee() {
       </AppBar>
     </ThemeProvider>
     </Stack>
-
     <Container maxWidth="xls">
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 900 }} aria-label="spanning table">
+          <Table sx={{ minWidth: 600 }} aria-label="spanning table">
             <TableHead>
               <TableRow>
                 <TableCell align="center">社員番号</TableCell>
                 <TableCell align="center">名前</TableCell>
                 <TableCell align="center">フリガナ</TableCell>
                 <TableCell align="center"></TableCell>
-                {/* <TableCell align="center">残業時間</TableCell>
-                <TableCell align="center">実働時間</TableCell>                 */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -95,24 +84,20 @@ function Employee() {
                   <TableCell align="center">{data.m_employeestable.pension_num}</TableCell>
                   <TableCell align="center">{data.m_employeestable.name}</TableCell>
                   <TableCell align="center">{data.m_employeestable.name_kana}</TableCell>
-                  <TableCell align="center"><Button onClick={test}>詳細</Button></TableCell>
-                  {/* <TableCell align="center">{data.m_employeestable.orvertime}</TableCell>
-                  <TableCell align="center">{data.m_employeestable.work_time}</TableCell>                 */}
+                  <TableCell align="center">
+                  <Button variant="contained" onClick={(event) => UpdateAttend(event,data)}>編集</Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
     </Container>
-
-
-      {/* <div><Button variant="contained" endIcon={<SendIcon />} onClick={test}>登録</Button></div> */}
       <Fab color="primary" aria-label="add" variant="extended" onClick={test}>
         <AddIcon />add employee
       </Fab>
-      <Test open={open} setOpen={setOpen}/>
+      <Test open={open} setOpen={setOpen} empData={updateData} setEmpData={setUpdateData}/>
   </>
   )
     }
     export default Employee;
-
