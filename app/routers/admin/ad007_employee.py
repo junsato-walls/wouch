@@ -19,65 +19,56 @@ async def ad007_01_put(item:ad007):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
-    if item.emp_upd_flg == 1:
-        m_employees.employee_num = item.employee_num
-        m_employees.idm = item.idm
-        m_employees.shift_id = item.shift_id
-        m_employees.name = item.name
-        m_employees.name_kana = item.name_kana
-        m_employees.birthday = item.birthday
-        m_employees.in_company = item.in_company
-        m_employees.exit_company = item.exit_company
-        m_employees.sex = item.sex
-        m_employees.weekly_work_time = item.weekly_work_time
-        m_employees.post_code = item.post_code
-        m_employees.address_pref = item.address_pref
-        m_employees.address_city = item.address_city
-        m_employees.address_other = item.address_other
-        m_employees.tell = item.tell
-        m_employees.empl_insur_insured_num = item.empl_insur_insured_num
-        m_employees.pension_num = item.pension_num
-        m_employees.mynumber = item.mynumber
-        m_employees.former_job = item.former_job
-        m_employees.dependent = item.dependent
-        m_employees.health_insur_num = item.health_insur_num
-        m_employees.nationality = item.nationality
-        m_employees.empl_insur_insur_qual_acq_date = item.empl_insur_insur_qual_acq_date
-        m_employees.empl_insur_insur_qual_lost_date = item.empl_insur_insur_qual_lost_date
-        m_employees.soc_insur_insur_qual_acq_date = item.soc_insur_insur_qual_acq_date
-        m_employees.soc_insur_insur_qual_lost_date = item.soc_insur_insur_qual_lost_date
-        m_employees.start = item.start
-        m_employees.end = item.end
-        m_employees.memo = item.memo
-        m_employees.update_at = get_time
-        m_employees.update_acc = get_time
-        session.commit()
-
-    if item.pay_upd_flg == 1:
-        m_payments.end = date.today()
-        session.commit()
-        m_payments.employee_id = item.employee_num
-        m_payments.base = item.base
-        m_payments.salary_type = item.salary_type
-        m_payments.std_monthly_compensation = item.std_monthly_compensation
-        m_payments.commuting_pay = item.commuting_pay
-        m_payments.health_insur = item.health_insur
-        m_payments.care_insur = item.care_insur
-        m_payments.pension_insur = item.pension_insur
-        m_payments.income_tax = item.income_tax
-        m_payments.inhabitant_tax = item.inhabitant_tax
-        m_payments.update_at = get_time
-        m_payments.update_acc = item.id
-        session.add(m_payments)
-        session.commit()
-
-    param = {
-        'name': item.name,
-        'employee_num': item.employee_num,
-        'time': get_time.strftime('%H:%M:%S')
-    }
-    session.close
-    return param
+    emp = session.query(m_employeestable)\
+            .filter(m_employeestable.id == item.employee_id).first
+    emp.employee_num = item.employee_num
+    emp.idm = item.idm
+    emp.shift_id = item.shift_id
+    emp.name = item.name
+    emp.name_kana = item.name_kana
+    emp.birthday = item.birthday
+    emp.in_company = item.in_company
+    emp.exit_company = item.exit_company
+    emp.sex = item.sex
+    emp.weekly_work_time = item.weekly_work_time
+    emp.post_code = item.post_code
+    emp.address_pref = item.address_pref
+    emp.address_city = item.address_city
+    emp.address_other = item.address_other
+    emp.tell = item.tell
+    emp.empl_insur_insured_num = item.empl_insur_insured_num
+    emp.pension_num = item.pension_num
+    emp.mynumber = item.mynumber
+    emp.former_job = item.former_job
+    emp.dependent = item.dependent
+    emp.health_insur_num = item.health_insur_num
+    emp.nationality = item.nationality
+    emp.empl_insur_insur_qual_acq_date = item.empl_insur_insur_qual_acq_date
+    emp.empl_insur_insur_qual_lost_date = item.empl_insur_insur_qual_lost_date
+    emp.soc_insur_insur_qual_acq_date = item.soc_insur_insur_qual_acq_date
+    emp.soc_insur_insur_qual_lost_date = item.soc_insur_insur_qual_lost_date
+    emp.start = item.start
+    emp.end = item.end
+    emp.memo = item.memo
+    emp.update_at = get_time
+    # emp.update_acc = get_time
+    pay = session.query(m_paymentstable)\
+            .filter(m_paymentstable.employee_id == item.employee_id).first
+    pay.base = item.base
+    pay.salary_type = item.salary_type
+    pay.std_monthly_compensation = item.std_monthly_compensation
+    pay.commuting_pay = item.commuting_pay
+    pay.health_insur = item.health_insur
+    pay.care_insur = item.care_insur
+    pay.pension_insur = item.pension_insur
+    pay.income_tax = item.income_tax
+    pay.inhabitant_tax = item.inhabitant_tax
+    pay.start = get_time
+    pay.update_at = get_time
+    # pay.update_acc = item.id
+    session.commit()
+    session.close()
+    return 
 
 @router.post("/ad007_01/")
 async def ad007_01_post(item:ad007):
@@ -122,6 +113,7 @@ async def ad007_01_post(item:ad007):
 
     current_id = m_employees.id
     in_comp = m_employees.in_company
+    create_leaves(get_time, current_id, in_comp)
 
     m_payments.employee_id = current_id
     m_payments.base = item.base
@@ -138,16 +130,7 @@ async def ad007_01_post(item:ad007):
     session.add(m_payments)
     session.commit()
     session.close()
-
-    text = create_leaves(get_time, current_id, in_comp)
-
-    param = {
-        'name': item.name,
-        'employee_num': item.employee_num,
-        'time': get_time.strftime('%H:%M:%S'),
-        'text': text
-    }
-    return param
+    return
 
 def create_leaves(get_time, current_id, in_comp):
     start = in_comp + relativedelta(months=6)

@@ -27,6 +27,7 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
     for i in range(1, m_range + 1):
         day = date(YYYY, MM, i)
         rec = list(filter(lambda x: x.round_work_in_time.day == i, get_ad005))
+        id = ''
         workst = ''
         rwit = ''
         rwot = ''
@@ -34,6 +35,7 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
         worktime = ''
         over = ''
         if len(rec) != 0:
+            id = rec[0].employee_id
             workst = rec[0].working_st
             rwit = rec[0].round_work_in_time.time()
             rwot = rec[0].round_work_out_time.time()
@@ -41,6 +43,7 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
             worktime = rec[0].work_time
             over = rec[0].overtime
         param.append({
+            'id': id,
             'day': i,
             'day_of_week': day.strftime('%a'),
             'working_st': workst,
@@ -51,3 +54,87 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
             'overtime': over
             })
     return param
+
+@router.put("/ad005_02/")
+async def ad005_02(item:ad005):
+    get_rec = session.query(t_attendstable)\
+                .filter(t_attendstable.id == item.id)\
+                .filter(t_attendstable.employee_id == item.employee_id).first()
+    rest = timedelta(hours=1)
+    night_start = datetime.combine(date.today(),time(22,0,0))
+    night_end = datetime.combine(date.today() + timedelta(days = 1),time(5,0,0))
+    std_work_time = timedelta(hours=8)
+    t_delta = timedelta(hours=9)
+    JST = timezone(t_delta, 'JST')
+    get_time = datetime.now(JST)
+    get_rec.employee_id = item.employee_id
+    get_rec.round_work_in_time = item.round_work_in_time
+    get_rec.rest = item.rest
+    get_rec.round_work_out_time = item.round_work_out_time
+    worktime = work_time(item)
+    overtime = over_time(item, std_work_time)
+    nighttime = night_time(item, worktime, night_start, night_end)
+    get_rec.work_time = worktime
+    get_rec.overtime = overtime
+    get_rec.nighttime = nighttime
+    get_rec.update_at = get_time
+    # t_attendstable.update_acc = item.acc_id
+    session.commit()
+    session.close()
+    return
+    
+
+@router.post("/ad005_03/")
+async def ad005_02(item:ad005):
+    attend = t_attendstable()
+    rest = timedelta(hours=1)
+    night_start = datetime.combine(date.today(),time(22,0,0))
+    night_end = datetime.combine(date.today() + timedelta(days = 1),time(5,0,0))
+    std_work_time = timedelta(hours=8)
+    t_delta = timedelta(hours=9)
+    JST = timezone(t_delta, 'JST')
+    get_time = datetime.now(JST)
+    attend.employee_id = item.employee_id
+    attend.round_work_in_time = item.round_work_in_time
+    attend.rest = item.rest
+    attend.round_work_out_time = item.round_work_out_time
+    worktime = work_time(item)
+    overtime = over_time(item, std_work_time)
+    nighttime = night_time(item, worktime, night_start, night_end)
+    attend.work_time = worktime
+    attend.overtime = overtime
+    attend.nighttime = nighttime
+    attend.create_at = get_time
+    attend.create_acc = item.acc_id
+    session.add(attend)
+    session.commit()
+    session.close()
+    return 
+
+def work_time(item):
+    h = item.rest.hour
+    m = item.rest.minute
+    wt = item.round_work_out_time - item.round_work_in_time
+    if  item.rest != None  and wt > timedelta(hours=h, minutes=m):
+        wt = item.round_work_out_time - item.round_work_in_time - timedelta(hours=h, minutes=m)
+    return wt
+
+def over_time(item, std_work_time):
+    h = item.rest.hour
+    m = item.rest.minute
+    if (item.round_work_out_time - item.round_work_in_time) > (std_work_time + timedelta(hours=h, minutes=m)):
+        ovt = str((item.round_work_out_time - item.round_work_in_time) - (std_work_time + timedelta(hours=h, minutes=m)))
+    else:
+        ovt = "0:00"
+    return ovt
+
+def night_time(item, worktime, night_start, night_end):
+    if night_start < item.round_work_out_time and item.round_work_out_time < night_end:
+        nt = item.round_work_out_time - night_start
+    elif night_start < item.round_work_in_time and  item.round_work_in_time < night_end:
+        nt = night_end - item.round_work_in_time
+    elif night_start < item.round_work_in_time and item.round_work_out_time <night_end:
+        nt = worktime
+    else :
+        nt = "0:00"
+    return nt

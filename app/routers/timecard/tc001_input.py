@@ -35,11 +35,11 @@ async def tc001_01(item:tc001):
     shift = session.query(m_jobshifttable).filter(m_jobshifttable.id == emp[0].shift_id).all()
 
     if len(emp) == 0:
-        raise HTTPException(status_code=400, detail="tc001-eo001")
+        raise HTTPException(status_code=400, detail="tc001-e001")
         return
         
     if (len(attend) == 0 and item.workMode != "0") and item.workMode != "3":
-        raise HTTPException(status_code=400, detail="tc001-eo002")
+        raise HTTPException(status_code=400, detail="tc001-e002")
         return
 
     match workMode:
@@ -150,14 +150,18 @@ def round_out_time(rt):
     return round_time
 
 def work_time(round_out, attend):
+    h = attend[0].t_attendstable.rest.hour
+    m = attend[0].t_attendstable.rest.minute
     wt = round_out - attend[0].t_attendstable.round_work_in_time
-    if  attend[0].t_attendstable.rest != None  and wt > attend[0].t_attendstable.rest:
-        wt = wt - attend[0].t_attendstable.rest
+    if  attend[0].t_attendstable.rest != None  and (wt - timedelta(hours=h, minutes=m)) > 0:
+        wt = round_out - attend[0].t_attendstable.round_work_in_time - timedelta(hours=h, minutes=m)
     return wt
 
 def over_time(round_out, attend, std_work_time):
-    if (round_out - attend[0].t_attendstable.round_work_in_time) > (attend[0].t_attendstable.rest + std_work_time):
-        ovt = str((round_out - attend[0].t_attendstable.round_work_in_time) - (rattend[0].t_attendstable.est + std_work_time))
+    h = attend[0].t_attendstable.rest.hour
+    m = attend[0].t_attendstable.rest.minute
+    if (round_out - attend[0].t_attendstable.round_work_in_time) > (std_work_time + timedelta(hours=h, minutes=m)):
+        ovt = str((round_out - attend[0].t_attendstable.round_work_in_time) - (std_work_time + timedelta(hours=h, minutes=m)))
     else:
         ovt = "0:00"
     return ovt
