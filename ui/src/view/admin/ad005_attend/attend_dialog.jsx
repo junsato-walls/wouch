@@ -103,8 +103,23 @@ const AttendDialog = (props) => {
   const insertAttend = () =>{
 
     // axios.post(baseURL + "tc001/01", {
-    //     workMode: workMode,
-    //     idm: nfcid
+      
+    //     id: "",
+    //     employee_id: "",
+    //     working_st: "",
+    //     round_work_in_time: "",
+    //     round_work_out_time: "",
+    //     work_time: "",
+    //     rest: "",
+    //     overtime: "",
+    //     nighttime: "",
+    //     holiday_time: ""
+
+    //     // attend.employee_id = item.employee_id
+    //     // attend.round_work_in_time = item.round_work_in_time
+    //     // attend.rest = item.rest
+    //     // attend.round_work_out_time = item.round_work_out_time
+    //     // attend.create_acc = item.acc_id
     // })
     // .then((res) => {
     //     if (res.status === 200) {
