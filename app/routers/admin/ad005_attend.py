@@ -71,6 +71,7 @@ async def ad005_02(item:ad005):
     get_rec.round_work_in_time = item.round_work_in_time
     get_rec.rest = item.rest
     get_rec.round_work_out_time = item.round_work_out_time
+    get_rec.working_st = item.working_st
     worktime = work_time(item)
     overtime = over_time(item, std_work_time)
     nighttime = night_time(item, worktime, night_start, night_end)
@@ -98,6 +99,7 @@ async def ad005_02(item:ad005):
     attend.round_work_in_time = item.round_work_in_time
     attend.rest = item.rest
     attend.round_work_out_time = item.round_work_out_time
+    attend.working_st = item.working_st
     worktime = work_time(item)
     overtime = over_time(item, std_work_time)
     nighttime = night_time(item, worktime, night_start, night_end)
