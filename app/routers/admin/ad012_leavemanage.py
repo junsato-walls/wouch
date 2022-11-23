@@ -18,6 +18,7 @@ async def ad012_01_get():
     get_time = datetime.now(JST)
     get_request = session.query(m_employeestable.id,
                                 m_employeestable.name,
+                                m_employeestable.employee_num,
                                 m_leavemanagetable.employee_id,
                                 func.sum(m_leavemanagetable.remain_day).label('remain_day'),
                                 func.sum(m_leavemanagetable.add_day).label('add_day'))\

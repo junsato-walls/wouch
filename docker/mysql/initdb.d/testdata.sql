@@ -66,52 +66,52 @@ employee_id, base, salary_type, std_monthly_compensation, commuting_pay, health_
 Insert Into m_calendar ( 
 ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
-'2023-3-2', '2023', '3', '2', 'wed', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
+'2023-3-2', '2023', '3', '2', '木', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
 ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
-'2023-3-3', '2023', '3', '3', 'thu', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
+'2023-3-3', '2023', '3', '3', '金', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
 ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
-'2023-3-4', '2023', '3', '4', 'sta', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
+'2023-3-4', '2023', '3', '4', '土', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
 ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
-'2023-3-5', '2023', '3', '5', 'sun', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
+'2023-3-5', '2023', '3', '5', '日', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
 ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
-'2023-3-6', '2023', '3', '6', 'mon', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
+'2023-3-6', '2023', '3', '6', '月', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
 ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
-'2023-3-7', '2023', '3', '7', 'tue', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
+'2023-3-7', '2023', '3', '7', '火', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
 ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
-'2023-3-8', '2023', '3', '8', 'wed', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
+'2023-3-8', '2023', '3', '8', '水', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
 ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
-'2023-3-9', '2023', '3', '9', 'thu', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
+'2023-3-9', '2023', '3', '9', '木', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
 ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
-'2023-3-10', '2023', '3', '10', 'sta', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
+'2023-3-10', '2023', '3', '10', '金', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
 ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
-'2023-3-11', '2023', '3', '11', 'sun', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
+'2023-3-11', '2023', '3', '11', '土', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 
 Insert Into m_jobshift ( 
@@ -241,12 +241,12 @@ employee_id, working_st, round_work_in_time, work_in, round_work_out_time, work_
 Insert Into t_leaverequest ( 
 employee_id, request_date, target_date, subm_st, authorizer, create_at, create_acc, update_at, update_acc
  ) values ( 
-'3', '2022-08-01 10:03:11', '2022-08-21', '1', '2', '2022-08-01 10:03:11', '3', '2022-08-01 10:12:51', '2'
+'3', '2022-08-01', '2022-08-21', '1', '2', '2022-08-01 10:03:11', '3', '2022-08-01 10:12:51', '2'
  );
 Insert Into t_leaverequest ( 
 employee_id, request_date, target_date, subm_st, authorizer, create_at, create_acc, update_at, update_acc
  ) values ( 
-'3', '2022-08-01 10:03:11', '2022-08-22', '0', '2', '2022-08-01 10:03:11', '3', '2022-08-01 10:12:51', '2'
+'3', '2022-08-01', '2022-08-22', '0', '2', '2022-08-01 10:03:11', '3', '2022-08-01 10:12:51', '2'
  );
 
 Insert Into t_payments ( 

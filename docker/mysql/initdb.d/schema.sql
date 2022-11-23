@@ -190,7 +190,7 @@ CREATE TABLE t_attends (
 CREATE TABLE t_leaverequest (
     id int NOT NULL AUTO_INCREMENT,
     employee_id int,
-    request_date datetime,
+    request_date date,
     target_date date,
     subm_st tinyint,
     authorizer int,

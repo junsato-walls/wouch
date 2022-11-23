@@ -11,11 +11,11 @@ router = APIRouter()
 
 @router.get("/ad008_01/")
 async def ad008_get(ymd: date):
-    YYYY = ymd.year
-    MM = ymd.month
-    ad008_get = session.query(m_calender)\
-                .filter(m_calendertable.year == YYYY)\
-                .filter(m_calendertable.month == MM)\
+    YYYY = item.ymd.year
+    MM = item.ymd.month
+    ad008_get = session.query(m_calendar)\
+                .filter(m_calendartable.year == YYYY)\
+                .filter(m_calendartable.month == MM)\
                 .all()
     return ad008_get
 
@@ -25,48 +25,48 @@ async def ad008_put(item: ad008):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
-    YYYY = ymd.year
-    MM = ymd.month
-    ad008_get = session.query(m_calender)\
-                .filter(m_calendertable.id == item.id)\
-                .filter(m_calendertable.year == YYYY)\
-                .filter(m_calendertable.month == MM)\
+    YYYY = item.ymd.year
+    MM = item.ymd.month
+    ad008_get = session.query(m_calendartable)\
+                .filter(m_calendartable.id == item.id)\
+                .filter(m_calendartable.year == YYYY)\
+                .filter(m_calendartable.month == MM)\
                 .first()
-    m_calendertable.memo = item.memo
-    m_calendertable.working_st = item.working_st
-    m_calendertable.update_at = get_time
+    ad008_get.memo = item.memo
+    ad008_get.working_st = item.working_st
+    ad008_get.update_at = get_time
     session.commit()
     session.close()
-    return
+    return ad008_get
 
 
 @router.post("/ad008_03/")
 async def ad008_post(item: ad008):
-    calender = m_calendertable()
+    calendar = m_calendartable()
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
-    YYYY = ymd.year
-    MM = ymd.month
-    DD = ymd.day
-    calender.ymd = item.ymd
-    calender.year = YYYY
-    calender.month = MM
-    calender.day = DD
-    calender.day_of_week = ymd.strftime('%a')
-    calender.memo = item.memo
-    calender.working_st = item.working_st
-    calender.visible_flg = "0"
-    calender.create_at = get_time
-    session.add(calender)
+    YYYY = item.ymd.year
+    MM = item.ymd.month
+    DD = item.ymd.day
+    calendar.ymd = item.ymd
+    calendar.year = YYYY
+    calendar.month = MM
+    calendar.day = DD
+    calendar.day_of_week = item.ymd.strftime('%a')
+    calendar.memo = item.memo
+    calendar.working_st = item.working_st
+    calendar.visible_flg = "0"
+    calendar.create_at = get_time
+    session.add(calendar)
     session.commit()
     session.close()
     return
 
-@router.delete("/ad008_03/")
-async def ad008_delete(item: ad008):
-    cal_del = session.query(m_calender)\
-                .filter(m_calender.id == item.id)\
+@router.delete("/ad008_04/")
+async def ad008_delete(id: int):
+    cal_del = session.query(m_calendartable)\
+                .filter(m_calendartable.id == id)\
                 .first()
     session.delete(cal_del)
     session.commit()

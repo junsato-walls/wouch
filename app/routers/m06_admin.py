@@ -9,17 +9,18 @@ from db import session  # DBと接続するためのセッション
 router = APIRouter()
 
 
-@router.get("/m_admin")
-async def m_admin():
-    m_admin = session.query(m_employeestable,m_admintable)\
-    .join(m_employeestable, m_employeestable.id == m_admintable.employee_id).all()
-        
+@router.post("/m_admin")
+async def m_admin(item: m_admin):
+    m_admin = session.query(m_admintable)\
+            .filter(m_admintable.login_id == item.login_id)\
+            .first()
+    if len(m_admin) == 0:
+        raise HTTPException(status_code=400, detail="ad001-e001")
+        return 
+    if m_admin.password != item.password:
+        raise HTTPException(status_code=400, detail="ad001-e002")
+        return
+    if m_admin.password == item.password:
+        raise HTTPException(status_code=400, detail="ad001-e002")
+        return
     return m_admin
-
-# @router.put("/m_companies_i")
-# async def insert_m_companies():
-#     pass
-
-# @router.post("/m_companies_u")
-# async def update_m_companies():
-#     pass
