@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import ErrorDialog from '../../../components/dialog';
+import Footer from '../../../components/footer';
+import Button from '../../../components/button';
+import Label from '../../../components/label';
 import styled from "styled-components";
 import axios from "axios";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import Box from '@mui/material/Box';
-import ErrorDialog from '../../../components/dialog';
-import Hedder from '../../../components/hedder';
-import Footer from '../../../components/footer';
-import Button from '../../../components/button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,49 +16,99 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const test = [{ title: "申請", start: "2022-10-18", display: "background" }]
+const test = [{ title: "会社休み", start: "2022-10-18", end: "2022-10-25" }]
 
 function Input(props) {
-
     const childRef = useRef()
-    const baseURL = "http://localhost:8000/";
+    const baseURL = "http://localhost:8000";
     const [nfcid, setNFCID] = useState("");
     const [UserDate, setUserDate] = useState();
-    const [workMode, setworkMode] = useState(0);
+    const [workMode, setWorkMode] = useState(0);
     const [ModeWord, setModeWord] = useState("出勤");
     const [VisibleFlg, setVisibleFlg] = useState(false);
+    const [WorkInColor, setWorkInColor] = useState(true);
+    const [BreakTimeColor, setBreakTimeColor] = useState(false);
+    const [WorkOutColor, setWorkOutColor] = useState(false);
+    const [LeaveRequestColor, setLeaveRequestColor] = useState(false);
+    const [LeaveRequestDate, setLeaveRequestDate] = useState();
+
+
+    const [YMD, setYMD] = useState();
+    const [HMS, setHMS] = useState();
     const [open, setOpen] = useState(false);
+
+    //リクエストをDBへ投げる
+    useEffect(() => {
+        if (nfcid !== "") {
+            axios.post(baseURL + "/tc001_01/", {
+                workMode: workMode,
+                idm: nfcid
+            })
+                .then((res) => {
+                    if (res.status === 200) {
+                        setUserDate(res.data);
+                        setVisibleFlg(true);
+                        setTimeout(() => {
+                            setVisibleFlg(false)
+                        }, 5000);
+
+                    } if (res.status === 500) {
+                        childRef.current.MessageOpen(res.data.errorcode)
+                    }
+                });
+        };
+        if (workMode == 3) {
+            console.log(UserDate.employee_id)
+            // let param = '/tc002_01/?employee_id=' + UserDate.employee_num
+            // axios.get(baseURL + param).then(res => {
+            //     setLeaveRequestDate(res.data)
+                console.log(UserDate.employee_num)
+            // })
+            console.log(UserDate.employee_id)
+            setOpen(true)
+        }
+    }, [nfcid]);
 
     const countup = () => {
         const nowTime = new Date();
         const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
-        const YMD = nowTime.getFullYear() + "年" + (nowTime.getMonth() + 1) + "月" + nowTime.getDate() + "日" + dayOfWeekStrJP[nowTime.getDay()];
-        document.getElementById("localYMD").innerHTML = YMD;
-        const HMS = ('00' + nowTime.getHours()).slice(-2) + ":" + ('00' + nowTime.getMinutes()).slice(-2) + ":" + ('00' + nowTime.getSeconds()).slice(-2);
-        document.getElementById("localHMS").innerHTML = HMS;
-    };
-    setInterval(countup, 1000);
+        setYMD(nowTime.getFullYear() + "年" + (nowTime.getMonth() + 1) + "月" + nowTime.getDate() + "日" + dayOfWeekStrJP[nowTime.getDay()]);
+        setHMS(('00' + nowTime.getHours()).slice(-2) + ":" + ('00' + nowTime.getMinutes()).slice(-2) + ":" + ('00' + nowTime.getSeconds()).slice(-2));
+    }; setInterval(countup, 1000);
 
-    /////////モード参照処理///////////
-    // 0 = 出勤 , 1 = 休憩 , 2 = 退勤
-    /////////////////////////////////
     const WorkIn = () => {
         if (workMode !== 0) {
-            setworkMode(0);
-            setModeWord("出勤")
-            console.log(setworkMode)
+            setWorkMode(0);
+            setModeWord("出勤");
+            setWorkInColor(true)
+            setBreakTimeColor(false)
+            setWorkOutColor(false)
+            setLeaveRequestColor(false)
             return;
         }
     }
 
     const BreakTime = () => {
         if (workMode !== 1) {
-            setworkMode(1);
+            setWorkMode(1);
             setModeWord("休憩")
+            setWorkInColor(false)
+            setBreakTimeColor(true)
+            setWorkOutColor(false)
+            setLeaveRequestColor(false)
             return;
         }
     }
@@ -67,7 +116,11 @@ function Input(props) {
     const WorkOut = () => {
         if (workMode !== 2) {
             setModeWord("退勤")
-            setworkMode(2);
+            setWorkMode(2);
+            setWorkInColor(false)
+            setBreakTimeColor(false)
+            setWorkOutColor(true)
+            setLeaveRequestColor(false)
             return;
         }
     }
@@ -75,10 +128,15 @@ function Input(props) {
     const LeaveRequest = () => {
         if (workMode !== 3) {
             setModeWord("有給申請")
-            setworkMode(3);
+            setWorkMode(3);
             setOpen(true);
+            setWorkInColor(false)
+            setBreakTimeColor(false)
+            setWorkOutColor(false)
+            setLeaveRequestColor(true)
             return;
         }
+        setOpen(true);
     }
 
     //リクエストをDBへ投げる
@@ -107,36 +165,56 @@ function Input(props) {
         setOpen(false);
     };
 
+    const handleDatesChange = (DatesSetArg) => {
+        console.log(DatesSetArg);
+    };
+
+
     return (
         <>
-            <h1><div id="localYMD" ></div></h1>
-            <Test>
-                <p>{nfcid}</p>
-                <Title><div id="localHMS"></div></Title>
-                {/* <Hedder>現在モード : {ModeWord}</Hedder> */}
-                <Label>9:00　　　012345678　　　佐藤　太郎</Label>
-            </Test>
-            {
-                VisibleFlg &&
-                <div>
-                    <p>社員番号：{UserDate.employee_num}</p>
-                    <p>名前：{UserDate.name}</p>
-                    <p>時間  {UserDate.time}</p>
-                </div>
-            }
-            <ErrorDialog ref={childRef}></ErrorDialog>
-            <input type="text" id="nfc_input" name="name" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
-                style={{ color: 'white', border: 'none', outline: 'none' }}></input>
-            <Footer theme={FooterTheme}>
-                <Box sx={{ '& button': { m: 1 } }}>
-                    <Button theme={WorkInButton} onClick={WorkIn}>出勤</Button>
-                    <Button theme={BreakTimeButton} onClick={BreakTime}>休憩</Button>
-                    <Button theme={WWorkOutButton} onClick={WorkOut}>退勤</Button>
-                    <Button theme={LeaveRequestButton} onClick={LeaveRequest}>有給申請</Button>
-                    {/* <Button variant="contained" id="SendID" size="large" onClick={PostID} >ID送信</Button> */}
-                </Box>
-            </Footer>
-
+            <Back>
+                <ClockYMD>{YMD}</ClockYMD>
+                <input type="text" id="nfc_input" name="name" size="20" value={nfcid} onChange={(event) => setNFCID(event.target.value)}
+                    style={{ background: 'transparent', border: 'none', outline: 'none' }}>
+                </input>
+                <Main>
+                    <ClockHMS>{HMS}</ClockHMS>
+                    {
+                        VisibleFlg &&
+                        <Label>
+                            {UserDate.employee_num + " " + UserDate.name}
+                            <p>{ModeWord + " " + UserDate.time}</p>
+                        </Label>
+                    }
+                </Main>
+                <ErrorDialog ref={childRef}></ErrorDialog>
+                <Footer theme={FooterTheme}>
+                    {
+                        WorkInColor ?
+                            <Button style={{ background: '#FF6600' }} theme={WorkInButton} onClick={WorkIn}>出勤</Button>
+                            :
+                            <Button theme={WorkInButton} onClick={WorkIn}>出勤</Button>
+                    }
+                    {
+                        BreakTimeColor ?
+                            <Button style={{ background: '#FF6600' }} theme={BreakTimeButton} onClick={BreakTime}>休憩</Button>
+                            :
+                            <Button theme={BreakTimeButton} onClick={BreakTime}>休憩</Button>
+                    }
+                    {
+                        WorkOutColor ?
+                            <Button style={{ background: '#FF6600' }} theme={WorkOutButton} onClick={WorkOut}>退勤</Button>
+                            :
+                            <Button theme={WorkOutButton} onClick={WorkOut}>退勤</Button>
+                    }
+                    {
+                        LeaveRequestColor ?
+                            <Button style={{ background: '#FF6600' }} theme={LeaveRequestButton} onClick={LeaveRequest}>有給</Button>
+                            :
+                            <Button theme={LeaveRequestButton} onClick={LeaveRequest}>有給</Button>
+                    }
+                </Footer>
+            </Back>
             <div>
                 <Dialog
                     fullScreen
@@ -156,21 +234,51 @@ function Input(props) {
                             </IconButton>
                         </Toolbar>
                     </AppBar>
-                    <FullCalendar
-                        plugins={[dayGridPlugin, interactionPlugin]}
-                        initialView={props.initialView}
-                        contentHeight="auto"
-                        locale="ja"
-                        selectable="true"
-                        // 取得データを配列に挿入
-                        events={test}
-                        // 日付クリック動作
-                        dateClick={
-                            function (infoDate) {
-                                console.log(infoDate.dateStr)
-                            }
-                        }
-                    />
+                    <table border="1">
+                        <tr>
+                            <td style={{ width: "80%" }}>
+                                <FullCalendar
+                                    plugins={[dayGridPlugin, interactionPlugin]}
+                                    initialView={props.initialView}
+                                    contentHeight="auto"
+                                    locale="ja"
+                                    selectable="true"
+                                    // 取得データを配列に挿入
+                                    events={test}
+                                    datesSet={handleDatesChange}
+                                    // 日付クリック動作
+                                    dateClick={
+                                        function (infoDate) {
+                                            console.log(infoDate.dateStr)
+                                        }
+                                    }
+                                />
+                            </td>
+                            <td style={{ width: "20%" }}>
+                                有給残日数：3日
+                                <TableContainer component={Paper}>
+                                    <Table aria-label="spanning table">
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align="">有給予定日</TableCell>
+                                                <TableCell align="">承認</TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            <TableRow>
+                                                <TableCell>test2</TableCell>
+                                                <TableCell>test3</TableCell>
+                                            </TableRow>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style={{ display: "flex" }}>
+                        <Button>test1</Button>
+                        <div>test2</div>
+                    </div>
                 </Dialog>
             </div>
         </>
@@ -178,49 +286,54 @@ function Input(props) {
 }
 export default Input;
 
-const Test = styled.div`
-display: flex;
-justify-content: center;
-flex-direction: column;
-align-items: center;
-min-height: 60vh;
-`;
+const Back = styled.div`
+            background-color: #FFFFFF;
+            min-height: 90vh;
+            `;
 
-const Label = styled.div`
-    width: 100%;
-    font-weight: bold;
-    font-size:2.5em
-`;
+const Main = styled.div`
+            display: flex;
+            justify-content: top;
+            flex-direction: column;
+            align-items: top;
+            min-height: 65vh;
+            `;
 
-const Title = styled.div`
-font-size: 10.0em;
-color: black;
-`;
+const ClockYMD = styled.div`
+            font-size: 5.0vw;
+            color: black;
+            `;
+
+const ClockHMS = styled.div`
+            font-size: 15.0vw;
+            color: black;
+            `;
 
 const WorkInButton = {
-    background: "#FFFFAA",
-    color: "#00000"
+    // background: "#FFFFAA",
+    color: "#00000",
+
 };
 
 const BreakTimeButton = {
-    background: "#AADDFF",
-    color: "#00000"
+    // background: "#AADDFF",
+    color: "#00000",
 };
 
-const WWorkOutButton = {
-    background: "#FFBBBB",
-    color: "#00000"
+const WorkOutButton = {
+    // background: "#FFBBBB",
+    color: "#00000",
 };
 
 const LeaveRequestButton = {
-    background: "#AAFF88",
-    color: "#00000"
+    // background: "#AAFF88",
+    color: "#00000",
 };
 
 const FooterTheme = {
-    background: "white"
 };
 
-const HedderTheme = {
-    background: ""
+const LeaveLabel = {
+    // background: "#AAFF88",
+    color: "#00000",
 };
