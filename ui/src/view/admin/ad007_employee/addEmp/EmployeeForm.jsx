@@ -88,8 +88,8 @@ const AddressForm = (props) => {
       <Grid item xs={12} sm={5}>
           <TextField
             required
-            id="name_kana"
-            name="name_kana"
+            id="employeeNum"
+            name="employeeNum"
             label="社員番号"
             fullWidth
             autoComplete="family-name"
@@ -124,8 +124,8 @@ const AddressForm = (props) => {
             autoComplete="family-name"
             variant="standard"
             InputLabelProps={{ shrink: true }}
-            value={employeeNum}
-            onChange={(event) => Change_employeeNum(event)}
+            value={sex}
+            onChange={(event) => Change_sex(event)}
           />
         </Grid>
         <Grid item xs={12} sm={8}>
@@ -153,7 +153,6 @@ const AddressForm = (props) => {
           renderInput={(params) => <TextField {...params} 
           variant="standard"
           InputLabelProps={{ shrink: true }}
-          value={birthday}
           />}
         />
         </Grid>
@@ -169,6 +168,20 @@ const AddressForm = (props) => {
           renderInput={(params) => 
           <TextField {...params} 
             variant="standard"
+          />}
+        />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <DatePicker
+          disableFuture
+          label="退社日"
+          openTo="year"
+          views={['year', 'month', 'day']}
+          value={exitCompany}
+          onChange={(event) => Change_exitCompany(event)}
+          renderInput={(params) => <TextField {...params} 
+          variant="standard"
+          InputLabelProps={{ shrink: true }}
           />}
         />
         </Grid>
