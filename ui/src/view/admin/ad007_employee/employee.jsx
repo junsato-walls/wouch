@@ -26,6 +26,7 @@ function Employee() {
   const [open, setOpen] = useState(false);
   const baseURL = 'http://localhost:8000'
   const [ EmployeeData, setEmployeeData] = useState([])
+  const [updateData,setUpdateData] = useState("")
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -47,9 +48,13 @@ function Employee() {
   }
 
   const test = () =>{
+  setUpdateData("")
     setOpen('true')
   }
+  
   const UpdateAttend = (event, name) =>{
+    setUpdateData(name)
+    setOpen('true')
     console.log(name)
   }
 
@@ -62,8 +67,6 @@ function Employee() {
       </AppBar>
     </ThemeProvider>
     </Stack>
-
-    {/* <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}> */}
     <Container maxWidth="xls">
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 600 }} aria-label="spanning table">
@@ -73,8 +76,6 @@ function Employee() {
                 <TableCell align="center">名前</TableCell>
                 <TableCell align="center">フリガナ</TableCell>
                 <TableCell align="center"></TableCell>
-                {/* <TableCell align="center">残業時間</TableCell>
-                <TableCell align="center">実働時間</TableCell>                 */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -84,27 +85,19 @@ function Employee() {
                   <TableCell align="center">{data.m_employeestable.name}</TableCell>
                   <TableCell align="center">{data.m_employeestable.name_kana}</TableCell>
                   <TableCell align="center">
-                    {/* <Button onClick={test}>詳細</Button> */}
                   <Button variant="contained" onClick={(event) => UpdateAttend(event,data)}>編集</Button>
                   </TableCell>
-
-                  {/* <TableCell align="center">{data.m_employeestable.orvertime}</TableCell>
-                  <TableCell align="center">{data.m_employeestable.work_time}</TableCell>                 */}
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
     </Container>
-   {/* </Paper> */}
-
-      {/* <div><Button variant="contained" endIcon={<SendIcon />} onClick={test}>登録</Button></div> */}
       <Fab color="primary" aria-label="add" variant="extended" onClick={test}>
         <AddIcon />add employee
       </Fab>
-      <Test open={open} setOpen={setOpen}/>
+      <Test open={open} setOpen={setOpen} empData={updateData} setEmpData={setUpdateData}/>
   </>
   )
     }
     export default Employee;
-

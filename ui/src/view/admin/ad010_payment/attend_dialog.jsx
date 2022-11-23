@@ -100,37 +100,6 @@ const AttendDialog = (props) => {
     setOpen(false);
   }
 
-  const insertAttend = () =>{
-
-    // axios.post(baseURL + "tc001/01", {
-    //     workMode: workMode,
-    //     idm: nfcid
-    // })
-    // .then((res) => {
-    //     if (res.status === 200) {
-    //         setUserDate(res.data);
-
-    //         setVisibleFlg(true);
-    //         setTimeout(() => {
-    //             setVisibleFlg(false)
-    //         }, 2000);
-    //     } if (res.status === 400) {
-    //         childRef.current.MessageOpen(res.data.errorcode)
-    //     }
-    // });
-    // };  
-
-    setOpen(false);
-  }
-  // const {open,setOpen,ym,empNum,name,empId,attend } = props
-  // const [activeStep, setActiveStep] = React.useState(0);
-  // const [workInTimeH, setWorkInTimeH] = React.useState("09");
-  // const [workInTimeM, setWorkInTimeM] = React.useState("00");
-  // const [workOutTimeH, setWorkOutTimeH] = React.useState("18");
-  // const [workOutTimeM, setWorkOutTimeM] = React.useState("00");
-  // const [restH, setRestH] = React.useState("01");
-  // const [restM, setRestM] = React.useState("00");
-  // const [workingSt, setWorkingSt] = React.useState(1);
   return (
     <>
       <Dialog
@@ -144,7 +113,6 @@ const AttendDialog = (props) => {
             <Typography component="h1" variant="h4" align="center">
               {ym.format("YYYY年MM月") + attend.day + "日" + "(" + attend.day_of_week + ")"}
             </Typography>
-
             <Grid item xs={12} sm={12}>
               <div style={{ marginTop: '5ch' }}>社員番号</div>
               <FormControl sx={{ m: 1, minWidth: '30ch' }} >
@@ -159,14 +127,12 @@ const AttendDialog = (props) => {
               </FormControl>
             </Grid>
             {/* working_st */}
-
-            <Grid item xs={12} sm={4}>
-            <div>勤務状態</div>
+            <Grid item xs={12} sm={12}>
             <FormControl sx={{ m: 1, minWidth: 200 }} >
+              <InputLabel id="demo-simple-select-label">名前</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  variant="standard"
                   value={workingSt}
                   onChange={handleChange}
                 >
@@ -191,6 +157,7 @@ const AttendDialog = (props) => {
                     'aria-label': 'weight',
                   }}
                 />
+                {/* <FormHelperText id="standard-weight-helper-text">Weight</FormHelperText> */}
               </FormControl>
               <FormControl variant="standard" sx={{ m: 1, mt: 3, width: '10ch' }}>
                 <Input
@@ -204,6 +171,7 @@ const AttendDialog = (props) => {
                     'aria-label': 'weight',
                   }}
                 />
+                {/* <FormHelperText id="standard-weight-helper-text">Weight</FormHelperText> */}
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -220,6 +188,7 @@ const AttendDialog = (props) => {
                     'aria-label': 'weight',
                   }}
                 />
+                {/* <FormHelperText id="standard-weight-helper-text">Weight</FormHelperText> */}
               </FormControl>
               <FormControl variant="standard" sx={{ m: 1, mt: 3, width: '10ch' }}>
                 <Input
@@ -233,6 +202,7 @@ const AttendDialog = (props) => {
                     'aria-label': 'weight',
                   }}
                 />
+                {/* <FormHelperText id="standard-weight-helper-text">Weight</FormHelperText> */}
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -263,12 +233,13 @@ const AttendDialog = (props) => {
                     'aria-label': 'weight',
                   }}
                 />
+                {/* <FormHelperText id="standard-weight-helper-text">Weight</FormHelperText> */}
               </FormControl>
             </Grid>
           </Container>
         </DialogContent>
         <DialogActions>
-          <Button onClick={insertAttend} sx={{ mt: 3, ml: 1 }} variant="contained">登録</Button>
+          <Button onClick={dialogclose} sx={{ mt: 3, ml: 1 }} variant="contained">登録</Button>
           <Button onClick={dialogclose} sx={{ mt: 3, ml: 1 }}>キャンセル</Button>
         </DialogActions>
       </Dialog>
