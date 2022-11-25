@@ -69,17 +69,19 @@ function Input(props) {
                         childRef.current.MessageOpen(res.data.errorcode)
                     }
                 });
-        };
-        if (workMode == 3) {
-            console.log(UserDate.employee_id)
-            // let param = '/tc002_01/?employee_id=' + UserDate.employee_num
-            // axios.get(baseURL + param).then(res => {
-            //     setLeaveRequestDate(res.data)
+            if (workMode == 3) {
+                setOpen(true);
+                console.log(UserDate.employee_id)
+                // let param = '/tc002_01/?employee_id=' + UserDate.employee_num
+                // axios.get(baseURL + param).then(res => {
+                //     setLeaveRequestDate(res.data)
                 console.log(UserDate.employee_num)
-            // })
-            console.log(UserDate.employee_id)
-            setOpen(true)
-        }
+                // })
+                console.log(UserDate.employee_id)
+                setOpen(true)
+            }
+        };
+
     }, [nfcid]);
 
     const countup = () => {
@@ -129,14 +131,12 @@ function Input(props) {
         if (workMode !== 3) {
             setModeWord("有給申請")
             setWorkMode(3);
-            setOpen(true);
             setWorkInColor(false)
             setBreakTimeColor(false)
             setWorkOutColor(false)
             setLeaveRequestColor(true)
             return;
         }
-        setOpen(true);
     }
 
     const handleClose = () => {
