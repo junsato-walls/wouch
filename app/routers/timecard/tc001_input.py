@@ -95,6 +95,7 @@ async def tc001_01(item:tc001):
     param = {
         'name': emp[0].name,
         'employee_num': emp[0].employee_num,
+        'employee_id': emp[0].employee_id,
         'time': get_time.strftime('%H:%M:%S'),
         "request": '',
         "remain_day": '',
@@ -128,6 +129,7 @@ def workMode3(get_time, ymd, emp):
     param = {
         'name': emp[0].name,
         'employee_num': emp[0].employee_num,
+        'employee_id': emp[0].employee_id,
         'time': '',
         "request": get_request,
         "remain_day": remain_day,

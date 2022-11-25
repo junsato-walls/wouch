@@ -33,6 +33,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import ja from 'date-fns/locale/ja'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import Dialog from '../../../components/dialog'
 
 function Vacation() {
   const darkTheme = createTheme({
@@ -51,20 +52,48 @@ function Vacation() {
     GetEmpoyees()
   }, [])
 
+  const childRef = useRef()
+  const handleSubmit = (value) => {
+    childRef.current.MessageOpen(value)
+  }
+
   const GetEmpoyees = () => { 
-    axios.get(baseURL + '/t_leaverequest').then(res => {
+    axios.get(baseURL + '/ad012_01').then(res => {
       setLeaveRequest(res.data)
       console.log(res.data)
     })
   }
 
+// 有給増やす 
   const leavePlus = (event, value) =>{
-    // console.log('testdata:'+ value)
+    axios.put(baseURL + "/leave_plus/", {
+      employee_id: value.employee_id
+    }).then((res) => {
+      setTimeout(() => {
+        GetEmpoyees()
+      }, 100);
+    }).catch((res)=>{
+      if (res.response.status == 400){
+        handleSubmit(res.response.data.detail)   
+      }    
+    })
     console.log(value)
   }
+// 有給減らす 
   const leaveMinus = (event, value) =>{
-    // console.log('testdata:'+ value)
-    console.log(value)
+    axios.put(baseURL + "/leave_minus/", {
+      employee_id: value.employee_id  
+    }).then((res) => {
+      setTimeout(() => {
+        GetEmpoyees()
+    }, 100);
+    }).catch((res)=>{
+      if (res.response.status == 400){
+        handleSubmit(res.response.data.detail)   
+      }    
+    })
+
+    console.log(value.employee_id)
   }
 
   return (
@@ -93,22 +122,22 @@ function Vacation() {
                 <TableRow
                 hover
                 >
-                  <TableCell align="center">{data.m_employeestable.employee_num}</TableCell>
-                  <TableCell align="center">{data.m_employeestable.name}</TableCell>
-                  <TableCell align="center">{data.t_leaverequesttable.target_date}</TableCell>
-                  <TableCell align="center">{data.t_leaverequesttable.request_date}</TableCell>
+                  <TableCell align="center">{data.employee_num}</TableCell>
+                  <TableCell align="center">{data.name}</TableCell>
+                  <TableCell align="center">{data.remain_day}</TableCell>
+                  <TableCell align="center">{data.add_day}</TableCell>
                   <TableCell align="center">
-                    <Button variant="contained" onClick={(event) => leavePlus(event,data.t_leaverequesttable.id)}>＋</Button>
+                    <Button variant="contained" onClick={(event) => leavePlus(event,data)}>＋</Button>
                   </TableCell>
                   <TableCell align="center">
-                    <Button variant="contained" onClick={(event) => leaveMinus(event,data.t_leaverequesttable.id)}>ー</Button>
+                    <Button variant="contained" onClick={(event) => leaveMinus(event,data)}>ー</Button>
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-    
+        <Dialog ref={childRef} />
   </>
   )}
   export default Vacation;

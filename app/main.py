@@ -18,6 +18,7 @@ from routers.timecard import tc002_request
 from routers.admin import ad005_attend
 from routers.admin import ad006_leaverequest
 from routers.admin import ad007_employee
+from routers.admin import ad008_calendar
 from routers.admin import ad012_leavemanage
 from models.user import User, UserTable
 from models.m01_companies import m_companies, m_companiestable
@@ -34,6 +35,7 @@ from models.timecard.tc002_request import tc002
 from models.admin.ad005_attend import ad005
 from models.admin.ad006_leaverequest import ad006
 from models.admin.ad007_employee import ad007
+from models.admin.ad008_calendar import ad008
 
 app = FastAPI()
 
@@ -52,6 +54,7 @@ app.include_router(tc002_request.router)
 app.include_router(ad005_attend.router)
 app.include_router(ad006_leaverequest.router)
 app.include_router(ad007_employee.router)
+app.include_router(ad008_calendar.router)
 app.include_router(ad012_leavemanage.router)
 
 # CORSを回避するために設定

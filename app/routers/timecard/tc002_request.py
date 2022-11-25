@@ -3,6 +3,7 @@ from models.m07_leavemanage import m_leavemanage, m_leavemanagetable
 from models.t02_leaverequest import t_leaverequest, t_leaverequesttable
 from models.timecard.tc002_request import tc002
 from sqlalchemy.orm import session
+from sqlalchemy import func ,desc
 from typing import List  # ネストされたBodyを定義するために必要
 from db import session  # DBと接続するためのセッション
 from datetime import datetime, time, date, timedelta, timezone
@@ -17,6 +18,7 @@ async def tc002_get(employee_id: int):
     get_request = session.query(t_leaverequesttable)\
                     .filter(t_leaverequesttable.employee_id == employee_id)\
                     .filter(t_leaverequesttable.target_date > ymd + timedelta(days=-90))\
+                    .order_by(desc(t_leaverequesttable.target_date))\
                     .all()
     session.close
     get_remain = session.query(m_leavemanagetable)\
@@ -48,7 +50,7 @@ async def tc002_post(item:tc002):
     get_time = datetime.now(JST)
     req = t_leaverequesttable()
     req.employee_id = item.employee_id
-    req.request_date = get_time
+    req.request_date = get_time.date()
     req.target_date = item.target_date
     req.subm_st = 0
     req.create_at = get_time
@@ -56,4 +58,4 @@ async def tc002_post(item:tc002):
     session.add(req)
     session.commit()
     session.close()
-    return
+    return get_time.date()

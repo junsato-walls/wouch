@@ -15,7 +15,7 @@ class t_leaverequesttable(Base):
     __tablename__ = 't_leaverequest'
     id = Column(Integer, primary_key=True, autoincrement=True)
     employee_id =Column(Integer, nullable=False)
-    request_date =Column(DateTime, nullable=False)
+    request_date =Column(Date, nullable=False)
     target_date =Column(Date, nullable=False)
     subm_st =Column(Integer, nullable=False)
     authorizer =Column(Integer, nullable=False)
@@ -27,7 +27,7 @@ class t_leaverequesttable(Base):
 class t_leaverequest(BaseModel):
     id: Union[int, None] = None
     employee_id: Union[int, None] = None
-    request_date: Union[datetime, None] = None
+    request_date: Union[date, None] = None
     target_date: Union[date, None] = None
     subm_st: Union[int, None] = None
     authorizer: Union[int, None] = None

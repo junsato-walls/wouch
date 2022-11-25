@@ -15,7 +15,7 @@ class ad006(BaseModel):
     start: Union[date, None] = None
     end: Union[date, None] = None
     acc_id: Union[int, None] = None 
-    request_date: Union[datetime, None] = None
+    request_date: Union[date, None] = None
     target_date: Union[date, None] = None
     subm_st: Union[int, None] = None
     authorizer: Union[int, None] = None

@@ -131,12 +131,14 @@ def over_time(item, std_work_time):
     return ovt
 
 def night_time(item, worktime, night_start, night_end):
-    if night_start < item.round_work_out_time and item.round_work_out_time < night_end:
+    if night_start > item.round_work_in_time and item.round_work_out_time < night_end:
         nt = item.round_work_out_time - night_start
-    elif night_start < item.round_work_in_time and  item.round_work_in_time < night_end:
+    elif night_start < item.round_work_in_time and  item.round_work_in_time > night_end:
         nt = night_end - item.round_work_in_time
-    elif night_start < item.round_work_in_time and item.round_work_out_time <night_end:
+    elif night_start < item.round_work_in_time and item.round_work_out_time < night_end:
         nt = worktime
+    elif night_start > item.round_work_in_time and item.round_work_out_time > night_end:
+        nt = night_end - night_start
     else :
         nt = "0:00"
     return nt

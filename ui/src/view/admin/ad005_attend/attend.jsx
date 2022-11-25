@@ -84,6 +84,11 @@ function Attend() {
   });
 
   useEffect(() => {
+    console.log('test')
+    SearchAttend()
+  }, [open])
+
+  useEffect(() => {
     GetEmpoyees()
   }, [])
 
@@ -112,7 +117,6 @@ function Attend() {
   //勤怠データ取得
   const SearchAttend = () => {
     let param = '/ad005_01/?employee_id=' + empId +'&YYYY=' + value.format("YYYY") +'&MM=' + value.format("MM")
-    // let param = '/ad005_01/?employee_id=01&YYYY=2022&MM=8'
     if (empName){
       axios.get(baseURL + param).then(res => {
         setAttendData(res.data)
@@ -134,7 +138,7 @@ function Attend() {
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
     <ThemeProvider theme={darkTheme}>
       <AppBar position="static" color="primary" enableColorOnDark>
-        <Toolbar label='Atend'/>
+        <Toolbar label='勤怠管理'/>
       </AppBar>
     </ThemeProvider>
   </Stack>
@@ -241,7 +245,6 @@ function Attend() {
         </TableContainer>
     </Container>
     <AddAttend open={open} setOpen={setOpen} ym={value} empNum={empNum} name={empName} empId={empId} attend={selectedrow} />
-    {/* <Test open={open} setOpen={setOpen} ym={value} empNum={empNum} name={empName} empId={empId} attend={selectedrow}/> */}
   </>
   )
     }

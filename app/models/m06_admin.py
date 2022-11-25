@@ -15,7 +15,7 @@ class m_admintable(Base):
     __tablename__ = 'm_admin'
     id = Column(Integer, primary_key=True, autoincrement=True)
     employee_id =Column(Integer, nullable=False)
-    admin_id =Column(String, nullable=False)
+    login_id =Column(String, nullable=False)
     password =Column(String, nullable=False)
     fail_count =Column(Integer)
     edit_flg =Column(Integer)
@@ -35,7 +35,7 @@ class m_admintable(Base):
 class m_admin(BaseModel):
     id: Union[int, None] = None
     employee_id: Union[int, None] = None
-    admin_id: Union[str, None] = None
+    login_id: Union[str, None] = None
     password: Union[str, None] = None
     fail_count: Union[int, None] = None
     edit_flg: Union[int, None] = None

@@ -139,6 +139,28 @@ function Input(props) {
         }
     }
 
+    //リクエストをDBへ投げる
+    //testID : 012e5524f1463b3d
+    const PostID = () => {
+        axios
+            .post(baseURL + "tc001/01", {
+                workMode: workMode,
+                idm: nfcid
+            })
+            .then((res) => {
+                if (res.status === 200) {
+                    setUserDate(res.data);
+
+                    setVisibleFlg(true);
+                    setTimeout(() => {
+                        setVisibleFlg(false)
+                    }, 2000);
+                } if (res.status === 400) {
+                    childRef.current.MessageOpen(res.data.errorcode)
+                }
+            });
+    };
+
     const handleClose = () => {
         setOpen(false);
     };
