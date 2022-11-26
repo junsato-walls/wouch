@@ -26,15 +26,16 @@ async def tc001_01(item:tc001):
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
     rt = datetime.strptime(get_time.strftime('%Y年%m月%d日 %H時%M分%S秒'), '%Y年%m月%d日 %H時%M分%S秒')
-    dd = date.today()
-    day = datetime.combine(dd,time(0,0,0))
+    todate = date.today()
+    day = datetime.combine(todate,time(0,0,0))
     ymd = day.astimezone()
     emp = session.query(m_employeestable)\
             .filter(m_employeestable.idm == item.idm).first()
     attend = session.query(t_attendstable,m_employeestable)\
                 .join(m_employeestable, m_employeestable.id == t_attendstable.employee_id)\
                 .filter(m_employeestable.idm == item.idm)\
-                .filter(t_attendstable.dd == dd).first()
+                .filter(t_attendstable.ymd == todate)\
+                .filter(t_attendstable.working_st != 8).first()
     shift = session.query(m_jobshifttable).first()
 
     if emp == None:
@@ -56,7 +57,7 @@ async def tc001_01(item:tc001):
             if attend == None:
                 t_attend = t_attendstable()
                 t_attend.employee_id = emp.id
-                t_attend.dd = dd
+                t_attend.ymd = todate
                 t_attend.working_st = 0
                 t_attend.round_work_in_time = round_in
                 t_attend.work_in = get_time

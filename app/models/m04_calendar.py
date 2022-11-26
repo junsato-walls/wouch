@@ -20,7 +20,7 @@ class m_calendartable(Base):
     day =Column(Integer, nullable=False)
     day_of_week =Column(String, nullable=False)
     visible_flg =Column(Integer, nullable=False)
-    working_st =Column(Integer, nullable=False)
+    attend_st =Column(Integer, nullable=False)
     memo =Column(String)
     create_at =Column(DateTime, nullable=False)
     create_acc =Column(Integer, nullable=False)
@@ -35,7 +35,7 @@ class m_calendar(BaseModel):
     day: Union[int, None] = None
     day_of_week: Union[str, None] = None
     visible_flg: Union[int, None] = None
-    working_st: Union[int, None] = None
+    attend_st: Union[int, None] = None
     memo: Union[str, None] = None
     create_at: Union[datetime, None] = None
     create_acc: Union[int, None] = None

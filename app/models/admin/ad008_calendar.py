@@ -13,6 +13,7 @@ class ad008(BaseModel):
     day: Union[int, None] = None
     day_of_week: Union[str, None] = None
     visible_flg: Union[int, None] = None
+    attend_st: Union[int, None] = None
     working_st: Union[int, None] = None
     memo: Union[str, None] = None
     create_at: Union[datetime, None] = None

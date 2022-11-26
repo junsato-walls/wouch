@@ -19,8 +19,10 @@ router = APIRouter()
 async def ad005_01(employee_id: int, YYYY: int, MM: int):
     get_ad005 = session.query(t_attendstable)\
                 .filter(t_attendstable.employee_id == employee_id)\
+                .filter(t_attendstable.working_st != 8)\
                 .filter(extract('year',t_attendstable.round_work_in_time) == YYYY )\
-                .filter(extract('month',t_attendstable.round_work_in_time) == MM ).all()
+                .filter(extract('month',t_attendstable.round_work_in_time) == MM )\
+                .all()
     session.close
     m_range = calendar.monthrange(YYYY, MM)[1]
     param = []
@@ -59,7 +61,6 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
 async def ad005_02(item:ad005):
     get_rec = session.query(t_attendstable)\
                 .filter(t_attendstable.id == item.id).first()
-                # .filter(t_attendstable.employee_id == item.employee_id).first()
     rest = timedelta(hours=1)
     std_work_time = timedelta(hours=8)
     t_delta = timedelta(hours=9)

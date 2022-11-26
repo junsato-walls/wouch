@@ -64,52 +64,52 @@ employee_id, base, salary_type, std_monthly_compensation, commuting_pay, health_
  );
 
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, attend_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-2', '2023', '3', '2', '木', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, attend_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-3', '2023', '3', '3', '金', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, attend_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-4', '2023', '3', '4', '土', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, attend_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-5', '2023', '3', '5', '日', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, attend_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-6', '2023', '3', '6', '月', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, attend_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-7', '2023', '3', '7', '火', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, attend_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-8', '2023', '3', '8', '水', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, attend_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-9', '2023', '3', '9', '木', '1', '0', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, attend_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-10', '2023', '3', '10', '金', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
 Insert Into m_calendar ( 
-ymd, year, month, day, day_of_week, visible_flg, working_st, memo, create_at, create_acc, update_at, update_acc
+ymd, year, month, day, day_of_week, visible_flg, attend_st, memo, create_at, create_acc, update_at, update_acc
  ) values ( 
 '2023-3-11', '2023', '3', '11', '土', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
  );
@@ -213,27 +213,27 @@ employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, updat
 );
 
 Insert Into t_attends ( 
-employee_id, dd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
+employee_id, ymd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
  ) values ( 
 '1', '2022-08-04', '1', '2022-08-04 08:00:00', '2022-08-04 07:58:42', '2022-08-04 17:00:00', '2022-08-04 17:00:42', '8:00', '1:00', '0:00', '0:00', '0:00', '2022-08-04 07:58:42', '1', 'rumoi1', '2022-08-04 17:00:42', '1', 'rumoi1'
  );
 Insert Into t_attends ( 
-employee_id, dd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
+employee_id, ymd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
  ) values ( 
 '2', '2022-08-04', '1', '2022-08-04 08:00:00', '2022-08-04 07:47:11', '2022-08-04 17:00:00', '2022-08-04 17:00:03', '8:00', '1:00', '0:00', '0:00', '0:00', '2022-08-04 07:47:11', '2', 'rumoi1', '2022-08-04 17:00:03', '1', 'rumoi1'
  );
 Insert Into t_attends ( 
-employee_id, dd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
+employee_id, ymd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
  ) values ( 
 '3', '2022-08-04', '1', '2022-08-04 08:00:00', '2022-08-04 07:36:28', '2022-08-04 17:30:00', '2022-08-04 17:41:47', '8:30', '1:00', '0:30', '0:00', '0:00', '2022-08-04 07:36:28', '3', 'rumoi1', '2022-08-04 17:41:47', '1', 'rumoi1'
  );
 Insert Into t_attends ( 
-employee_id, dd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
+employee_id, ymd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
  ) values ( 
 '4', '2022-08-04', '1', '2022-08-04 08:00:00', '2022-08-04 07:28:07', '2022-08-04 18:00:00', '2022-08-04 18:03:12', '9:00', '1:00', '1:00', '0:00', '0:00', '2022-08-04 07:28:07', '4', 'rumoi1', '2022-08-04 18:03:12', '1', 'rumoi1'
  );
 Insert Into t_attends ( 
-employee_id, dd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
+employee_id, ymd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
  ) values ( 
 '5', '2022-08-04', '1', '2022-08-04 11:00:00', '2022-08-04 10:53:39', '2022-08-05 03:00:00', NULL, '11:00', '2:00', '0:00', '5:00', '0:00', '2022-08-04 10:53:39', '5', 'rumoi1', '2022-08-05 11:03:01', '1', 'hanaPC'
  );
