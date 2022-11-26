@@ -168,6 +168,7 @@ CREATE TABLE m_leavemanage (
 CREATE TABLE t_attends (
     id int NOT NULL AUTO_INCREMENT,
     employee_id int,
+    dete date,
     working_st tinyint,
     round_work_in_time datetime,
     work_in datetime,

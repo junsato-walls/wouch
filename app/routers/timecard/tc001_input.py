@@ -28,11 +28,12 @@ async def tc001_01(item:tc001):
     rt = datetime.strptime(get_time.strftime('%Y年%m月%d日 %H時%M分%S秒'), '%Y年%m月%d日 %H時%M分%S秒')
     day = datetime.combine(date.today(),time(0,0,0))
     ymd = day.astimezone()
-    emp = session.query(m_employeestable).filter(m_employeestable.idm == item.idm).all()
+    emp = session.query(m_employeestable).filter(m_employeestable.idm == item.idm).first()
     attend = session.query(t_attendstable,m_employeestable)\
                 .join(m_employeestable, m_employeestable.id == t_attendstable.employee_id)\
-                .filter(m_employeestable.idm == item.idm, t_attendstable.work_in > ymd).all()
-    shift = session.query(m_jobshifttable).filter(m_jobshifttable.id == emp[0].shift_id).all()
+                .filter(m_employeestable.idm == item.idm)\
+                .filter(t_attendstable.date == today).first()
+    shift = session.query(m_jobshifttable).filter(m_jobshifttable.id == emp.shift_id).all()
 
     if len(emp) == 0:
         raise HTTPException(status_code=400, detail="tc001-e001")
@@ -42,60 +43,70 @@ async def tc001_01(item:tc001):
         raise HTTPException(status_code=400, detail="tc001-e002")
         return
 
+    if (attend.work_in == None and item.workMode != "0") and item.workMode != "3":
+        raise HTTPException(status_code=400, detail="tc001-e002")
+        return
+
     match workMode:
         case "0":
             round_in = round_in_time(rt, shift)
             if len(attend) == 0:
                 t_attend = t_attendstable()
-                t_attend.employee_id = emp[0].id
+                t_attend.employee_id = emp.id
+                t_attend.dare = day
                 t_attend.working_st = 0
                 t_attend.round_work_in_time = round_in
                 t_attend.work_in = get_time
                 t_attend.create_at = get_time
-                t_attend.create_acc = emp[0].id
+                # t_attend.create_acc = emp.id
                 session.add(t_attend)
                 session.commit()
-            elif attend[0].t_attendstable.work_in == None:
-                attend[0].t_attendstable.working_st = 0
-                attend[0].t_attendstable.work_in = get_time
-                attend[0].t_attendstable.update_at = get_time
-                attend[0].t_attendstable.update_acc = emp[0].id
+            elif attend.t_attendstable.working_st == 2 or attend.t_attendstable.working_st == 6 or attend.t_attendstable.working_st == 7:
+                t_attend.round_work_in_time = round_in
+                t_attend.work_in = get_time
+                t_attend.create_at = get_time
+                session.commit()
+            elif attend.t_attendstable.work_in == None:
+                attend.t_attendstable.working_st = 0
+                attend.t_attendstable.work_in = get_time
+                attend.t_attendstable.update_at = get_time
+                # attend.t_attendstable.update_acc = emp.id
                 session.commit()
             else:
-                get_time = attend[0].t_attendstable.work_in
+                get_time = attend.t_attendstable.work_in
 
         case "1":
-            if attend[0].t_attendstable.rest == None:
-                attend[0].t_attendstable.rest = "1:00:00"
-                attend[0].t_attendstable.update_at = get_time
-                attend[0].t_attendstable.update_acc = emp[0].id
+            if attend.t_attendstable.rest == None:
+                attend.t_attendstable.rest = "1:00:00"
+                attend.t_attendstable.update_at = get_time
+                attend.t_attendstable.update_acc = emp.id
                 session.commit()
             else:
-                get_time = attend[0].t_attendstable.update_at
+                get_time = attend.t_attendstable.update_at
 
         case "2":
-            if attend[0].t_attendstable.work_out == None:
+            if attend.t_attendstable.work_out == None:
                 round_out = round_out_time(rt)
                 worktime = work_time(round_out, attend)
                 overtime = over_time(round_out, attend, std_work_time)
                 nighttime = night_time(attend, round_out, worktime, night_start, night_end)
-                attend[0].t_attendstable.work_out = get_time
-                attend[0].t_attendstable.round_work_out_time = round_out
-                attend[0].t_attendstable.work_time = worktime
-                attend[0].t_attendstable.overtime = overtime
-                attend[0].t_attendstable.nighttime = nighttime
-                attend[0].t_attendstable.update_at = get_time
-                attend[0].t_attendstable.update_acc = emp[0].id
+                attend.t_attendstable.work_out = get_time
+                attend.t_attendstable.round_work_out_time = round_out
+                attend.t_attendstable.work_time = worktime
+                attend.t_attendstable.overtime = overtime
+                attend.t_attendstable.nighttime = nighttime
+                attend.t_attendstable.update_at = get_time
+                attend.t_attendstable.update_acc = emp.id
                 session.commit()
             else:
-                get_time = attend[0].t_attendstable.update_at
+                get_time = attend.t_attendstable.update_at
         case "3":
             return workMode3(get_time, ymd, emp)
     
     param = {
-        'name': emp[0].name,
-        'employee_num': emp[0].employee_num,
-        'employee_id': emp[0].employee_id,
+        'name': emp.name,
+        'employee_num': emp.employee_num,
+        'employee_id': emp.id,
         'time': get_time.strftime('%H:%M:%S'),
         "request": '',
         "remain_day": '',
@@ -108,28 +119,28 @@ async def tc001_01(item:tc001):
 def workMode3(get_time, ymd, emp):
     remain_day = 0
     get_request = session.query(t_leaverequesttable)\
-                    .filter(t_leaverequesttable.employee_id == emp[0].id)\
+                    .filter(t_leaverequesttable.employee_id == emp.id)\
                     .filter(t_leaverequesttable.target_date > ymd + timedelta(days=-90))\
                     .all()
     session.close
     get_remain = session.query(m_leavemanagetable)\
-                    .filter(m_leavemanagetable.employee_id == emp[0].id)\
+                    .filter(m_leavemanagetable.employee_id == emp.id)\
                     .filter(m_leavemanagetable.start < ymd)\
                     .filter(m_leavemanagetable.end > ymd)\
                     .all()
     session.close
     get_add = session.query(m_leavemanagetable)\
                     .order_by(m_leavemanagetable.start)\
-                    .filter(m_leavemanagetable.employee_id == emp[0].id)\
+                    .filter(m_leavemanagetable.employee_id == emp.id)\
                     .filter(m_leavemanagetable.start > ymd)\
                     .first()
     session.close
     for i in range(len(get_remain)):
         remain_day = remain_day + get_remain[i].remain_day
     param = {
-        'name': emp[0].name,
-        'employee_num': emp[0].employee_num,
-        'employee_id': emp[0].employee_id,
+        'name': emp.name,
+        'employee_num': emp.employee_num,
+        'employee_id': emp.id,
         'time': '',
         "request": get_request,
         "remain_day": remain_day,
@@ -152,18 +163,18 @@ def round_out_time(rt):
     return round_time
 
 def work_time(round_out, attend):
-    h = attend[0].t_attendstable.rest.hour
-    m = attend[0].t_attendstable.rest.minute
-    wt = round_out - attend[0].t_attendstable.round_work_in_time
-    if  attend[0].t_attendstable.rest != None  and (wt - timedelta(hours=h, minutes=m)) > 0:
-        wt = round_out - attend[0].t_attendstable.round_work_in_time - timedelta(hours=h, minutes=m)
+    h = attend.t_attendstable.rest.hour
+    m = attend.t_attendstable.rest.minute
+    wt = round_out - attend.t_attendstable.round_work_in_time
+    if  attend.t_attendstable.rest != None  and (wt - timedelta(hours=h, minutes=m)) > 0:
+        wt = round_out - attend.t_attendstable.round_work_in_time - timedelta(hours=h, minutes=m)
     return wt
 
 def over_time(round_out, attend, std_work_time):
-    h = attend[0].t_attendstable.rest.hour
-    m = attend[0].t_attendstable.rest.minute
-    if (round_out - attend[0].t_attendstable.round_work_in_time) > (std_work_time + timedelta(hours=h, minutes=m)):
-        ovt = str((round_out - attend[0].t_attendstable.round_work_in_time) - (std_work_time + timedelta(hours=h, minutes=m)))
+    h = attend.t_attendstable.rest.hour
+    m = attend.t_attendstable.rest.minute
+    if (round_out - attend.t_attendstable.round_work_in_time) > (std_work_time + timedelta(hours=h, minutes=m)):
+        ovt = str((round_out - attend.t_attendstable.round_work_in_time) - (std_work_time + timedelta(hours=h, minutes=m)))
     else:
         ovt = "0:00"
     return ovt
@@ -171,9 +182,9 @@ def over_time(round_out, attend, std_work_time):
 def night_time(attend, round_out, worktime, night_start, night_end):
     if night_start < round_out and round_out < night_end:
         nt = round_out - night_start
-    elif night_start < attend[0].t_attendstable.round_work_in_time and  attend[0].t_attendstable.round_work_in_time < night_end:
-        nt = night_end - attend[0].t_attendstable.round_work_in_time
-    elif night_start < attend[0].t_attendstable.round_work_in_time and round_out <night_end:
+    elif night_start < attend.t_attendstable.round_work_in_time and  attend.t_attendstable.round_work_in_time < night_end:
+        nt = night_end - attend.t_attendstable.round_work_in_time
+    elif night_start < attend.t_attendstable.round_work_in_time and round_out <night_end:
         nt = worktime
     else :
         nt = "0:00"
