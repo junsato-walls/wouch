@@ -71,14 +71,11 @@ function Input(props) {
                 });
             if (workMode == 3) {
                 setOpen(true);
-                console.log(UserDate.employee_id)
                 // let param = '/tc002_01/?employee_id=' + UserDate.employee_num
                 // axios.get(baseURL + param).then(res => {
                 //     setLeaveRequestDate(res.data)
-                console.log(UserDate.employee_num)
-                // })
                 console.log(UserDate.employee_id)
-                setOpen(true)
+                // })
             }
         };
 
@@ -259,6 +256,7 @@ function Input(props) {
                                 <TableContainer component={Paper}>
                                     <Table aria-label="spanning table">
                                         <TableHead>
+                                            
                                             <TableRow>
                                                 <TableCell align="">有給予定日</TableCell>
                                                 <TableCell align="">承認</TableCell>
