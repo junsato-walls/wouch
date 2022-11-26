@@ -24,6 +24,34 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+const request = [
+    {
+        "employee_id": 3,
+        "request_date": "2022-08-01",
+        "subm_st": 0,
+        "create_at": "2022-08-01T10:03:11",
+        "update_at": "2022-08-01T10:12:51",
+        "target_date": "2022-08-22",
+        "id": 2,
+        "authorizer": 2,
+        "create_acc": 3,
+        "update_acc": 2
+    },
+    {
+        "employee_id": 3,
+        "request_date": "2022-08-01",
+        "subm_st": 1,
+        "create_at": "2022-08-01T10:03:11",
+        "update_at": "2022-08-01T10:12:51",
+        "target_date": "2022-08-21",
+        "id": 1,
+        "authorizer": 2,
+        "create_acc": 3,
+        "update_acc": 2
+    }
+
+]
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -43,14 +71,13 @@ function Input(props) {
     const [BreakTimeColor, setBreakTimeColor] = useState(false);
     const [WorkOutColor, setWorkOutColor] = useState(false);
     const [LeaveRequestColor, setLeaveRequestColor] = useState(false);
-    const [LeaveRequestDate, setLeaveRequestDate] = useState();
-
-
+    const [LeaveRequestDate, setLeaveRequestDate] = useState([]);
     const [YMD, setYMD] = useState();
     const [HMS, setHMS] = useState();
     const [open, setOpen] = useState(false);
 
     //リクエストをDBへ投げる
+    //testID : 012e5524f1463b3d
     useEffect(() => {
         if (nfcid !== "") {
             axios.post(baseURL + "/tc001_01/", {
@@ -70,15 +97,13 @@ function Input(props) {
                     }
                 });
             if (workMode == 3) {
+                let param = '/tc002_01/?employee_id=' + UserDate.employee_id
+                axios.get(baseURL + param).then(res => {
+                    setLeaveRequestDate(res.data)
+                })
                 setOpen(true);
-                // let param = '/tc002_01/?employee_id=' + UserDate.employee_num
-                // axios.get(baseURL + param).then(res => {
-                //     setLeaveRequestDate(res.data)
-                console.log(UserDate.employee_id)
-                // })
             }
         };
-
     }, [nfcid]);
 
     const countup = () => {
@@ -87,6 +112,9 @@ function Input(props) {
         setYMD(nowTime.getFullYear() + "年" + (nowTime.getMonth() + 1) + "月" + nowTime.getDate() + "日" + dayOfWeekStrJP[nowTime.getDay()]);
         setHMS(('00' + nowTime.getHours()).slice(-2) + ":" + ('00' + nowTime.getMinutes()).slice(-2) + ":" + ('00' + nowTime.getSeconds()).slice(-2));
     }; setInterval(countup, 1000);
+
+    console.log(request.remain_day);
+
 
     const WorkIn = () => {
         if (workMode !== 0) {
@@ -134,29 +162,8 @@ function Input(props) {
             setLeaveRequestColor(true)
             return;
         }
+        setOpen(true);
     }
-
-    //リクエストをDBへ投げる
-    //testID : 012e5524f1463b3d
-    const PostID = () => {
-        axios
-            .post(baseURL + "tc001/01", {
-                workMode: workMode,
-                idm: nfcid
-            })
-            .then((res) => {
-                if (res.status === 200) {
-                    setUserDate(res.data);
-
-                    setVisibleFlg(true);
-                    setTimeout(() => {
-                        setVisibleFlg(false)
-                    }, 2000);
-                } if (res.status === 400) {
-                    childRef.current.MessageOpen(res.data.errorcode)
-                }
-            });
-    };
 
     const handleClose = () => {
         setOpen(false);
@@ -165,7 +172,6 @@ function Input(props) {
     const handleDatesChange = (DatesSetArg) => {
         console.log(DatesSetArg);
     };
-
 
     return (
         <>
@@ -256,17 +262,18 @@ function Input(props) {
                                 <TableContainer component={Paper}>
                                     <Table aria-label="spanning table">
                                         <TableHead>
-                                            
                                             <TableRow>
                                                 <TableCell align="">有給予定日</TableCell>
                                                 <TableCell align="">承認</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            <TableRow>
-                                                <TableCell>test2</TableCell>
-                                                <TableCell>test3</TableCell>
-                                            </TableRow>
+                                            {request.map((data) => (
+                                                <TableRow>
+                                                    <TableCell>{data.requesttarget_date}</TableCell>
+                                                    <TableCell>{data.subm_st}</TableCell>
+                                                </TableRow>
+                                            ))}
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
