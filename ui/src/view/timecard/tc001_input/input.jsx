@@ -13,7 +13,7 @@ import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Slide from '@mui/material/Slide';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -26,10 +26,19 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-});
+const test1 = [
+    {
+        "title": "会社休み",
+        "start": "2022-08-01"
+    },
+    {
+        "title": "会社休み",
+        "start": "2022-08-05"
+    }
+]
 
 const test = [{ title: "会社休み", start: "2022-10-18", end: "2022-10-25" }]
 
@@ -48,24 +57,29 @@ function Input(props) {
     const [LeaveRemainDate, setLeaveRemainDate] = useState([]);
     const [LeaveRequestDate, setLeaveRequestDate] = useState([]);
     const [InfoDate, setInfoDate] = useState();
-
     const [YMD, setYMD] = useState();
     const [HMS, setHMS] = useState();
     const [open, setOpen] = useState(false);
+    const [OpenAlert, setOpenAlert] = useState(false);
 
-    const [OpenAlert, setOpenAlert] = React.useState(false);
+    const Transition = React.forwardRef(function Transition(props, ref) {
+        return <Slide direction="up" ref={ref} {...props} />;
+    });
 
-    const handleClickOpenAlert = () => {
-        setOpenAlert(true);
-    };
-
-    const handleCloseAlert = () => {
+    //有給申請を送信
+    const sendLeaveDayDate = () => {
+        axios.post(baseURL + "/tc002_01/", {
+            employee_id: UserDate.employee_id,
+            target_date: InfoDate
+        })
+        console.log(UserDate.employee_id)
+        console.log(InfoDate)
+        GetLeaveRemainDate();
+        GetLeaveRequestDate();
         setOpenAlert(false);
     };
 
-
-
-    //リクエストをDBへ投げる
+    //DBへユーザーが存在しているかリクエストを送る
     //testID : 012e5524f1463b3d
     useEffect(() => {
         if (nfcid !== "") {
@@ -80,7 +94,6 @@ function Input(props) {
                         setTimeout(() => {
                             setVisibleFlg(false)
                         }, 5000);
-
                     } if (res.status === 500) {
                         childRef.current.MessageOpen(res.data.errorcode)
                     }
@@ -88,22 +101,33 @@ function Input(props) {
         };
     }, [nfcid]);
 
+    //ユーザーの存在が確認されてからカレンダーを開くようにする
     useEffect(() => {
         if (VisibleFlg == true) {
-        }
-        if (workMode == 3) {
-            let param1 = '/tc002_01/?employee_id=' + UserDate.employee_id
-            let param2 = '/tc002_02/?employee_id=' + UserDate.employee_id
-            axios.get(baseURL + param1).then(res => {
-                setLeaveRemainDate(res.data)
-            })
-            axios.get(baseURL + param2).then(res => {
-                setLeaveRequestDate(res.data)
-            })
-            setOpen(true);
+            if (workMode == 3) {
+                GetLeaveRemainDate()
+                GetLeaveRequestDate()
+                setOpen(true);
+            }
         }
     }, [VisibleFlg])
 
+    //残有給日数の取得
+    const GetLeaveRemainDate = () => {
+        let param = '/tc002_01/?employee_id=' + UserDate.employee_id
+        axios.get(baseURL + param).then(res => {
+            setLeaveRemainDate(res.data)
+        })
+    }
+    //有給申請ステータス(日付も)の取得
+    const GetLeaveRequestDate = () => {
+        let param = '/tc002_02/?employee_id=' + UserDate.employee_id
+        axios.get(baseURL + param).then(res => {
+            setLeaveRequestDate(res.data)
+        })
+    }
+
+    //メイン画面の日付操作
     const countup = () => {
         const nowTime = new Date();
         const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
@@ -111,6 +135,8 @@ function Input(props) {
         setHMS(('00' + nowTime.getHours()).slice(-2) + ":" + ('00' + nowTime.getMinutes()).slice(-2) + ":" + ('00' + nowTime.getSeconds()).slice(-2));
     }; setInterval(countup, 1000);
 
+    //      各種ボタン制御
+    //出勤・休憩・退勤・有給取得
     const WorkIn = () => {
         if (workMode !== 0) {
             setWorkMode(0);
@@ -158,6 +184,14 @@ function Input(props) {
             return;
         }
     }
+    
+    const handleClickOpenAlert = () => {
+        setOpenAlert(true);
+    };
+
+    const handleCloseAlert = () => {
+        setOpenAlert(false);
+    };
 
     const handleClose = () => {
         setOpen(false);
@@ -223,7 +257,7 @@ function Input(props) {
                                 onClick={handleClose}
                                 aria-label="close"
                             >
-                                <CloseIcon />
+                                <ArrowBackIosIcon />戻る
                             </IconButton>
                         </Toolbar>
                     </AppBar>
@@ -237,7 +271,13 @@ function Input(props) {
                                     locale="ja"
                                     selectable="true"
                                     // 取得データを配列に挿入
-                                    events={test}
+                                    events={LeaveRequestDate}
+                                    //イベントクリック動作
+                                    eventClick={
+                                        function (eventClickInfo) {
+                                            console.log(eventClickInfo.event.startStr);
+                                        }
+                                    }
                                     // 日付クリック動作
                                     dateClick={
                                         function (infoDate) {
@@ -253,8 +293,8 @@ function Input(props) {
                                     <Table aria-label="spanning table">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell align="">有給予定日{InfoDate}</TableCell>
-                                                <TableCell align="">承認</TableCell>
+                                                <TableCell align="">有給予定日</TableCell>
+                                                <TableCell align="">申請状態</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
@@ -267,11 +307,9 @@ function Input(props) {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
-
                             </td>
                         </tr>
                     </table>
-                        <Button>test1</Button>
                     <div>
                         <Dialog
                             open={OpenAlert}
@@ -280,19 +318,18 @@ function Input(props) {
                             aria-describedby="alert-dialog-description"
                         >
                             <DialogTitle id="alert-dialog-title">
-                                {"Use Google's location service?"}
+                                {"取得確認"}
                             </DialogTitle>
                             <DialogContent>
                                 <DialogContentText id="alert-dialog-description">
-                                    Let Google help apps determine location. This means sending anonymous
-                                    location data to Google, even when no apps are running.
+                                    {InfoDate}に有給休暇を取得しますか？
                                 </DialogContentText>
                             </DialogContent>
                             <DialogActions>
-                                <Button onClick={handleCloseAlert}>Disagree</Button>
-                                <Button onClick={handleCloseAlert} autoFocus>
-                                    Agree
-                                </Button>
+                                <Stack direction="row" spacing={1}>
+                                    <Chip label="いいえ" onClick={handleCloseAlert} />
+                                    <Chip label="はい" onClick={sendLeaveDayDate} />
+                                </Stack>
                             </DialogActions>
                         </Dialog>
                     </div>
