@@ -15,7 +15,6 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
-
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -23,7 +22,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -43,14 +45,28 @@ function Input(props) {
     const [BreakTimeColor, setBreakTimeColor] = useState(false);
     const [WorkOutColor, setWorkOutColor] = useState(false);
     const [LeaveRequestColor, setLeaveRequestColor] = useState(false);
-    const [LeaveRequestDate, setLeaveRequestDate] = useState();
-
+    const [LeaveRemainDate, setLeaveRemainDate] = useState([]);
+    const [LeaveRequestDate, setLeaveRequestDate] = useState([]);
+    const [InfoDate, setInfoDate] = useState();
 
     const [YMD, setYMD] = useState();
     const [HMS, setHMS] = useState();
     const [open, setOpen] = useState(false);
 
+    const [OpenAlert, setOpenAlert] = React.useState(false);
+
+    const handleClickOpenAlert = () => {
+        setOpenAlert(true);
+    };
+
+    const handleCloseAlert = () => {
+        setOpenAlert(false);
+    };
+
+
+
     //リクエストをDBへ投げる
+    //testID : 012e5524f1463b3d
     useEffect(() => {
         if (nfcid !== "") {
             axios.post(baseURL + "/tc001_01/", {
@@ -70,17 +86,23 @@ function Input(props) {
                     }
                 });
         };
-        if (workMode == 3) {
-            console.log(UserDate.employee_id)
-            // let param = '/tc002_01/?employee_id=' + UserDate.employee_num
-            // axios.get(baseURL + param).then(res => {
-            //     setLeaveRequestDate(res.data)
-                console.log(UserDate.employee_num)
-            // })
-            console.log(UserDate.employee_id)
-            setOpen(true)
-        }
     }, [nfcid]);
+
+    useEffect(() => {
+        if (VisibleFlg == true) {
+        }
+        if (workMode == 3) {
+            let param1 = '/tc002_01/?employee_id=' + UserDate.employee_id
+            let param2 = '/tc002_02/?employee_id=' + UserDate.employee_id
+            axios.get(baseURL + param1).then(res => {
+                setLeaveRemainDate(res.data)
+            })
+            axios.get(baseURL + param2).then(res => {
+                setLeaveRequestDate(res.data)
+            })
+            setOpen(true);
+        }
+    }, [VisibleFlg])
 
     const countup = () => {
         const nowTime = new Date();
@@ -129,46 +151,17 @@ function Input(props) {
         if (workMode !== 3) {
             setModeWord("有給申請")
             setWorkMode(3);
-            setOpen(true);
             setWorkInColor(false)
             setBreakTimeColor(false)
             setWorkOutColor(false)
             setLeaveRequestColor(true)
             return;
         }
-        setOpen(true);
     }
-
-    //リクエストをDBへ投げる
-    //testID : 012e5524f1463b3d
-    const PostID = () => {
-        axios
-            .post(baseURL + "tc001/01", {
-                workMode: workMode,
-                idm: nfcid
-            })
-            .then((res) => {
-                if (res.status === 200) {
-                    setUserDate(res.data);
-
-                    setVisibleFlg(true);
-                    setTimeout(() => {
-                        setVisibleFlg(false)
-                    }, 2000);
-                } if (res.status === 400) {
-                    childRef.current.MessageOpen(res.data.errorcode)
-                }
-            });
-    };
 
     const handleClose = () => {
         setOpen(false);
     };
-
-    const handleDatesChange = (DatesSetArg) => {
-        console.log(DatesSetArg);
-    };
-
 
     return (
         <>
@@ -245,39 +238,63 @@ function Input(props) {
                                     selectable="true"
                                     // 取得データを配列に挿入
                                     events={test}
-                                    datesSet={handleDatesChange}
                                     // 日付クリック動作
                                     dateClick={
                                         function (infoDate) {
-                                            console.log(infoDate.dateStr)
+                                            setInfoDate(infoDate.dateStr);
+                                            handleClickOpenAlert();
                                         }
                                     }
                                 />
                             </td>
                             <td style={{ width: "20%" }}>
-                                有給残日数：3日
+                                <div>有給残日数：{LeaveRemainDate.remain_day}日</div>
                                 <TableContainer component={Paper}>
                                     <Table aria-label="spanning table">
                                         <TableHead>
                                             <TableRow>
-                                                <TableCell align="">有給予定日</TableCell>
+                                                <TableCell align="">有給予定日{InfoDate}</TableCell>
                                                 <TableCell align="">承認</TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            <TableRow>
-                                                <TableCell>test2</TableCell>
-                                                <TableCell>test3</TableCell>
-                                            </TableRow>
+                                            {LeaveRequestDate.map((data) => (
+                                                <TableRow>
+                                                    <TableCell>{data.target_date}</TableCell>
+                                                    <TableCell>{data.subm_st}</TableCell>
+                                                </TableRow>
+                                            ))}
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+
                             </td>
                         </tr>
                     </table>
-                    <div style={{ display: "flex" }}>
                         <Button>test1</Button>
-                        <div>test2</div>
+                    <div>
+                        <Dialog
+                            open={OpenAlert}
+                            onClose={handleCloseAlert}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                        >
+                            <DialogTitle id="alert-dialog-title">
+                                {"Use Google's location service?"}
+                            </DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                    Let Google help apps determine location. This means sending anonymous
+                                    location data to Google, even when no apps are running.
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleCloseAlert}>Disagree</Button>
+                                <Button onClick={handleCloseAlert} autoFocus>
+                                    Agree
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
                     </div>
                 </Dialog>
             </div>
