@@ -19,8 +19,8 @@ export default function PaymentForm(props) {
       <Typography variant="h6" gutterBottom>
         保険
       </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
+      <Grid container spacing={12}>
+        <Grid item xs={6}>
           <TextField
             required
             id="Name"
@@ -31,7 +31,7 @@ export default function PaymentForm(props) {
             value={empData.empl_insur_insured_num}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           
           <TextField
             required
@@ -43,7 +43,7 @@ export default function PaymentForm(props) {
             value={empData.pension_num}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <TextField
             required
             id="Name"
@@ -54,7 +54,7 @@ export default function PaymentForm(props) {
             value={empData.health_insur_num}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <TextField
             required
             id="Name"
@@ -75,23 +75,6 @@ export default function PaymentForm(props) {
             variant="standard"
             value={empData.empl_insur_insured_num}
           />
-        </Grid>
-
-        <Grid item xs={12} sm={6}>
-        <DatePicker
-          disableFuture
-          label="雇用保険被保険者資格取得日"
-          openTo="year"
-          views={['year', 'month', 'day']}
-          value={empData.empl_insur_insur_qual_acq_date}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => 
-          <TextField {...params} 
-            variant="standard"
-          />}
-        />
         </Grid>
 
         <Grid item xs={12} sm={6}>

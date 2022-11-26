@@ -213,27 +213,27 @@ employee_id, remain_day, add_day, memo, start, end, create_at, create_acc, updat
 );
 
 Insert Into t_attends ( 
-employee_id, date, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
+employee_id, dd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
  ) values ( 
 '1', '2022-08-04', '1', '2022-08-04 08:00:00', '2022-08-04 07:58:42', '2022-08-04 17:00:00', '2022-08-04 17:00:42', '8:00', '1:00', '0:00', '0:00', '0:00', '2022-08-04 07:58:42', '1', 'rumoi1', '2022-08-04 17:00:42', '1', 'rumoi1'
  );
 Insert Into t_attends ( 
-employee_id, date, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
+employee_id, dd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
  ) values ( 
 '2', '2022-08-04', '1', '2022-08-04 08:00:00', '2022-08-04 07:47:11', '2022-08-04 17:00:00', '2022-08-04 17:00:03', '8:00', '1:00', '0:00', '0:00', '0:00', '2022-08-04 07:47:11', '2', 'rumoi1', '2022-08-04 17:00:03', '1', 'rumoi1'
  );
 Insert Into t_attends ( 
-employee_id, date, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
+employee_id, dd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
  ) values ( 
 '3', '2022-08-04', '1', '2022-08-04 08:00:00', '2022-08-04 07:36:28', '2022-08-04 17:30:00', '2022-08-04 17:41:47', '8:30', '1:00', '0:30', '0:00', '0:00', '2022-08-04 07:36:28', '3', 'rumoi1', '2022-08-04 17:41:47', '1', 'rumoi1'
  );
 Insert Into t_attends ( 
-employee_id, date, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
+employee_id, dd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
  ) values ( 
 '4', '2022-08-04', '1', '2022-08-04 08:00:00', '2022-08-04 07:28:07', '2022-08-04 18:00:00', '2022-08-04 18:03:12', '9:00', '1:00', '1:00', '0:00', '0:00', '2022-08-04 07:28:07', '4', 'rumoi1', '2022-08-04 18:03:12', '1', 'rumoi1'
  );
 Insert Into t_attends ( 
-employee_id, date, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
+employee_id, dd, working_st, round_work_in_time, work_in, round_work_out_time, work_out, work_time, rest, overtime, nighttime, holiday_time, create_at, create_acc, create_mac, update_at, update_acc, update_mac
  ) values ( 
 '5', '2022-08-04', '1', '2022-08-04 11:00:00', '2022-08-04 10:53:39', '2022-08-05 03:00:00', NULL, '11:00', '2:00', '0:00', '5:00', '0:00', '2022-08-04 10:53:39', '5', 'rumoi1', '2022-08-05 11:03:01', '1', 'hanaPC'
  );

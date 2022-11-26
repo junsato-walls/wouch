@@ -15,13 +15,6 @@ router = APIRouter()
 async def tc002_get(employee_id: int):
     ymd = date.today()
     remain_day = 0
-    get_request = session.query(t_leaverequesttable)\
-                    .filter(t_leaverequesttable.employee_id == employee_id)\
-                    .filter(t_leaverequesttable.target_date > ymd + timedelta(days=-90))\
-                    .filter(t_leaverequesttable.subm_st != 3)\
-                    .order_by(desc(t_leaverequesttable.target_date))\
-                    .all()
-    session.close
     get_remain = session.query(m_leavemanagetable)\
                     .filter(m_leavemanagetable.employee_id == employee_id)\
                     .filter(m_leavemanagetable.start < ymd)\
@@ -37,12 +30,23 @@ async def tc002_get(employee_id: int):
     for i in range(len(get_remain)):
         remain_day = remain_day + get_remain[i].remain_day
     param = {
-        "request": get_request,
         "remain_day": remain_day,
         "add_date": get_add.start,
         "add_at": get_add.add_day
     }
     return param
+
+@router.get("/tc002_02/")
+async def tc002_get_request(employee_id: int):
+    ymd = date.today()
+    get_request = session.query(t_leaverequesttable)\
+                    .filter(t_leaverequesttable.employee_id == employee_id)\
+                    .filter(t_leaverequesttable.target_date > ymd + timedelta(days=-180))\
+                    .filter(t_leaverequesttable.subm_st != 3)\
+                    .order_by(desc(t_leaverequesttable.target_date))\
+                    .all()
+    session.close
+    return get_request
 
 @router.post("/tc002_01/")
 async def tc002_post(item:tc002):
@@ -59,4 +63,18 @@ async def tc002_post(item:tc002):
     session.add(req)
     session.commit()
     session.close()
-    return get_time.date()
+    return
+
+@router.put("/tc002_03/")
+async def tc002_put(item:tc002):
+    t_delta = timedelta(hours=9)
+    JST = timezone(t_delta, 'JST')
+    get_time = datetime.now(JST)
+    record = session.query(t_leaverequesttable)\
+                .filter(t_leaverequesttable.id == item.id).first()
+    record.subm_st = 3
+    record.create_at = get_time
+    # record.create_acc = item.acc_id
+    session.commit()
+    session.close()
+    return

@@ -100,36 +100,36 @@ const AddressForm = (props) => {
           />
       </Grid>
 
-      <Grid item xs={12} sm={3}>
-        <TextField
-          required
-          id="sex"
-          name="sex"
-          label="性別"
-          fullWidth
-          autoComplete="family-name"
-          variant="standard"
-          InputLabelProps={{ shrink: true }}
-          value={sex}
-          onChange={(event) => Change_sex(event)}
-        />
-      </Grid>
-
-      <Grid item xs={12} sm={5}>
-        <DatePicker
+      <Grid item xs={12} sm={4}>
+      <DatePicker
         disableFuture
-        label="生年月日"
+        label="入社日"
         openTo="year"
         views={['year', 'month', 'day']}
-        value={birthday}
-        onChange={(event) => Change_birthday(event)}
+        value={inCompany}
+        onChange={(event) => Change_inCompany(event)}
+        renderInput={(params) => 
+        <TextField {...params} 
+          variant="standard"
+        />}
+      />
+      </Grid>
+
+      <Grid item xs={12} sm={4}>
+        <DatePicker
+        disableFuture
+        label="退社日"
+        openTo="year"
+        views={['year', 'month', 'day']}
+        value={exitCompany}
+        onChange={(event) => Change_exitCompany(event)}
         renderInput={(params) => <TextField {...params} 
         variant="standard"
         InputLabelProps={{ shrink: true }}
         />}
       />
       </Grid>
-        
+
       <Grid item xs={12}sm={6}>
         <TextField
           id="address1"
@@ -188,39 +188,36 @@ const AddressForm = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={4}>
-        <DatePicker
-          disableFuture
-          label="入社日"
-          openTo="year"
-          views={['year', 'month', 'day']}
-          value={inCompany}
-          onChange={(event) => Change_inCompany(event)}
-          renderInput={(params) => 
-          <TextField {...params} 
-            variant="standard"
-          />}
-        />
-        </Grid>
-        
-        <Grid item xs={12} sm={2}>
-        </Grid>
-        
-        <Grid item xs={12} sm={4}>
-          <DatePicker
-          disableFuture
-          label="退社日"
-          openTo="year"
-          views={['year', 'month', 'day']}
-          value={exitCompany}
-          onChange={(event) => Change_exitCompany(event)}
-          renderInput={(params) => <TextField {...params} 
+      <Grid item xs={12} sm={3}>
+        <TextField
+          required
+          id="sex"
+          name="sex"
+          label="性別"
+          fullWidth
+          autoComplete="family-name"
           variant="standard"
           InputLabelProps={{ shrink: true }}
-          />}
+          value={sex}
+          onChange={(event) => Change_sex(event)}
         />
-        </Grid>
+      </Grid>
 
+      <Grid item xs={12} sm={5}>
+        <DatePicker
+        disableFuture
+        label="生年月日"
+        openTo="year"
+        views={['year', 'month', 'day']}
+        value={birthday}
+        onChange={(event) => Change_birthday(event)}
+        renderInput={(params) => <TextField {...params} 
+        variant="standard"
+        InputLabelProps={{ shrink: true }}
+        />}
+      />
+      </Grid>
+        
         <Grid item xs={12} sm={4}>
           <TextField
             required
