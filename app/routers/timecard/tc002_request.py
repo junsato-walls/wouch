@@ -18,6 +18,7 @@ async def tc002_get(employee_id: int):
     get_request = session.query(t_leaverequesttable)\
                     .filter(t_leaverequesttable.employee_id == employee_id)\
                     .filter(t_leaverequesttable.target_date > ymd + timedelta(days=-90))\
+                    .filter(t_leaverequesttable.subm_st != 3)\
                     .order_by(desc(t_leaverequesttable.target_date))\
                     .all()
     session.close
