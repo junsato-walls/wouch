@@ -188,36 +188,42 @@ const AddressForm = (props) => {
           />
         </Grid>
 
-      <Grid item xs={12} sm={3}>
-        <TextField
-          required
-          id="sex"
-          name="sex"
-          label="性別"
-          fullWidth
-          autoComplete="family-name"
+        <Grid item xs={12} sm={3}>
+          <TextField
+            required
+            id="sex"
+            name="sex"
+            label="性別"
+            fullWidth
+            autoComplete="family-name"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={sex}
+            onChange={(event) => Change_sex(event)}
+          />
+        </Grid>
+        
+        <Grid item xs={12} sm={1}>
+        </Grid>
+
+        <Grid item xs={12} sm={5}>
+          <DatePicker
+          disableFuture
+          label="生年月日"
+          openTo="year"
+          views={['year', 'month', 'day']}
+          value={birthday}
+          onChange={(event) => Change_birthday(event)}
+          renderInput={(params) => <TextField {...params} 
           variant="standard"
           InputLabelProps={{ shrink: true }}
-          value={sex}
-          onChange={(event) => Change_sex(event)}
+          />}
         />
-      </Grid>
+        </Grid>
 
-      <Grid item xs={12} sm={5}>
-        <DatePicker
-        disableFuture
-        label="生年月日"
-        openTo="year"
-        views={['year', 'month', 'day']}
-        value={birthday}
-        onChange={(event) => Change_birthday(event)}
-        renderInput={(params) => <TextField {...params} 
-        variant="standard"
-        InputLabelProps={{ shrink: true }}
-        />}
-      />
-      </Grid>
-        
+        <Grid item xs={12} sm={2}>
+        </Grid>
+
         <Grid item xs={12} sm={4}>
           <TextField
             required
@@ -232,6 +238,7 @@ const AddressForm = (props) => {
             onChange={(event) => Change_postCode(event)}
           />
         </Grid>
+
         <Grid item xs={12} sm={3}>
           <TextField
             required
