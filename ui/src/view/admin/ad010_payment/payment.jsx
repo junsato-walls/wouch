@@ -33,7 +33,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import ja from 'date-fns/locale/ja'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import AddAttend from './attend_dialog'
+import AddPayment from './payment_dialog'
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
+// import AddPayment from './addPayment/addEmployee'
+
 
 function Payment() {
   const baseURL = 'http://localhost:8000'
@@ -47,8 +51,6 @@ function Payment() {
   const [overtime,setOvertime] = React.useState('0h');
   const [worktime,setWorktime] = React.useState('0h');  
   const [selectedrow,setSelectedRow] = React.useState([]);
-
-  const working_st ={1: '出勤',2: '有給',3: '遅刻',4: '早退',5: '欠勤',6:'特別休暇'} 
 
   const handleChange = (event) => {
     setEmpId(event.target.value);
@@ -82,7 +84,7 @@ function Payment() {
   });
 
   useEffect(() => {
-    GetEmpoyees()
+    GetPayments()
   }, [])
 
   useEffect(() => {
@@ -100,8 +102,8 @@ function Payment() {
     }
   }, [attendData])
 
-  const GetEmpoyees = () => { 
-    axios.get(baseURL + '/m_employees').then(res => {
+  const GetPayments = () => { 
+    axios.get(baseURL + '/t_payments').then(res => {
       setEmployeesData(res.data)
       console.log(res.data)
     })
@@ -126,12 +128,17 @@ function Payment() {
     setSelectedRow(attendData[name - 1])
 
   }
+
+  const InsertPayment = (event, name) =>{
+    setOpen(true)
+  }
+
   return (
   <>
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
     <ThemeProvider theme={darkTheme}>
       <AppBar position="static" color="primary" enableColorOnDark>
-        <Toolbar label='Payment'/>
+        <Toolbar label='賃金台帳'/>
       </AppBar>
     </ThemeProvider>
     </Stack>
@@ -216,8 +223,12 @@ function Payment() {
             </TableBody>
           </Table>
         </TableContainer>
+        <Fab color="primary" aria-label="add" variant="extended" onClick={InsertPayment}>
+        {/* <Fab color="primary" aria-label="add" variant="extended" onClick={test}> */}
+          <AddIcon />賃金台帳追加
+        </Fab>
     </Container>
-    <AddAttend open={open} setOpen={setOpen} ym={value} empNum={empNum} name={empName} empId={empId} attend={selectedrow} />
+    <AddPayment open={open} setOpen={setOpen}/>
   </>
   )
     }
