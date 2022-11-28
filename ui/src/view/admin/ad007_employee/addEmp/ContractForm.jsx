@@ -11,8 +11,40 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 export default function Review(props) {
-  const {empData, setEmpData} = props
-  const [value, setValue] = React.useState(dayjs('2022-10-01'));
+  const {base, setbase,
+         std_monthly_compensation, setstd_monthly_compensation,
+         commuting_pay, setcommuting_pay,
+         health_insur, sethealth_insur,
+         care_insur, setcare_insur,
+         pension_insur, setpension_insur,
+         income_tax, setincome_tax,
+         inhabitant_tax, setinhabitant_tax,
+        } = props
+  const Change_base = (event) =>{
+    setbase(event.target.data)
+  }
+  const Change_std_monthly_compensation = (event) =>{
+    setstd_monthly_compensation(event.target.data)
+  }
+  const Change_commuting_pay = (event) =>{
+    setcommuting_pay(event.target.data)
+  }
+  const Change_health_insur = (event) =>{
+    sethealth_insur(event.target.data)
+  }
+  const Change_care_insur = (event) =>{
+    setcare_insur(event.target.data)
+  }
+  const Change_pension_insur = (event) =>{
+    setpension_insur(event.target.data)
+  }
+  const Change_income_tax = (event) =>{
+    setincome_tax(event.target.data)
+  }
+  const Change_inhabitant_tax = (event) =>{
+    setinhabitant_tax(event.target.data)
+  }
+  
   return (
     
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -20,8 +52,8 @@ export default function Review(props) {
       <Typography variant="h6" gutterBottom>
         契約
       </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
+      <Grid container spacing={6}>
+        <Grid item xs={12} sm={4}>
           <TextField
             required
             id="Name"
@@ -29,10 +61,11 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={empData.base}
+            value={base}
+            onChange={(event) => Change_base(event)}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={4}>
           <TextField
             required
             id="Name"
@@ -40,10 +73,11 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={empData.std_monthly_compensation}            
+            value={std_monthly_compensation}   
+            onChange={(event) => Change_std_monthly_compensation(event)}         
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={4}>
           <TextField
             required
             id="Name"
@@ -51,43 +85,11 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={empData.commuting_pay}
+            value={commuting_pay}
+            onChange={(event) => Change_commuting_pay(event)}
           />
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="Name"
-            label="健康保険料"
-            fullWidth
-            autoComplete="name"
-            variant="standard"
-            value={empData.health_insur}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="Name"
-            label="介護保険料"
-            fullWidth
-            autoComplete="name"
-            variant="standard"
-            value={empData.care_insur}
-          />
-        </Grid>        
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="Name"
-            label="厚生年金保健料"
-            fullWidth
-            autoComplete="name"
-            variant="standard"
-            value={empData.pension_insur}
-          />
-        </Grid>        
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={4}>
           <TextField
             required
             id="Name"
@@ -95,10 +97,11 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={empData.income_tax}
+            value={income_tax}
+            onChange={(event) => Change_income_tax(event)}
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={4}>
           <TextField
             required
             id="Name"
@@ -106,7 +109,46 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={empData.inhabitant_tax}
+            value={inhabitant_tax}
+            onChange={(event) => Change_inhabitant_tax(event)}
+          />
+        </Grid>
+        <Grid item xs={12} sm={1}>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            required
+            id="Name"
+            label="健康保険料"
+            fullWidth
+            autoComplete="name"
+            variant="standard"
+            value={health_insur}
+            onChange={(event) => Change_health_insur(event)}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            required
+            id="Name"
+            label="介護保険料"
+            fullWidth
+            autoComplete="name"
+            variant="standard"
+            value={care_insur}
+            onChange={(event) => Change_care_insur(event)}
+          />
+        </Grid>        
+        <Grid item xs={12} sm={4}>
+          <TextField
+            required
+            id="Name"
+            label="厚生年金保健料"
+            fullWidth
+            autoComplete="name"
+            variant="standard"
+            value={pension_insur}
+            onChange={(event) => Change_pension_insur(event)}
           />
         </Grid>
       </Grid>

@@ -65,6 +65,7 @@ async def tc002_post(item:tc002):
     session.close()
     return
 
+# 論理削除API
 @router.put("/tc002_03/")
 async def tc002_put(item:tc002):
     t_delta = timedelta(hours=9)
