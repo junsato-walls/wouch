@@ -85,11 +85,11 @@ const AddressForm = (props) => {
       </Typography>
       <Grid container spacing={3}>
 
-      <Grid item xs={12} sm={5}>
+      <Grid item xs={12} sm={3}>
           <TextField
             required
-            id="name_kana"
-            name="name_kana"
+            id="employeeNum"
+            name="employeeNum"
             label="社員番号"
             fullWidth
             autoComplete="family-name"
@@ -99,7 +99,66 @@ const AddressForm = (props) => {
             onChange={(event) => Change_employeeNum(event)}
           />
       </Grid>
-      <Grid item xs={12} sm={12}>
+
+      <Grid item xs={12} sm={4}>
+      <DatePicker
+        disableFuture
+        label="入社日"
+        openTo="year"
+        views={['year', 'month', 'day']}
+        value={inCompany}
+        onChange={(event) => Change_inCompany(event)}
+        renderInput={(params) => 
+        <TextField {...params} 
+          variant="standard"
+        />}
+      />
+      </Grid>
+
+      <Grid item xs={12} sm={4}>
+        <DatePicker
+        disableFuture
+        label="退社日"
+        openTo="year"
+        views={['year', 'month', 'day']}
+        value={exitCompany}
+        onChange={(event) => Change_exitCompany(event)}
+        renderInput={(params) => <TextField {...params} 
+        variant="standard"
+        InputLabelProps={{ shrink: true }}
+        />}
+      />
+      </Grid>
+
+      <Grid item xs={12}sm={6}>
+        <TextField
+          id="address1"
+          name="address1"
+          label="国籍"
+          fullWidth
+          autoComplete="shipping address-line1"
+          variant="standard"
+          InputLabelProps={{ shrink: true }}
+          value={nationality}
+          onChange={(event) => Change_nationality(event)}
+        />
+      </Grid>
+      
+      <Grid item xs={12}sm={6}>
+        <TextField
+          id="address1"
+          name="address1"
+          label="マイナンバー"
+          fullWidth
+          autoComplete="shipping address-line1"
+          variant="standard"
+          InputLabelProps={{ shrink: true }}
+          value={mynumber}
+          onChange={(event) => Change_mynumber(event)}
+        />
+      </Grid>
+
+      <Grid item xs={12} sm={6}>
           <TextField
             required
             id="name"
@@ -117,20 +176,6 @@ const AddressForm = (props) => {
         <Grid item xs={12} sm={6}>
           <TextField
             required
-            id="sex"
-            name="sex"
-            label="性別"
-            fullWidth
-            autoComplete="family-name"
-            variant="standard"
-            InputLabelProps={{ shrink: true }}
-            value={employeeNum}
-            onChange={(event) => Change_employeeNum(event)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={8}>
-          <TextField
-            required
             id="name_kana"
             name="name_kana"
             label="フリガナ"
@@ -142,7 +187,26 @@ const AddressForm = (props) => {
             onChange={(event) => Change_nameKana(event)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+
+        <Grid item xs={12} sm={3}>
+          <TextField
+            required
+            id="sex"
+            name="sex"
+            label="性別"
+            fullWidth
+            autoComplete="family-name"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={sex}
+            onChange={(event) => Change_sex(event)}
+          />
+        </Grid>
+        
+        <Grid item xs={12} sm={1}>
+        </Grid>
+
+        <Grid item xs={12} sm={5}>
           <DatePicker
           disableFuture
           label="生年月日"
@@ -153,25 +217,13 @@ const AddressForm = (props) => {
           renderInput={(params) => <TextField {...params} 
           variant="standard"
           InputLabelProps={{ shrink: true }}
-          value={birthday}
           />}
         />
         </Grid>
 
-        <Grid item xs={12} sm={4}>
-        <DatePicker
-          disableFuture
-          label="入社日"
-          openTo="year"
-          views={['year', 'month', 'day']}
-          value={inCompany}
-          onChange={(event) => Change_inCompany(event)}
-          renderInput={(params) => 
-          <TextField {...params} 
-            variant="standard"
-          />}
-        />
+        <Grid item xs={12} sm={2}>
         </Grid>
+
         <Grid item xs={12} sm={4}>
           <TextField
             required
@@ -186,7 +238,8 @@ const AddressForm = (props) => {
             onChange={(event) => Change_postCode(event)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+
+        <Grid item xs={12} sm={3}>
           <TextField
             required
             id="address1"
@@ -200,7 +253,7 @@ const AddressForm = (props) => {
             onChange={(event) => Change_addressPref(event)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={5}>
           <TextField
             required
             id="address1"
@@ -240,32 +293,6 @@ const AddressForm = (props) => {
             InputLabelProps={{ shrink: true }}
             value={tell}
             onChange={(event) => Change_tell(event)}            
-          />
-        </Grid>
-        <Grid item xs={12}sm={6}>
-          <TextField
-            id="address1"
-            name="address1"
-            label="マイナンバー"
-            fullWidth
-            autoComplete="shipping address-line1"
-            variant="standard"
-            InputLabelProps={{ shrink: true }}
-            value={mynumber}
-            onChange={(event) => Change_mynumber(event)}
-          />
-        </Grid>
-        <Grid item xs={12}sm={6}>
-          <TextField
-            id="address1"
-            name="address1"
-            label="国籍"
-            fullWidth
-            autoComplete="shipping address-line1"
-            variant="standard"
-            InputLabelProps={{ shrink: true }}
-            value={nationality}
-            onChange={(event) => Change_nationality(event)}
           />
         </Grid>
       </Grid>

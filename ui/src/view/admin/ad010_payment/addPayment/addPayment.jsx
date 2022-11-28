@@ -19,8 +19,8 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import AddressForm from './EmployeeForm';
-import PaymentForm from './InsuranceForm';
+import Payment from './PaymentForm';
+import InsurTax from './InsurTaxFrom';
 import Review from './ContractForm';
 
 const steps = ['給与・手当', '保険料・税金等', 'テスト'];
@@ -30,6 +30,7 @@ export default function AlertDialog(props) {
   const { open, setOpen } = props
   const [activeStep, setActiveStep] = React.useState(0);
   const [data, setData] = React.useState(0);
+
   // 支払日 支払給与　基本給 
   const [paymentDate, setPaymentDate] = React.useState("")
   const [income, setIncome] = React.useState("");
@@ -93,106 +94,59 @@ export default function AlertDialog(props) {
       setCareInsur(empData.m_paymentstable.care_insur)
       setPensionInsur(empData.m_paymentstable.pension_insur)
       setIncomeTax(empData.m_paymentstable.income_tax)
-      setInhabitantTax(empData.m_paymentstable.inhabitant_tax)
-    
+      setInhabitantTax(empData.m_paymentstable.inhabitant_tax)    
     }
-    setData(empData)
   }, [open])
 
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <AddressForm 
-        // 給与・手当
+        return <Payment 
+        // 支払日 支払給与　基本給
         paymentDate={paymentDate} 
         setPaymentDate={setPaymentDate} 
         income={income} 
         setIncome={setIncome}
         base={base} 
         setBase={setBase} 
-
+        
+        // 時間外労働手当 深夜手当 休日手当 通勤手当 調整手当 
         overtimePay={overtimePay} 
         setOvertimePay={setOvertimePay} 
-        employeeNum={holidayPay} 
-        employeeNum={setholidayPay} 
-        employeeNum={commutingPay} 
-        employeeNum={setCommutingPay} 
-        employeeNum={adjPay} 
-        employeeNum={setAdjPay} 
-
-  //         // 支払日 支払給与　基本給 
-
-  // // 時間外労働手当 深夜手当 休日手当 通勤手当 調整手当  
-  // const [overtimePay, setOvertimePay] = React.useState("");
-  // const [nighttimePay, setNighttimePay] = React.useState("");
-  // const [holidayPay, setholidayPay] = React.useState("");
-  // const [commutingPay, setCommutingPay] = React.useState("");
-  // const [adjPay, setAdjPay] = React.useState("");
-
-        // 社員番号 名前 フリガナ
-            employeeNum={employeeNum} 
-            setEmployeeNum={setEmployeeNum} 
-            name={name}
-            setName={setName}
-            nameKana={nameKana}
-            setNameKana={setNameKana}
-        // 生年月日　入社日　退社日
-            birthday={birthday}
-            setBirthday={setBirthday}
-            inCompany={inCompany}
-            setInCompany={setInCompany}
-            exitCompany={exitCompany}
-            setExitCompany={setExitCompany}
-        // 性別、 郵便番号、 都道府県、 市町村、 番地・建物・部屋番号
-            sex={sex}
-            setSex={setSex}
-            postCode={postCode}
-            setPostCode={setPostCode}
-            addressPref={addressPref}
-            setAddressPref={setAddressPref}
-            addressCity={addressCity}
-            setAddressCity={setAddressCity}
-            addressOther={addressOther}
-            setAddressOther={setAddressOther}
-        // 電話番号 マイナンバー 国籍
-            tell={tell}
-            setTell={setTell}
-            mynumber={mynumber}
-            setMynumber={setMynumber}
-            nationality={nationality}
-            setNationality={setNationality}
+        nighttimePay={nighttimePay}
+        setNighttimePay={setNighttimePay}
+        holidayPay={holidayPay} 
+        setholidayPay={setholidayPay} 
+        commutingPay={commutingPay} 
+        setCommutingPay={setCommutingPay} 
+        adjPay={adjPay} 
+        setAdjPay={setAdjPay} 
         />;
       case 1:
-        return <PaymentForm 
-        // 各種保険
-        // 週所定労働時間、 雇用保険被保険者番号、 基礎年金番号、 被扶養者  健康保険被保険者整理記号
-            weeklyWorkTime={weeklyWorkTime}
-            setWeeklyWorkTime={setWeeklyWorkTime}
-            emplInsurInsuredNum={emplInsurInsuredNum}
-            setEmplInsurInsuredNum={setEmplInsurInsuredNum}
-            pensionNum={pensionNum}
-            setPensionNum={setPensionNum}
-            formerJob={formerJob}
-            setFormerJob={setFormerJob}
-            dependent={dependent}
-            setDependent={setDependent}
-            healthInsurNum={healthInsurNum}
-            setHealthInsurNum={setHealthInsurNum}
-        // 雇用保険被保険者資格取得日 雇用保険被保険者資格喪失日 社会保険被保険者資格取得日 社会保険被保険者資格喪失日 備考
-            emplInsurInsurQualAcqDate={emplInsurInsurQualAcqDate}
-            setEmplInsurInsurQualAcqDate={setEmplInsurInsurQualAcqDate}
-            emplInsurInsurQualLostDate={emplInsurInsurQualLostDate}
-            setEmplInsurInsurQualLostDate={setEmplInsurInsurQualLostDate}
-            socInsurInsurQualAcqDate={socInsurInsurQualAcqDate}
-            setSocInsurInsurQualAcqDate={setSocInsurInsurQualAcqDate}
-            socInsurInsurQualLostDate={socInsurInsurQualLostDate}
-            setSocInsurInsurQualLostDate={setSocInsurInsurQualLostDate}
-            memo={memo}
-            setMemo={setMemo}            
-        empData={insurance} setEmpData={setInsurance} 
+        return <InsurTax 
+        // 保険料・税金
+        // 健康保険料　介護保険料 厚生年金保険料 雇用保険料
+        health_insur={health_insur}
+        setHealthInsur={setHealthInsur}
+        careInsur={careInsur}
+        setCareInsur={setCareInsur}
+        pensionInsur={pensionInsur}
+        setPensionInsur={setPensionInsur}
+        employeeInsur={employeeInsur}
+        setEmployeeInsur={setEmployeeInsur}
+
+        // 所得税 住民税 源泉徴収 その他
+        incomeTax={incomeTax}
+        setIncome_tax={setIncome_tax}
+        inhabitantTax={inhabitantTax}
+        setInhabitantTax={setInhabitantTax}
+        withholdingTax={withholdingTax}
+        setWithholdingTax={setWithholdingTax}
+        others={others}
+        setOthers={setOthers}
         />;
       case 2:
-        return <Review empData={contract} setEmpData={setContract} />;
+        return <Review />;
       default:
         throw new Error('Unknown step');
     }

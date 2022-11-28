@@ -19,8 +19,10 @@ router = APIRouter()
 async def ad005_01(employee_id: int, YYYY: int, MM: int):
     get_ad005 = session.query(t_attendstable)\
                 .filter(t_attendstable.employee_id == employee_id)\
+                .filter(t_attendstable.working_st != 8)\
                 .filter(extract('year',t_attendstable.round_work_in_time) == YYYY )\
-                .filter(extract('month',t_attendstable.round_work_in_time) == MM ).all()
+                .filter(extract('month',t_attendstable.round_work_in_time) == MM )\
+                .all()
     session.close
     m_range = calendar.monthrange(YYYY, MM)[1]
     param = []
@@ -58,11 +60,8 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
 @router.put("/ad005_02/")
 async def ad005_02(item:ad005):
     get_rec = session.query(t_attendstable)\
-                .filter(t_attendstable.id == item.id)\
-                .filter(t_attendstable.employee_id == item.employee_id).first()
+                .filter(t_attendstable.id == item.id).first()
     rest = timedelta(hours=1)
-    night_start = datetime.combine(date.today(),time(22,0,0))
-    night_end = datetime.combine(date.today() + timedelta(days = 1),time(5,0,0))
     std_work_time = timedelta(hours=8)
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
@@ -74,7 +73,7 @@ async def ad005_02(item:ad005):
     get_rec.working_st = item.working_st
     worktime = work_time(item)
     overtime = over_time(item, std_work_time)
-    nighttime = night_time(item, worktime, night_start, night_end)
+    nighttime = night_time(item, worktime)
     get_rec.work_time = worktime
     get_rec.overtime = overtime
     get_rec.nighttime = nighttime
@@ -83,14 +82,11 @@ async def ad005_02(item:ad005):
     session.commit()
     session.close()
     return
-    
 
 @router.post("/ad005_03/")
 async def ad005_02(item:ad005):
     attend = t_attendstable()
     rest = timedelta(hours=1)
-    night_start = datetime.combine(date.today(),time(22,0,0))
-    night_end = datetime.combine(date.today() + timedelta(days = 1),time(5,0,0))
     std_work_time = timedelta(hours=8)
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
@@ -102,7 +98,7 @@ async def ad005_02(item:ad005):
     attend.working_st = item.working_st
     worktime = work_time(item)
     overtime = over_time(item, std_work_time)
-    nighttime = night_time(item, worktime, night_start, night_end)
+    nighttime = night_time(item, worktime)
     attend.work_time = worktime
     attend.overtime = overtime
     attend.nighttime = nighttime
@@ -130,13 +126,22 @@ def over_time(item, std_work_time):
         ovt = "0:00"
     return ovt
 
-def night_time(item, worktime, night_start, night_end):
-    if night_start < item.round_work_out_time and item.round_work_out_time < night_end:
-        nt = item.round_work_out_time - night_start
-    elif night_start < item.round_work_in_time and  item.round_work_in_time < night_end:
-        nt = night_end - item.round_work_in_time
-    elif night_start < item.round_work_in_time and item.round_work_out_time <night_end:
+def night_time(item, worktime):
+    night_start = datetime.combine(item.round_work_in_time.date(),time(22,0,0))
+    night_end1 = datetime.combine(item.round_work_in_time.date(),time(5,0,0))
+    night_end2 = datetime.combine(item.round_work_in_time.date() + timedelta(days = 1),time(5,0,0))
+    if item.round_work_in_time < night_end1 and item.round_work_out_time < night_end1:
         nt = worktime
+    elif item.round_work_in_time < night_end1:
+        nt = night_end1 - item.round_work_in_time
+    elif night_start > item.round_work_in_time and item.round_work_out_time > night_start and item.round_work_out_time < night_end2 and night_end1 < item.round_work_in_time:
+        nt = item.round_work_out_time - night_start
+    elif night_start < item.round_work_in_time and  item.round_work_in_time > night_end2 and night_end1 < item.round_work_in_time:
+        nt = night_end2 - item.round_work_in_time
+    elif night_start < item.round_work_in_time and item.round_work_out_time < night_end2 and night_end1 < item.round_work_in_time:
+        nt = worktime
+    elif night_start > item.round_work_in_time and item.round_work_out_time > night_end2 and night_end1 < item.round_work_in_time:
+        nt = night_end2 - night_start
     else :
         nt = "0:00"
     return nt

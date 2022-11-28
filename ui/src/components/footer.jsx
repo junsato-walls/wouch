@@ -2,9 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components'
 
 const Footer = styled.div`
-	background-color: ${({ theme }) => (theme && theme.background) || "lightgray"};
+    display: flex;
     position: fixed;
     bottom: 0;
+    min-height: 10vh;
     width: 100%;
 `;
 

@@ -103,7 +103,7 @@ CREATE TABLE m_calendar (
     day int,
     day_of_week varchar(3),
     visible_flg tinyint,
-    working_st tinyint,
+    attend_st tinyint,
     memo varchar(100),
     create_at datetime,
     create_acc int,
@@ -168,6 +168,7 @@ CREATE TABLE m_leavemanage (
 CREATE TABLE t_attends (
     id int NOT NULL AUTO_INCREMENT,
     employee_id int,
+    ymd date,
     working_st tinyint,
     round_work_in_time datetime,
     work_in datetime,

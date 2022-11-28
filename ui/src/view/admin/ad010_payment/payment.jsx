@@ -8,13 +8,8 @@ import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import axios from "axios";
-import Typography from '@mui/material/Typography';
 // search
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import InputAdornment from '@mui/material/InputAdornment';
 import Select from '@mui/material/Select';
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -37,20 +32,27 @@ import AddPayment from './payment_dialog'
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 // import AddPayment from './addPayment/addEmployee'
-
+import { CSVLink, CSVDownload } from "react-csv";
 
 function Payment() {
   const baseURL = 'http://localhost:8000'
   const [employeesData, setEmployeesData] = useState([])
   const [attendData, setAttendData] = useState([])
+  const [paymentData, setPaymentData] = useState([])
   const [open, setOpen] = useState(false);
   const [value, setValue] = React.useState(dayjs('2022-10-01'));
   const [empId,setEmpId] = React.useState('');
   const [empName, setEmpName] = React.useState('');
   const [empNum,setEmpNum] = React.useState('');
-  const [overtime,setOvertime] = React.useState('0h');
-  const [worktime,setWorktime] = React.useState('0h');  
   const [selectedrow,setSelectedRow] = React.useState([]);
+  const headers = ["支払日", "支払い給与", "基本給", "時間外労働手当", "深夜手当", "休日手当", "通勤手当", "健康保険料", "介護保険料", "厚生年金保険料", "雇用保険料", "所得税", "住民税", "源泉徴収", "調整手当", "その他"]
+  
+  const csvData = [
+    ["firstname", "lastname", "email"],
+    ["Ahmed", "Tomi", "ah@smthing.co.com"],
+    ["Raed", "Labes", "rl@smthing.co.com"],
+    ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+  ];
 
   const handleChange = (event) => {
     setEmpId(event.target.value);
@@ -64,14 +66,15 @@ function Payment() {
   };
 
   const valueChange = (event) => {
-    setEmpNum(event.target.value);
-    let valuess = employeesData.filter((emp)=>{
-      return emp.m_employeestable.employee_num == event.target.value
-    });
-    setEmpName(valuess[0].m_employeestable.name)
-    if (valuess.length){
-      setEmpId(valuess[0].m_employeestable.id)
-    }
+    console.log(event.target.value)
+    // setEmpNum(event.target.value);
+    // let valuess = employeesData.filter((emp)=>{
+    //   return emp.m_employeestable.employee_num == event.target.value
+    // });
+    // setEmpName(valuess[0].m_employeestable.name)
+    // if (valuess.length){
+    //   setEmpId(valuess[0].m_employeestable.id)
+    // }
   };
   
   const darkTheme = createTheme({
@@ -97,13 +100,11 @@ function Payment() {
       attendData.map((data) => (
         work = work + data.worktime      
       ))
-      setWorktime(work + 'h')
-      setOvertime(over + 'h')
     }
   }, [attendData])
 
   const GetPayments = () => { 
-    axios.get(baseURL + '/t_payments').then(res => {
+    axios.get(baseURL + '/m_employees').then(res => {
       setEmployeesData(res.data)
       console.log(res.data)
     })
@@ -114,7 +115,11 @@ function Payment() {
     let param = '/t_payments/?employee_id=' + empId
     if (empName){
       axios.get(baseURL + param).then(res => {
-        setAttendData(res.data)
+        setPaymentData(res.data)
+        const csvValue = res.data.map(data =>{
+
+        })
+        
         console.log(res.data)
       })  
     }
@@ -122,11 +127,8 @@ function Payment() {
 
   const UpdateAttend = (event, name) =>{
     setOpen(true)
-    console.log(value.format("YYYY年MM月"))
     console.log(attendData[name -1])
-    // console.log(value.)
     setSelectedRow(attendData[name - 1])
-
   }
 
   const InsertPayment = (event, name) =>{
@@ -150,7 +152,7 @@ function Payment() {
         label="社員番号"
         onChange={valueChange}
         value={empNum}
-      />
+        />
       </FormControl>
 
       <FormControl sx={{ m: 1, minWidth: 200 }} >
@@ -169,6 +171,8 @@ function Payment() {
 
     <FormControl sx={{ m: 1, minWidth: 100 }} >
       <Button variant="contained" endIcon={<SendIcon />} onClick={SearchAttend}>検索</Button>
+      {/* <CSVDownload data={csvData} target="_blank" /> */}
+      <CSVLink data={csvData} headers={headers}>Download me</CSVLink>
     </FormControl>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 900 }} aria-label="spanning table">
@@ -193,28 +197,26 @@ function Payment() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {attendData.map((data) => (
+              {paymentData.map((data) => (
                 <TableRow
-                // onClick={(event) => test(event,data.dd)}
-                // key={data.dd}
                 hover
                 >               
-                <TableCell align="center">{data.payment_date}</TableCell>
-                <TableCell align="center">{data.income}</TableCell>                
-                <TableCell align="center">{data.base}</TableCell>
-                <TableCell align="center">{data.overtime_pay}</TableCell>
-                <TableCell align="center">{data.nighttime_pay}</TableCell>
-                <TableCell align="center">{data.holiday_pay}</TableCell>
-                <TableCell align="center">{data.commuting_pay}</TableCell>
-                <TableCell align="center">{data.health_insur}</TableCell>
-                <TableCell align="center">{data.care_insur}</TableCell>
-                <TableCell align="center">{data.pension_insur}</TableCell>
-                <TableCell align="center">{data.employee_insur}</TableCell>
-                <TableCell align="center">{data.income_tax}</TableCell>
-                <TableCell align="center">{data.inhabitant_tax}</TableCell>
-                <TableCell align="center">{data.withholding_tax}</TableCell>
-                <TableCell align="center">{data.adj_pay}</TableCell>
-                <TableCell align="center">{data.others}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.payment_date}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.income}</TableCell>                
+                <TableCell align="center">{data.t_paymentstable.base}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.overtime_pay}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.nighttime_pay}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.holiday_pay}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.commuting_pay}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.health_insur}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.care_insur}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.pension_insur}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.employee_insur}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.income_tax}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.inhabitant_tax}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.withholding_tax}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.adj_pay}</TableCell>
+                <TableCell align="center">{data.t_paymentstable.others}</TableCell>                
                   <TableCell align="center">
                     <Button variant="contained" onClick={(event) => UpdateAttend(event,data.day)}>編集</Button>
                   </TableCell>
@@ -224,7 +226,6 @@ function Payment() {
           </Table>
         </TableContainer>
         <Fab color="primary" aria-label="add" variant="extended" onClick={InsertPayment}>
-        {/* <Fab color="primary" aria-label="add" variant="extended" onClick={test}> */}
           <AddIcon />賃金台帳追加
         </Fab>
     </Container>

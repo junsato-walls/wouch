@@ -15,6 +15,7 @@ class t_attendstable(Base):
     __tablename__ = 't_attends'
     id = Column(Integer, primary_key=True, autoincrement=True)
     employee_id =Column(Integer)
+    ymd =Column(Date)
     working_st =Column(Integer)
     round_work_in_time =Column(DateTime)
     work_in =Column(DateTime)
@@ -35,6 +36,7 @@ class t_attendstable(Base):
 class t_attends(BaseModel):
     id: Union[int, None] = None
     employee_id: Union[int, None] = None
+    ymd: Union[date, None] = None
     working_st: Union[int, None] = None
     round_work_in_time: Union[datetime, None] = None
     work_in: Union[datetime, None] = None
