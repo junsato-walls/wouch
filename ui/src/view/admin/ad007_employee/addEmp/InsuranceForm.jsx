@@ -33,16 +33,16 @@ export default function PaymentForm(props) {
     sethealth_insur_num(event.target.data)
   }
   const Change_empl_insur_insur_qual_acq_date = (event) =>{
-    setempl_insur_insur_qual_acq_date(event.target.data)
+    setempl_insur_insur_qual_acq_date(dayjs(event))
   }
   const Change_empl_insur_insur_qual_lost_date = (event) =>{
-    setempl_insur_insur_qual_lost_date(event.target.data)
+    setempl_insur_insur_qual_lost_date(dayjs(event))
   }
   const Change_soc_insur_insur_qual_acq_date = (event) =>{
-    setsoc_insur_insur_qual_acq_date(event.target.data)
+    setsoc_insur_insur_qual_acq_date(dayjs(event))
   }
   const Change_soc_insur_insur_qual_lost_date = (event) =>{
-    setsoc_insur_insur_qual_lost_date(event.target.data)
+    setsoc_insur_insur_qual_lost_date(dayjs(event))
   }
   
 
@@ -90,9 +90,7 @@ export default function PaymentForm(props) {
           openTo="year"
           views={['year', 'month', 'day']}
           value={empl_insur_insur_qual_acq_date}
-          onChange={(newValue) => {
-            Change_empl_insur_insur_qual_acq_date(newValue);
-          }}
+          onChange={(event) => {Change_empl_insur_insur_qual_acq_date(event)}}
           inputFormat='YYYY年MM月DD日'
           mask='____年__月'
           leftArrowButtonText="前月を表示"
@@ -116,9 +114,7 @@ export default function PaymentForm(props) {
           openTo="year"
           views={['year', 'month', 'day']}
           value={empl_insur_insur_qual_lost_date}
-          onChange={(newValue) => {
-            Change_empl_insur_insur_qual_lost_date(newValue);
-          }}
+          onChange={(event) => {Change_empl_insur_insur_qual_lost_date(event)}}
           inputFormat='YYYY年MM月DD日'
           mask='____年__月'
           leftArrowButtonText="前月を表示"
@@ -167,9 +163,7 @@ export default function PaymentForm(props) {
           openTo="year"
           views={['year', 'month', 'day']}
           value={soc_insur_insur_qual_acq_date}
-          onChange={(newValue) => {
-            Change_soc_insur_insur_qual_acq_date(newValue);
-          }}
+          onChange={(event) => {Change_soc_insur_insur_qual_acq_date(event)}}
           inputFormat='YYYY年MM月DD日'
           mask='____年__月'
           leftArrowButtonText="前月を表示"

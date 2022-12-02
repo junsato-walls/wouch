@@ -45,8 +45,7 @@ const AddressForm = (props) => {
   const Change_name = (event) =>{    
     setName(event.target.data)
   }
-  const Change_nameKana = (event) =>{
-    console.log(event.target.data)    
+  const Change_nameKana = (event) =>{ 
     setNameKana(event.target.data)
   }
   const Change_birthday = (event) =>{
@@ -56,7 +55,6 @@ const AddressForm = (props) => {
     setInCompany(dayjs(event))
   }
   const Change_exitCompany = (event) =>{
-    console.log(dayjs(event))
     setExitCompany(dayjs(event))
   }
   const Change_sex = (event) =>{    
