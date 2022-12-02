@@ -93,14 +93,14 @@ export default function PaymentForm(props) {
           onChange={(newValue) => {
             Change_empl_insur_insur_qual_acq_date(newValue);
           }}
-          inputFormat='yyyy年MM月'
+          inputFormat='YYYY年MM月DD日'
           mask='____年__月'
           leftArrowButtonText="前月を表示"
           rightArrowButtonText="次月を表示"
           toolbarTitle="日付選択"
           cancelText="キャンセル"
           okText="選択"
-          toolbarFormat="yyyy年MM月dd日"
+          toolbarFormat="YYYY年MM月DD日"
           renderInput={(params) => 
           <TextField {...params} 
             variant="standard"
@@ -119,14 +119,14 @@ export default function PaymentForm(props) {
           onChange={(newValue) => {
             Change_empl_insur_insur_qual_lost_date(newValue);
           }}
-          inputFormat='yyyy年MM月'
+          inputFormat='YYYY年MM月DD日'
           mask='____年__月'
           leftArrowButtonText="前月を表示"
           rightArrowButtonText="次月を表示"
           toolbarTitle="日付選択"
           cancelText="キャンセル"
           okText="選択"
-          toolbarFormat="yyyy年MM月dd日"
+          toolbarFormat="YYYY年MM月DD日"
           renderInput={(params) => 
           <TextField {...params} 
             variant="standard"
@@ -170,14 +170,14 @@ export default function PaymentForm(props) {
           onChange={(newValue) => {
             Change_soc_insur_insur_qual_acq_date(newValue);
           }}
-          inputFormat='yyyy年MM月'
+          inputFormat='YYYY年MM月DD日'
           mask='____年__月'
           leftArrowButtonText="前月を表示"
           rightArrowButtonText="次月を表示"
           toolbarTitle="日付選択"
           cancelText="キャンセル"
           okText="選択"
-          toolbarFormat="yyyy年MM月dd日"
+          toolbarFormat="YYYY年MM月DD日"
           renderInput={(params) => 
           <TextField {...params} 
             variant="standard"
@@ -196,14 +196,14 @@ export default function PaymentForm(props) {
           onChange={(newValue) => {
             Change_soc_insur_insur_qual_lost_date(newValue);
           }}
-          inputFormat='yyyy年MM月'
+          inputFormat='YYYY年MM月DD日'
           mask='____年__月'
           leftArrowButtonText="前月を表示"
           rightArrowButtonText="次月を表示"
           toolbarTitle="日付選択"
           cancelText="キャンセル"
           okText="選択"
-          toolbarFormat="yyyy年MM月dd日"
+          toolbarFormat="YYYY年MM月DD日"
           renderInput={(params) => 
           <TextField {...params} 
             variant="standard"

@@ -138,7 +138,7 @@ const AddressForm = (props) => {
         toolbarTitle="日付選択"
         cancelText="キャンセル"
         okText="選択"
-        toolbarFormat="YYYY年MM月dd日"
+        toolbarFormat="YYYY年MM月DD日"
         renderInput={(params) =>
         <TextField {...params} 
           variant="standard"
