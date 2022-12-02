@@ -7,6 +7,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import ja from 'date-fns/locale/ja'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
@@ -47,14 +49,15 @@ const AddressForm = (props) => {
     console.log(event.target.data)    
     setNameKana(event.target.data)
   }
-  const Change_birthday = (event) =>{    
-    setBirthday(event.target.data)
+  const Change_birthday = (event) =>{
+    setBirthday(event)
   }
-  const Change_inCompany = (event) =>{    
-    setInCompany(event.target.data)
+  const Change_inCompany = (event) =>{
+    setInCompany(dayjs(event))
   }
-  const Change_exitCompany = (event) =>{    
-    setExitCompany(event.target.data)
+  const Change_exitCompany = (event) =>{
+    console.log(dayjs(event))
+    setExitCompany(dayjs(event))
   }
   const Change_sex = (event) =>{    
     setSex(event.target.data)
@@ -89,7 +92,7 @@ const AddressForm = (props) => {
       </Typography>
       <Grid container spacing={3}>
 
-      <Grid item xs={12} sm={3}>
+      <Grid item xs={12} sm={2}>
           <TextField
             required
             id="employeeNum"
@@ -104,7 +107,7 @@ const AddressForm = (props) => {
           />
       </Grid>
 
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={5}>
       <DatePicker
         disableFuture
         label="入社日"
@@ -115,21 +118,31 @@ const AddressForm = (props) => {
         renderInput={(params) => 
         <TextField {...params} 
           variant="standard"
+          InputLabelProps={{ shrink: true }}
         />}
       />
       </Grid>
 
-      <Grid item xs={12} sm={4}>
+      <Grid item xs={12} sm={5}>
         <DatePicker
         disableFuture
         label="退社日"
         openTo="year"
         views={['year', 'month', 'day']}
         value={exitCompany}
-        onChange={(event) => Change_exitCompany(event)}
-        renderInput={(params) => <TextField {...params} 
-        variant="standard"
-        InputLabelProps={{ shrink: true }}
+        onChange={(event) => {Change_exitCompany(event)}}
+        inputFormat='YYYY年MM月DD日'
+        mask='____年__月__日'
+        leftArrowButtonText="前月を表示"
+        rightArrowButtonText="次月を表示"
+        toolbarTitle="日付選択"
+        cancelText="キャンセル"
+        okText="選択"
+        toolbarFormat="YYYY年MM月dd日"
+        renderInput={(params) =>
+        <TextField {...params} 
+          variant="standard"
+          InputLabelProps={{ shrink: true }}
         />}
       />
       </Grid>

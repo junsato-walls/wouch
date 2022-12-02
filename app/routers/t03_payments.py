@@ -2,7 +2,7 @@ from fastapi import APIRouter, FastAPI, HTTPException
 from models.m02_employees import m_employees, m_employeestable
 from models.t03_payments import t_payments, t_paymentstable
 from sqlalchemy.orm import session
-from sqlalchemy import func ,desc
+from sqlalchemy import func, desc, extract
 from typing import List  # ネストされたBodyを定義するために必要
 from db import session  # DBと接続するためのセッション
 from datetime import datetime, time, date, timedelta, timezone
@@ -10,12 +10,22 @@ import json
 
 router = APIRouter()
 
-@router.get("/t_payments")
+@router.get("/t_payments_emp/")
 async def t_payments_get(employee_id: int):
     t_payments_get = session.query(m_employeestable, t_paymentstable)\
                 .join(m_employeestable, m_employeestable.id == t_paymentstable.employee_id)\
                 .filter(t_paymentstable.employee_id == employee_id)\
                 .order_by(desc(t_paymentstable.payment_date))\
+                .all()
+    return t_payments_get
+
+@router.get("/t_payments_comp/")
+async def t_payments_get(YYYY: int, MM: int):
+    t_payments_get = session.query(m_employeestable, t_paymentstable)\
+                .join(m_employeestable, m_employeestable.id == t_paymentstable.employee_id)\
+                .filter(extract('year',t_paymentstable.payment_date) == YYYY )\
+                .filter(extract('month',t_paymentstable.payment_date) == MM )\
+                .order_by(m_employeestable.employee_num)\
                 .all()
     return t_payments_get
 
