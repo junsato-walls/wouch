@@ -46,7 +46,7 @@ function Payment() {
   const [empNum,setEmpNum] = React.useState('');
   const [selectedrow,setSelectedRow] = React.useState([]);
   const headers = ["支払日", "支払い給与", "基本給", "時間外労働手当", "深夜手当", "休日手当", "通勤手当", "健康保険料", "介護保険料", "厚生年金保険料", "雇用保険料", "所得税", "住民税", "源泉徴収", "調整手当", "その他"]
-  
+  const [outputData,setOutputData] = React.useState([])
   const csvData = [
     ["firstname", "lastname", "email"],
     ["Ahmed", "Tomi", "ah@smthing.co.com"],
@@ -66,15 +66,14 @@ function Payment() {
   };
 
   const valueChange = (event) => {
-    console.log(event.target.value)
-    // setEmpNum(event.target.value);
-    // let valuess = employeesData.filter((emp)=>{
-    //   return emp.m_employeestable.employee_num == event.target.value
-    // });
+    setEmpNum(event.target.value);
+    let valuess = employeesData.filter((emp)=>{
+      return emp.m_employeestable.employee_num == event.target.value
+    });
     // setEmpName(valuess[0].m_employeestable.name)
-    // if (valuess.length){
-    //   setEmpId(valuess[0].m_employeestable.id)
-    // }
+    if (valuess.length){
+      setEmpId(valuess[0].m_employeestable.id)
+    }
   };
   
   const darkTheme = createTheme({
@@ -116,11 +115,28 @@ function Payment() {
     if (empName){
       axios.get(baseURL + param).then(res => {
         setPaymentData(res.data)
-        const csvValue = res.data.map(data =>{
-
-        })
-        
         console.log(res.data)
+        const csvValue = res.data.map(data =>{
+          return [data.t_paymentstable.payment_date,
+                  data.t_paymentstable.income,
+                  data.t_paymentstable.base,
+                  data.t_paymentstable.overtime_pay,
+                  data.t_paymentstable.nighttime_pay,
+                  data.t_paymentstable.holiday_pay,
+                  data.t_paymentstable.commuting_pay,
+                  data.t_paymentstable.health_insur,
+                  data.t_paymentstable.care_insur,
+                  data.t_paymentstable.pension_insur,
+                  data.t_paymentstable.employee_insur,
+                  data.t_paymentstable.income_tax,
+                  data.t_paymentstable.inhabitant_tax,
+                  data.t_paymentstable.withholding_tax,
+                  data.t_paymentstable.adj_pay,
+                  data.t_paymentstable.others                
+                ]
+        })
+        setOutputData(csvValue)
+        console.log(csvValue)
       })  
     }
   }
@@ -140,7 +156,7 @@ function Payment() {
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
     <ThemeProvider theme={darkTheme}>
       <AppBar position="static" color="primary" enableColorOnDark>
-        <Toolbar label='賃金台帳'/>
+        <Toolbar label='賃金台帳 (社員)'/>
       </AppBar>
     </ThemeProvider>
     </Stack>
@@ -170,10 +186,13 @@ function Payment() {
       </FormControl>
 
     <FormControl sx={{ m: 1, minWidth: 100 }} >
-      <Button variant="contained" endIcon={<SendIcon />} onClick={SearchAttend}>検索</Button>
-      {/* <CSVDownload data={csvData} target="_blank" /> */}
-      <CSVLink data={csvData} headers={headers}>Download me</CSVLink>
+      <Button variant="contained" endIcon={<SendIcon />} onClick={SearchAttend}>検索</Button>      
     </FormControl>
+
+    <FormControl sx={{ m: 1, minWidth: 100 }} >    
+      <CSVLink data={outputData} headers={headers}><Button variant="contained" > CSV出力</Button></CSVLink>
+    </FormControl>
+
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 900 }} aria-label="spanning table">
             <TableHead>

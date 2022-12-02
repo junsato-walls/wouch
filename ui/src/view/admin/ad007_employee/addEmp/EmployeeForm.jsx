@@ -9,6 +9,10 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Button from '@mui/material/Button';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
 const AddressForm = (props) => {
   const {empData, setEmpData,
          employeeNum,setEmployeeNum,
@@ -188,19 +192,19 @@ const AddressForm = (props) => {
           />
         </Grid>
 
-        <Grid item xs={12} sm={3}>
-          <TextField
-            required
-            id="sex"
-            name="sex"
-            label="性別"
-            fullWidth
-            autoComplete="family-name"
-            variant="standard"
-            InputLabelProps={{ shrink: true }}
-            value={sex}
-            onChange={(event) => Change_sex(event)}
-          />
+        <Grid item xs={12} sm={5}>
+          <FormControl variant="standard" sx={{minWidth: 200}} size="small">
+            <InputLabel id="sex-select-label" labelPlacement="top" shrink>性別</InputLabel>
+            <Select
+              labelId="sex-select-label"
+              id="sex-select"
+              value={sex}
+              onChange={(event) => Change_sex(event)}
+            >
+            <MenuItem value={1}>男性</MenuItem>
+            <MenuItem value={2}>女性</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
         
         <Grid item xs={12} sm={1}>
@@ -219,9 +223,6 @@ const AddressForm = (props) => {
           InputLabelProps={{ shrink: true }}
           />}
         />
-        </Grid>
-
-        <Grid item xs={12} sm={2}>
         </Grid>
 
         <Grid item xs={12} sm={4}>

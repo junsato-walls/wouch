@@ -143,18 +143,17 @@ function Attend() {
     </ThemeProvider>
   </Stack>
     <Container maxWidth="xls">
-      <FormControl sx={{ m: 1, minWidth: 200 }} variant="standard">
-        <InputLabel id="demo-simple-select-label"></InputLabel>
+      <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <InputLabel id="demo-simple-select-label" shrink>社員番号</InputLabel>
         <TextField
         id="input-with-icon-textfield"
-        label="社員番号"
         onChange={valueChange}
         value={empNum}
       />
       </FormControl>
 
-      <FormControl sx={{ m: 1, minWidth: 200 }} >
-        <InputLabel id="demo-simple-select-label">名前</InputLabel>
+      <FormControl sx={{ m: 1, minWidth: 200 }}>
+        <InputLabel id="demo-simple-select-label" shrink>名前</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
@@ -168,28 +167,28 @@ function Attend() {
       </FormControl>
 
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
-      <FormControl sx={{ m: 1, minWidth: 100 }} >
-      <DatePicker
-          disableFuture
-          label="年月"
-          openTo="year"
-          views={['year','month']}
-          value={value}
-          onChange={(newValue) => {
-            setValue(dayjs(newValue));
-          }}
-          inputFormat='yyyy年MM月'
-          mask='____年__月'
-          leftArrowButtonText="前月を表示"
-          rightArrowButtonText="次月を表示"
-          toolbarTitle="日付選択"
-          cancelText="キャンセル"
-          okText="選択"
-          toolbarFormat="yyyy年MM月dd日"
-          renderInput={(params) => 
-          <TextField {...params}
-          />}
-        />
+      <FormControl sx={{ m: 1, minWidth: 100 }}>
+        <InputLabel id="demo-simple-select-label" shrink>年月</InputLabel>
+        <DatePicker
+            disableFuture
+            openTo="year"
+            views={['year','month']}
+            value={value}
+            onChange={(newValue) => {
+              setValue(dayjs(newValue));
+            }}
+            inputFormat='yyyy年MM月'
+            mask='____年__月'
+            leftArrowButtonText="前月を表示"
+            rightArrowButtonText="次月を表示"
+            toolbarTitle="日付選択"
+            cancelText="キャンセル"
+            okText="選択"
+            toolbarFormat="yyyy年MM月dd日"
+            renderInput={(params) => 
+            <TextField {...params}
+            />}
+          />
         </FormControl>
     </LocalizationProvider>
     <FormControl sx={{ m: 1, minWidth: 100 }} >

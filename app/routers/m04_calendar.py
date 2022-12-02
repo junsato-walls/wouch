@@ -12,10 +12,15 @@ async def m_calendar():
     m_calendar = session.query(m_calendartable).all()
     return m_calendar
 
-# @router.put("/m_companies_i")
-# async def insert_m_companies():
-#     pass
-
-# @router.post("/m_companies_u")
-# async def update_m_companies():
-#     pass
+@router.get("/m_calendar2/")
+async def calendar_label():
+    calendar = session.query(m_calendartable)\
+                .filter(m_calendartable.attend_st == 2)\
+                .all()
+    label=[]
+    for data in calendar:
+        label.append({
+            "title": "休業日",
+            "start": data.ymd
+        })
+    return label

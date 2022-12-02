@@ -10,8 +10,41 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function PaymentForm(props) {
-  const {empData, setEmpData} = props
-  const [value, setValue] = React.useState(dayjs('2022-10-01'));
+  const {empl_insur_insured_num, setempl_insur_insured_num,
+         pension_num, setpension_num,
+         dependent, setdependent,
+         health_insur_num, sethealth_insur_num,
+         empl_insur_insur_qual_acq_date, setempl_insur_insur_qual_acq_date,
+         empl_insur_insur_qual_lost_date, setempl_insur_insur_qual_lost_date,
+         soc_insur_insur_qual_acq_date, setsoc_insur_insur_qual_acq_date,
+         soc_insur_insur_qual_lost_date, setsoc_insur_insur_qual_lost_date
+        } = props
+
+  const Change_empl_insur_insured_num = (event) =>{
+    setempl_insur_insured_num(event.target.data)
+  }
+  const Change_pension_num = (event) =>{
+    setpension_num(event.target.data)
+  }
+  const Change_dependent = (event) =>{
+    setdependent(event.target.data)
+  }
+  const Change_health_insur_num = (event) =>{
+    sethealth_insur_num(event.target.data)
+  }
+  const Change_empl_insur_insur_qual_acq_date = (event) =>{
+    setempl_insur_insur_qual_acq_date(event.target.data)
+  }
+  const Change_empl_insur_insur_qual_lost_date = (event) =>{
+    setempl_insur_insur_qual_lost_date(event.target.data)
+  }
+  const Change_soc_insur_insur_qual_acq_date = (event) =>{
+    setsoc_insur_insur_qual_acq_date(event.target.data)
+  }
+  const Change_soc_insur_insur_qual_lost_date = (event) =>{
+    setsoc_insur_insur_qual_lost_date(event.target.data)
+  }
+  
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -19,8 +52,8 @@ export default function PaymentForm(props) {
       <Typography variant="h6" gutterBottom>
         保険
       </Typography>
-      <Grid container spacing={12}>
-        <Grid item xs={6}>
+      <Grid container spacing={6}>
+        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="Name"
@@ -28,65 +61,46 @@ export default function PaymentForm(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={empData.empl_insur_insured_num}
+            value={empl_insur_insured_num}
+            onChange={(event) => Change_empl_insur_insured_num(event)}
           />
         </Grid>
-        <Grid item xs={6}>
-          
+        
+        <Grid item xs={12} sm={1}>
+        </Grid>
+        
+        <Grid item xs={12} sm={4}>
           <TextField
             required
             id="Name"
-            label="基礎年金番号"
+            label="被扶養者人数"
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={empData.pension_num}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            required
-            id="Name"
-            label="健康保険被保険者整理記号"
-            fullWidth
-            autoComplete="name"
-            variant="standard"
-            value={empData.health_insur_num}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            required
-            id="Name"
-            label="被扶養者"
-            fullWidth
-            autoComplete="name"
-            variant="standard"
-            value={empData.dependent}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="Name"
-            label="雇用保険被保険者番号"
-            fullWidth
-            autoComplete="name"
-            variant="standard"
-            value={empData.empl_insur_insured_num}
+            value={dependent}
+            onChange={(event) => Change_dependent(event)}
           />
         </Grid>
 
         <Grid item xs={12} sm={6}>
         <DatePicker
           disableFuture
-          label="雇用保険被保険者資格喪失日"
+          label="雇用保険被保険者資格取得日"
+          fullWidth
           openTo="year"
           views={['year', 'month', 'day']}
-          value={empData.empl_insur_insur_qual_lost_date}
+          value={empl_insur_insur_qual_acq_date}
           onChange={(newValue) => {
-            setValue(newValue);
+            Change_empl_insur_insur_qual_acq_date(newValue);
           }}
+          inputFormat='yyyy年MM月'
+          mask='____年__月'
+          leftArrowButtonText="前月を表示"
+          rightArrowButtonText="次月を表示"
+          toolbarTitle="日付選択"
+          cancelText="キャンセル"
+          okText="選択"
+          toolbarFormat="yyyy年MM月dd日"
           renderInput={(params) => 
           <TextField {...params} 
             variant="standard"
@@ -97,13 +111,73 @@ export default function PaymentForm(props) {
         <Grid item xs={12} sm={6}>
         <DatePicker
           disableFuture
-          label="社会保険被保険者資格取得日"
+          label="雇用保険被保険者資格喪失日"
+          fullWidth
           openTo="year"
           views={['year', 'month', 'day']}
-          value={empData.soc_insur_insur_qual_acq_date}
+          value={empl_insur_insur_qual_lost_date}
           onChange={(newValue) => {
-            setValue(newValue);
+            Change_empl_insur_insur_qual_lost_date(newValue);
           }}
+          inputFormat='yyyy年MM月'
+          mask='____年__月'
+          leftArrowButtonText="前月を表示"
+          rightArrowButtonText="次月を表示"
+          toolbarTitle="日付選択"
+          cancelText="キャンセル"
+          okText="選択"
+          toolbarFormat="yyyy年MM月dd日"
+          renderInput={(params) => 
+          <TextField {...params} 
+            variant="standard"
+          />}
+        />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="Name"
+            label="基礎年金番号"
+            fullWidth
+            autoComplete="name"
+            variant="standard"
+            value={pension_num}
+            onChange={(event) => Change_pension_num(event)}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="Name"
+            label="健康保険被保険者整理記号"
+            fullWidth
+            autoComplete="name"
+            variant="standard"
+            value={health_insur_num}
+            onChange={(event) => Change_health_insur_num(event)}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+        <DatePicker
+          disableFuture
+          label="社会保険被保険者資格取得日"
+          fullWidth
+          openTo="year"
+          views={['year', 'month', 'day']}
+          value={soc_insur_insur_qual_acq_date}
+          onChange={(newValue) => {
+            Change_soc_insur_insur_qual_acq_date(newValue);
+          }}
+          inputFormat='yyyy年MM月'
+          mask='____年__月'
+          leftArrowButtonText="前月を表示"
+          rightArrowButtonText="次月を表示"
+          toolbarTitle="日付選択"
+          cancelText="キャンセル"
+          okText="選択"
+          toolbarFormat="yyyy年MM月dd日"
           renderInput={(params) => 
           <TextField {...params} 
             variant="standard"
@@ -115,12 +189,21 @@ export default function PaymentForm(props) {
         <DatePicker
           disableFuture
           label="社会保険被保険者資格喪失日"
+          fullWidth
           openTo="year"
           views={['year', 'month', 'day']}
-          value={empData.soc_insur_insur_qual_lost_date}
+          value={soc_insur_insur_qual_lost_date}
           onChange={(newValue) => {
-            setValue(newValue);
+            Change_soc_insur_insur_qual_lost_date(newValue);
           }}
+          inputFormat='yyyy年MM月'
+          mask='____年__月'
+          leftArrowButtonText="前月を表示"
+          rightArrowButtonText="次月を表示"
+          toolbarTitle="日付選択"
+          cancelText="キャンセル"
+          okText="選択"
+          toolbarFormat="yyyy年MM月dd日"
           renderInput={(params) => 
           <TextField {...params} 
             variant="standard"
