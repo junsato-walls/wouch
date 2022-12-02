@@ -40,19 +40,14 @@ function Payment() {
   const [attendData, setAttendData] = useState([])
   const [paymentData, setPaymentData] = useState([])
   const [open, setOpen] = useState(false);
-  const [value, setValue] = React.useState(dayjs('2022-10-01'));
+  const [value, setValue] = React.useState(dayjs(new Date()));
+  // const [value, setValue] = React.useState(dayjs('2022-10-01'));
   const [empId,setEmpId] = React.useState('');
   const [empName, setEmpName] = React.useState('');
   const [empNum,setEmpNum] = React.useState('');
   const [selectedrow,setSelectedRow] = React.useState([]);
   const headers = ["支払日", "支払い給与", "基本給", "時間外労働手当", "深夜手当", "休日手当", "通勤手当", "健康保険料", "介護保険料", "厚生年金保険料", "雇用保険料", "所得税", "住民税", "源泉徴収", "調整手当", "その他"]
   const [outputData,setOutputData] = React.useState([])
-  const csvData = [
-    ["firstname", "lastname", "email"],
-    ["Ahmed", "Tomi", "ah@smthing.co.com"],
-    ["Raed", "Labes", "rl@smthing.co.com"],
-    ["Yezzi", "Min l3b", "ymin@cocococo.com"]
-  ];
 
   const handleChange = (event) => {
     setEmpId(event.target.value);
@@ -70,7 +65,6 @@ function Payment() {
     let valuess = employeesData.filter((emp)=>{
       return emp.m_employeestable.employee_num == event.target.value
     });
-    // setEmpName(valuess[0].m_employeestable.name)
     if (valuess.length){
       setEmpId(valuess[0].m_employeestable.id)
     }
@@ -111,8 +105,8 @@ function Payment() {
 
   //勤怠データ取得
   const SearchAttend = () => {
-    let param = '/t_payments/?employee_id=' + empId
-    if (empName){
+    let param = '/t_payments_comp/?YYYY=' + value.format("YYYY") + '&MM=' + value.format("MM")
+    console.log(param)
       axios.get(baseURL + param).then(res => {
         setPaymentData(res.data)
         console.log(res.data)
@@ -137,8 +131,7 @@ function Payment() {
         })
         setOutputData(csvValue)
         console.log(csvValue)
-      })  
-    }
+      })      
   }
 
   const UpdateAttend = (event, name) =>{
@@ -202,6 +195,8 @@ function Payment() {
           <Table sx={{ minWidth: 900 }} aria-label="spanning table">
             <TableHead>
               <TableRow>
+                <TableCell align="center">社員番号</TableCell>
+                <TableCell align="center">社員名</TableCell>
                 <TableCell align="center">支払日</TableCell>
                 <TableCell align="center">支払い給与</TableCell>                
                 <TableCell align="center">基本給</TableCell>
@@ -225,6 +220,8 @@ function Payment() {
                 <TableRow
                 hover
                 >               
+                <TableCell align="center">{data.m_employeestable.employee_num}</TableCell>
+                <TableCell align="center">{data.m_employeestable.name}</TableCell>
                 <TableCell align="center">{data.t_paymentstable.payment_date}</TableCell>
                 <TableCell align="center">{data.t_paymentstable.income}</TableCell>                
                 <TableCell align="center">{data.t_paymentstable.base}</TableCell>
