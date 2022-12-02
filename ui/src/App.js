@@ -10,7 +10,8 @@ import LeaveRequest from './view/admin/ad006_leaverequest/leaverequest';
 import Employee from './view/admin/ad007_employee/employee';
 import Calendar from './view/admin/ad008_calendar/calendar';
 import Shift from './view/admin/ad009_shift/shift';
-import Payment from './view/admin/ad010_payment/payment';
+import Payment_Emp from './view/admin/ad010_payment/payment_emp';
+import Payment_Month from './view/admin/ad010_payment/payment_month';
 import LeaveManage from './view/admin/ad012_leavemanage/leavemanage';
 import Admin from './view/admin/ad011_admin/admin';
 import Test from './view/admin/test/checkout';
@@ -32,7 +33,8 @@ function App() {
           <Route path="/employee" element={<Employee />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/shift" element={<Shift />} />
-          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment_emp" element={<Payment_Emp />} />
+          <Route path="/payment_month" element={<Payment_Month />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/test" element={<Test />} />          
           <Route path="*" element={<NoMatch />} />
