@@ -28,14 +28,12 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
+import dayjs from 'dayjs';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
-const test = [{ title: "会社休み", start: "2022-10-18", end: "2022-10-25" }]
-
 
 function Calendar() {
   const childRef = useRef()
@@ -55,6 +53,8 @@ function Calendar() {
   const [YMD, setYMD] = useState(new Date());
   const [HMS, setHMS] = useState();
   const [open, setOpen] = useState(true);
+  const [holiday, setHoliday] = useState([]);
+  const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
 
   const [OpenAlert, setOpenAlert] = React.useState(false);
 
@@ -67,51 +67,66 @@ function Calendar() {
   };
 
   //リクエストをDBへ投げる
-  const sendLeaveDayDate = () => {
-      axios.post(baseURL + "/m_calendar2/")
-      setOpenAlert(false);
+  const sendHoliday = () => {
+    console.log(InfoDate)
+    axios.post(baseURL + "/ad008_02/", {
+      ymd: InfoDate,
+      attend_st: 0
+    })
+    setOpenAlert(false);
   };
 
-  //リクエストをDBへ投げる
-  //testID : 012e5524f1463b3d
-  useEffect(() => {
-      if (nfcid !== "") {
-          axios.post(baseURL + "/ad008_01/", {ymd: YMD})
-              .then((res) => {
-                  if (res.status === 200) {
-                      setUserDate(res.data);
-                      setVisibleFlg(true);
-                      setTimeout(() => {
-                          setVisibleFlg(false)
-                      }, 5000);
-
-                  } if (res.status === 500) {
-                      childRef.current.MessageOpen(res.data.errorcode)
-                  }
-              });
-      };
-  }, [nfcid]);
-const getYMD = (valueDate) => {
+  const getYMD = (valueDate) => {
     setYMD(valueDate)
-}
-useEffect(() => {
-    console.log(YMD.startStr)
-    if (new Date(YMD.startStr).getDate() != 1){
-        if (new Date(YMD.startStr).getMonth() + 1 == 12){
-            console.log(new Date(YMD.startStr).getFullYear() + 1, 1, 1)
+  }
+
+  useEffect(() => {
+        getholiday()
+  }, [YMD]);
+    
+  const getholiday = () => {
+    let targetYear = new Date(YMD.startStr).getFullYear()
+    let targetMonth = new Date(YMD.startStr).getMonth() + 1
+    let targetDate = new Date(YMD.startStr).getDate()
+    if (targetDate != 1){
+        if (targetMonth == 12){
+            targetYear = targetYear + 1
+            targetMonth = 1
+            targetDate = 1
         }else{
-            console.log(new Date(YMD.startStr).getFullYear(), new Date(YMD.startStr).getMonth() + 2, 1)
+            targetMonth = targetMonth + 1
+            targetDate = 1
         }
     }else{
-        console.log(new Date(YMD.startStr).getFullYear(), new Date(YMD.startStr).getMonth() + 1, new Date(YMD.startStr).getDate())
+        targetDate = 1
     }
-}, [YMD]);
+    console.log(targetYear, targetMonth, targetDate)
+
+    let param = '/ad008_01/?year=' + targetYear +'&month=' + targetMonth
+    axios.get(baseURL + param).then(res => {
+        setHoliday(res.data)
+        console.log(res.data)
+    })
+  }
 //   const countup = () => {
 //       const nowTime = new Date();
 //       const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
 //       setYMD(nowTime.getFullYear() + "年" + (nowTime.getMonth() + 1) + "月" + nowTime.getDate() + "日" + dayOfWeekStrJP[nowTime.getDay()]);
 //       setHMS(('00' + nowTime.getHours()).slice(-2) + ":" + ('00' + nowTime.getMinutes()).slice(-2) + ":" + ('00' + nowTime.getSeconds()).slice(-2));
 //   }; setInterval(countup, 1000);
+
+  const ExistHoliday = (value) =>{
+    const checkHoliday = holiday.filter((data, index) => {
+      return data.start == value.dateStr;
+    });
+    if (checkHoliday.length == 1){
+        console.log('休日')
+    }else{
+        console.log('休日設定なし')
+    }
+    console.log(value.dateStr)
+
+  }
 
   const handleClose = () => {
       setOpen(false);
@@ -134,14 +149,18 @@ useEffect(() => {
                                   locale="ja"
                                   selectable="true"
                                   // 取得データを配列に挿入
-                                  events={test}
+                                  events={holiday}
                                   // 日付クリック動作
-                                  dateClick={
-                                      function (infoDate) {
-                                          setInfoDate(infoDate.dateStr);
-                                          handleClickOpenAlert();
-                                      }
-                                  }
+                                  dateClick={(value) => ExistHoliday(value) }
+                                  //   dateClick={
+                                //       function (clickInfoDate) {
+                                //         ExistHoliday(clickInfoDate)
+
+                                //         console.log(clickInfoDate)
+                                //         //   setInfoDate(clickInfoDate.dateStr);
+                                //         //   handleClickOpenAlert();
+                                //       }
+                                //   }
                                   // 前へ　次へを押下時にgetリクエストの送信
                                   datesSet={(valueDate) => getYMD(valueDate)}
                               />
@@ -151,14 +170,13 @@ useEffect(() => {
                                   <Table aria-label="spanning table">
                                       <TableHead>
                                           <TableRow>
-                                              <TableCell align="">休業日{InfoDate}</TableCell>
+                                              <TableCell align="">休業日</TableCell>
                                           </TableRow>
                                       </TableHead>
                                       <TableBody>
-                                          {LeaveRequestDate.map((data) => (
+                                          {holiday.map((holi) => (
                                               <TableRow>
-                                                  <TableCell>{data.target_date}</TableCell>
-                                                  <TableCell>{data.subm_st}</TableCell>
+                                                  <TableCell>{dayjs(holi.start).format("M月D日") + dayOfWeekStrJP[dayjs(holi.start).format("d")]}</TableCell>
                                               </TableRow>
                                           ))}
                                       </TableBody>
@@ -176,17 +194,17 @@ useEffect(() => {
                             aria-describedby="alert-dialog-description"
                         >
                             <DialogTitle id="alert-dialog-title">
-                                {"取得確認"}
+                                {"休業日設定"}
                             </DialogTitle>
                             <DialogContent>
                                 <DialogContentText id="alert-dialog-description">
-                                    {InfoDate}に有給休暇を取得しますか？
+                                    {dayjs(InfoDate).format("M月D日") + dayOfWeekStrJP[dayjs(InfoDate).format("d")]}を休業日に設定しますか？
                                 </DialogContentText>
                             </DialogContent>
                             <DialogActions>
                                 <Stack direction="row" spacing={1}>
                                     <Chip label="いいえ" onClick={handleCloseAlert} />
-                                    <Chip label="はい" onClick={sendLeaveDayDate} />
+                                    <Chip label="はい" onClick={sendHoliday} />
                                 </Stack>
                             </DialogActions>
                         </Dialog>

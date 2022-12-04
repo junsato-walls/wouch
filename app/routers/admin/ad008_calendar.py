@@ -12,15 +12,19 @@ import json
 router = APIRouter()
 
 @router.get("/ad008_01/")
-async def ad008_get(ymd: date):
-    YYYY = ymd.year
-    MM = ymd.month
-    ad008_get = session.query(m_calendar)\
-                .filter(m_calendartable.year == YYYY)\
-                .filter(m_calendartable.month == MM)\
+async def ad008_get(year: int, month: int):
+    ad008_get = session.query(m_calendartable)\
+                .filter(m_calendartable.year == year)\
+                .filter(m_calendartable.month == month)\
                 .filter(m_calendartable.attend_st != 3)\
                 .all()
-    return ad008_get
+    label=[]
+    for data in ad008_get:
+        label.append({
+            "title": "休業日",
+            "start": data.ymd
+        })
+    return label
 
 @router.post("/ad008_02/")
 async def ad008_post(item: ad008):
@@ -32,7 +36,7 @@ async def ad008_post(item: ad008):
     MM = item.ymd.month
     DD = item.ymd.day
     chek = session.query(m_calendartable)\
-            .filter(m_calendartable.ymd == ymd)\
+            .filter(m_calendartable.ymd == item.ymd)\
             .filter(m_calendartable.attend_st != 3)\
             .first()
     if chek != None:
