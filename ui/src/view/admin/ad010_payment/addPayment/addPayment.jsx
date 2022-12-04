@@ -21,15 +21,18 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Payment from './PaymentForm';
 import InsurTax from './InsurTaxFrom';
-import Review from './ContractForm';
+import axios from "axios";
 
-const steps = ['給与・手当', '保険料・税金等', 'テスト'];
+const steps = ['給与・手当', '保険料・税金等'];
 const theme = createTheme();
 
 export default function AlertDialog(props) {
-  const { open, setOpen } = props
+  const { open, setOpen, paymentData,dialogTitle } = props
+  const baseURL = 'http://localhost:8000'
+
   const [activeStep, setActiveStep] = React.useState(0);
-  const [data, setData] = React.useState(0);
+  const [paymentID, setPaymentID] = React.useState("");
+  const [empID, setEmpID] = React.useState("");
 
   // 支払日 支払給与　基本給 
   const [paymentDate, setPaymentDate] = React.useState("")
@@ -44,7 +47,7 @@ export default function AlertDialog(props) {
   const [adjPay, setAdjPay] = React.useState("");
 
   // 健康保険料　介護保険料 厚生年金保険料 雇用保険料
-  const [health_insur, setHealthInsur] = React.useState("");
+  const [healthInsur, setHealthInsur] = React.useState("");
   const [careInsur, setCareInsur] = React.useState("");
   const [pensionInsur, setPensionInsur] = React.useState("");
   const [employeeInsur, setEmployeeInsur] = React.useState("");
@@ -56,112 +59,193 @@ export default function AlertDialog(props) {
   const [others, setOthers] = React.useState("");
 
   useEffect(() => {
-    if (empData != ""){
-      // 社員情報
-      setEmployeeNum(empData.m_employeestable.employee_num)
-      setName(empData.m_employeestable.name)
-      setNameKana(empData.m_employeestable.name_kana)
-      setBirthday(empData.m_employeestable.birthday)
-      setInCompany(empData.m_employeestable.in_company)
-      setExitCompany(empData.m_employeestable.post_code)
-      setSex(empData.m_employeestable.sex)
-      setPostCode(empData.m_employeestable.post_code)
-      setAddressPref(empData.m_employeestable.address_pref)
-      setAddressCity(empData.m_employeestable.address_city)
-      setAddressOther(empData.m_employeestable.address_other)
-      setTell(empData.m_employeestable.tell)
-      setMynumber(empData.m_employeestable.mynumber)
-      setNationality(empData.m_employeestable.nationality)
+    console.log(paymentData)
+    if (paymentData != "") {
+      setPaymentID(paymentData.t_paymentstable.id)
+      setEmpID(paymentData.t_paymentstable.employee_id)
+      // 支払日 支払給与　基本給 
+      setPaymentDate(paymentData.t_paymentstable.payment_date)
+      setIncome(paymentData.t_paymentstable.income)
+      setBase(paymentData.t_paymentstable.base)
 
-      // 各種保険
-      setWeeklyWorkTime(empData.m_employeestable.weekly_work_time)
-      setEmplInsurInsuredNum(empData.m_employeestable.empl_insur_insured_num)
-      setPensionNum(empData.m_employeestable.pension_num)
-      setFormerJob(empData.m_employeestable.former_job)
-      setDependent(empData.m_employeestable.dependent)
-      setHealthInsurNum(empData.m_employeestable.health_insur_num)
-      setEmplInsurInsurQualAcqDate(empData.m_employeestable.empl_insur_insur_qual_acq_date)
-      setEmplInsurInsurQualLostDate(empData.m_employeestable.empl_insur_insur_qual_lost_date)
-      setSocInsurInsurQualAcqDate(empData.m_employeestable.soc_insur_insur_qual_acq_date)
-      setSocInsurInsurQualLostDate(empData.m_employeestable.soc_insur_insur_qual_lost_date)
-      setMemo(empData.m_employeestable.memo)
+      // 時間外労働手当 深夜手当 休日手当 通勤手当 調整手当  
+      setOvertimePay(paymentData.t_paymentstable.overtime_pay)
+      setNighttimePay(paymentData.t_paymentstable.nighttime_pay)
+      setholidayPay(paymentData.t_paymentstable.holiday_pay)
+      setCommutingPay(paymentData.t_paymentstable.commuting_pay)
+      setAdjPay(paymentData.t_paymentstable.adj_pay)
 
-      // 契約
-      setBase(empData.m_paymentstable.base)
-      setSalaryType(empData.m_paymentstable.salary_type)
-      setStdMonthlyCompensation(empData.m_paymentstable.std_monthly_compensation)
-      setCommutingPay(empData.m_paymentstable.commuting_pay)
-      setCareInsur(empData.m_paymentstable.care_insur)
-      setPensionInsur(empData.m_paymentstable.pension_insur)
-      setIncomeTax(empData.m_paymentstable.income_tax)
-      setInhabitantTax(empData.m_paymentstable.inhabitant_tax)    
+      // 健康保険料　介護保険料 厚生年金保険料 雇用保険料
+      setHealthInsur(paymentData.t_paymentstable.health_insur)
+      setCareInsur(paymentData.t_paymentstable.care_insur)
+      setPensionInsur(paymentData.t_paymentstable.pension_insur)
+      setEmployeeInsur(paymentData.t_paymentstable.employee_insur)
+
+      // 所得税 住民税 源泉徴収 その他
+      setIncome_tax(paymentData.t_paymentstable.income_tax)
+      setInhabitantTax(paymentData.t_paymentstable.inhabitant_tax)
+      setWithholdingTax(paymentData.t_paymentstable.withholding_tax)
+      setOthers(paymentData.t_paymentstable.others)
     }
   }, [open])
 
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <Payment 
-        // 支払日 支払給与　基本給
-        paymentDate={paymentDate} 
-        setPaymentDate={setPaymentDate} 
-        income={income} 
-        setIncome={setIncome}
-        base={base} 
-        setBase={setBase} 
-        
-        // 時間外労働手当 深夜手当 休日手当 通勤手当 調整手当 
-        overtimePay={overtimePay} 
-        setOvertimePay={setOvertimePay} 
-        nighttimePay={nighttimePay}
-        setNighttimePay={setNighttimePay}
-        holidayPay={holidayPay} 
-        setholidayPay={setholidayPay} 
-        commutingPay={commutingPay} 
-        setCommutingPay={setCommutingPay} 
-        adjPay={adjPay} 
-        setAdjPay={setAdjPay} 
+        return <Payment
+          // 社員ID
+          empID = {empID}
+          setEmpID = {setEmpID}
+
+          // 支払日 支払給与　基本給
+          paymentDate={paymentDate}
+          setPaymentDate={setPaymentDate}
+          income={income}
+          setIncome={setIncome}
+          base={base}
+          setBase={setBase}
+
+          // 時間外労働手当 深夜手当 休日手当 通勤手当 調整手当 
+          overtimePay={overtimePay}
+          setOvertimePay={setOvertimePay}
+          nighttimePay={nighttimePay}
+          setNighttimePay={setNighttimePay}
+          holidayPay={holidayPay}
+          setholidayPay={setholidayPay}
+          commutingPay={commutingPay}
+          setCommutingPay={setCommutingPay}
+          adjPay={adjPay}
+          setAdjPay={setAdjPay}
         />;
       case 1:
-        return <InsurTax 
-        // 保険料・税金
-        // 健康保険料　介護保険料 厚生年金保険料 雇用保険料
-        health_insur={health_insur}
-        setHealthInsur={setHealthInsur}
-        careInsur={careInsur}
-        setCareInsur={setCareInsur}
-        pensionInsur={pensionInsur}
-        setPensionInsur={setPensionInsur}
-        employeeInsur={employeeInsur}
-        setEmployeeInsur={setEmployeeInsur}
+        return <InsurTax
+          // 保険料・税金
+          // 健康保険料　介護保険料 厚生年金保険料 雇用保険料
+          healthInsur={healthInsur}
+          setHealthInsur={setHealthInsur}
+          careInsur={careInsur}
+          setCareInsur={setCareInsur}
+          pensionInsur={pensionInsur}
+          setPensionInsur={setPensionInsur}
+          employeeInsur={employeeInsur}
+          setEmployeeInsur={setEmployeeInsur}
 
-        // 所得税 住民税 源泉徴収 その他
-        incomeTax={incomeTax}
-        setIncome_tax={setIncome_tax}
-        inhabitantTax={inhabitantTax}
-        setInhabitantTax={setInhabitantTax}
-        withholdingTax={withholdingTax}
-        setWithholdingTax={setWithholdingTax}
-        others={others}
-        setOthers={setOthers}
+          // 所得税 住民税 源泉徴収 その他
+          incomeTax={incomeTax}
+          setIncome_tax={setIncome_tax}
+          inhabitantTax={inhabitantTax}
+          setInhabitantTax={setInhabitantTax}
+          withholdingTax={withholdingTax}
+          setWithholdingTax={setWithholdingTax}
+          others={others}
+          setOthers={setOthers}
         />;
-      case 2:
-        return <Review />;
       default:
         throw new Error('Unknown step');
     }
   }
 
   const handleNext = () => {
-    console.log(empData)
+    if (activeStep + 1 === steps.length) {
+      console.log('登録')
+      if (dialogTitle.mode == 1){
+      console.log('dialogTitle:' + dialogTitle.title)
+      console.log({ 
+        employee_id:empID,
+        payment_date:paymentDate,
+        income:income,
+        base:base,
+        overtime_pay:overtimePay,
+        nighttime_pay:nighttimePay,
+        holiday_pay:holidayPay,
+        commuting_pay:commutingPay,
+        health_insur:healthInsur,
+        care_insur:careInsur,
+        pension_insur:pensionInsur,
+        employee_insur:employeeInsur,
+        income_tax:incomeTax,
+        inhabitant_tax:inhabitantTax,
+        withholding_tax:withholdingTax,
+        adj_pay:adjPay,
+        others:others
+      })
+
+      axios.put(baseURL + "/t_payments_up", {
+        id:paymentID, 
+        employee_id:empID,
+        payment_date:paymentDate,
+        income:income,
+        base:base,
+        overtime_pay:overtimePay,
+        nighttime_pay:nighttimePay,
+        holiday_pay:holidayPay,
+        commuting_pay:commutingPay,
+        health_insur:healthInsur,
+        care_insur:careInsur,
+        pension_insur:pensionInsur,
+        employee_insur:employeeInsur,
+        income_tax:incomeTax,
+        inhabitant_tax:inhabitantTax,
+        withholding_tax:withholdingTax,
+        adj_pay:adjPay,
+        others:others
+      }).then((res) => {
+
+      })
+    }else if(dialogTitle.mode == 2){ 
+      console.log('dialogTitle:' + dialogTitle.title)
+      console.log({ 
+        employee_id:empID,
+        payment_date:paymentDate,
+        income:income,
+        base:base,
+        overtime_pay:overtimePay,
+        nighttime_pay:nighttimePay,
+        holiday_pay:holidayPay,
+        commuting_pay:commutingPay,
+        health_insur:healthInsur,
+        care_insur:careInsur,
+        pension_insur:pensionInsur,
+        employee_insur:employeeInsur,
+        income_tax:incomeTax,
+        inhabitant_tax:inhabitantTax,
+        withholding_tax:withholdingTax,
+        adj_pay:adjPay,
+        others:others
+      })
+
+      axios.post(baseURL + "/t_payments_in", { 
+        employee_id:empID,
+        payment_date:paymentDate,
+        income:income,
+        base:base,
+        overtime_pay:overtimePay,
+        nighttime_pay:nighttimePay,
+        holiday_pay:holidayPay,
+        commuting_pay:commutingPay,
+        health_insur:healthInsur,
+        care_insur:careInsur,
+        pension_insur:pensionInsur,
+        employee_insur:employeeInsur,
+        income_tax:incomeTax,
+        inhabitant_tax:inhabitantTax,
+        withholding_tax:withholdingTax,
+        adj_pay:adjPay,
+        others:others
+      }).then((res) => {
+
+      })
+    }
+    }
     setActiveStep(activeStep + 1);
   };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
   useEffect(() => {
-    if (open == 'true') {
+    if (open == true) {
       setActiveStep(0);
     }
   }, [open])
@@ -182,10 +266,9 @@ export default function AlertDialog(props) {
           <DialogContentText id="alert-dialog-description">
             <ThemeProvider theme={theme}>
               <CssBaseline />
-
               <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
                 <Typography component="h1" variant="h4" align="center">
-                  従業員追加
+                {dialogTitle.title}
                 </Typography>
                 <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
                   {steps.map((label) => (
@@ -200,6 +283,7 @@ export default function AlertDialog(props) {
                       <Typography variant="subtitle1">
                         登録が完了しました。
                       </Typography>
+                      
                       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                         <Button
                           variant="contained"
@@ -232,17 +316,16 @@ export default function AlertDialog(props) {
                         >
                           {activeStep === steps.length - 1 ? '登録' : '次へ'}
                         </Button>
+
                       </Box>
                     </React.Fragment>
                   )}
                 </React.Fragment>
               </Container>
             </ThemeProvider>
-
           </DialogContentText>
         </DialogContent>
       </Dialog>
-
     </div>
   )
 }

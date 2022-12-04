@@ -8,43 +8,48 @@ import Checkbox from '@mui/material/Checkbox';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Button from '@mui/material/Button';
 
 export default function PaymentForm(props) {
-  const {empl_insur_insured_num, setempl_insur_insured_num,
-         pension_num, setpension_num,
+  const {weeklyWorkTime, setWeeklyWorkTime,
+         pensionNum, setPensionNum,
          dependent, setdependent,
-         health_insur_num, sethealth_insur_num,
-         empl_insur_insur_qual_acq_date, setempl_insur_insur_qual_acq_date,
-         empl_insur_insur_qual_lost_date, setempl_insur_insur_qual_lost_date,
-         soc_insur_insur_qual_acq_date, setsoc_insur_insur_qual_acq_date,
-         soc_insur_insur_qual_lost_date, setsoc_insur_insur_qual_lost_date
+         healthInsurNum, setHealthInsurNum,
+         emplInsurInsurQualAcqDate, setEmplInsurInsurQualAcqDate,
+         emplInsurInsurQualLostDate, setEmplInsurInsurQualLostDate,
+         socInsurInsurQualAcqDate, setSocInsurInsurQualAcqDate,
+         socInsurInsurQualLostDate, setSocInsurInsurQualLostDate
         } = props
 
-  const Change_empl_insur_insured_num = (event) =>{
-    setempl_insur_insured_num(event.target.data)
+  const Change_weeklyWorkTime = (event) =>{
+    setWeeklyWorkTime(event.target.data)
   }
-  const Change_pension_num = (event) =>{
-    setpension_num(event.target.data)
+  const Change_pensionNum = (event) =>{
+    setPensionNum(event.target.data)
   }
   const Change_dependent = (event) =>{
     setdependent(event.target.data)
   }
-  const Change_health_insur_num = (event) =>{
-    sethealth_insur_num(event.target.data)
+  const Change_healthInsurNum = (event) =>{
+    setHealthInsurNum(event.target.data)
   }
-  const Change_empl_insur_insur_qual_acq_date = (event) =>{
-    setempl_insur_insur_qual_acq_date(dayjs(event))
+  const Change_emplInsurInsurQualAcqDate = (event) =>{
+    setEmplInsurInsurQualAcqDate(dayjs(event))
   }
-  const Change_empl_insur_insur_qual_lost_date = (event) =>{
-    setempl_insur_insur_qual_lost_date(dayjs(event))
+  const Change_emplInsurInsurQualLostDate = (event) =>{
+    setEmplInsurInsurQualLostDate(dayjs(event))
   }
-  const Change_soc_insur_insur_qual_acq_date = (event) =>{
-    setsoc_insur_insur_qual_acq_date(dayjs(event))
+  const Change_socInsurInsurQualAcqDate = (event) =>{
+    setSocInsurInsurQualAcqDate(dayjs(event))
   }
-  const Change_soc_insur_insur_qual_lost_date = (event) =>{
-    setsoc_insur_insur_qual_lost_date(dayjs(event))
+  const Change_socInsurInsurQualLostDate = (event) =>{
+    setSocInsurInsurQualLostDate(dayjs(event))
   }
   
+  const test = () =>{
+    console.log(weeklyWorkTime)
+    console.log(weeklyWorkTime)
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -52,6 +57,8 @@ export default function PaymentForm(props) {
       <Typography variant="h6" gutterBottom>
         保険
       </Typography>
+
+
       <Grid container spacing={6}>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -61,8 +68,8 @@ export default function PaymentForm(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={empl_insur_insured_num}
-            onChange={(event) => Change_empl_insur_insured_num(event)}
+            value={weeklyWorkTime}
+            onChange={(event) => Change_weeklyWorkTime(event)}
           />
         </Grid>
         
@@ -89,8 +96,8 @@ export default function PaymentForm(props) {
           fullWidth
           openTo="year"
           views={['year', 'month', 'day']}
-          value={empl_insur_insur_qual_acq_date}
-          onChange={(event) => {Change_empl_insur_insur_qual_acq_date(event)}}
+          value={emplInsurInsurQualAcqDate}
+          onChange={(event) => {Change_emplInsurInsurQualAcqDate(event)}}
           inputFormat='YYYY年MM月DD日'
           mask='____年__月'
           leftArrowButtonText="前月を表示"
@@ -113,8 +120,8 @@ export default function PaymentForm(props) {
           fullWidth
           openTo="year"
           views={['year', 'month', 'day']}
-          value={empl_insur_insur_qual_lost_date}
-          onChange={(event) => {Change_empl_insur_insur_qual_lost_date(event)}}
+          value={emplInsurInsurQualLostDate}
+          onChange={(event) => {Change_emplInsurInsurQualLostDate(event)}}
           inputFormat='YYYY年MM月DD日'
           mask='____年__月'
           leftArrowButtonText="前月を表示"
@@ -138,8 +145,8 @@ export default function PaymentForm(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={pension_num}
-            onChange={(event) => Change_pension_num(event)}
+            value={pensionNum}
+            onChange={(event) => Change_pensionNum(event)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -150,8 +157,8 @@ export default function PaymentForm(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={health_insur_num}
-            onChange={(event) => Change_health_insur_num(event)}
+            value={healthInsurNum}
+            onChange={(event) => Change_healthInsurNum(event)}
           />
         </Grid>
 
@@ -162,8 +169,8 @@ export default function PaymentForm(props) {
           fullWidth
           openTo="year"
           views={['year', 'month', 'day']}
-          value={soc_insur_insur_qual_acq_date}
-          onChange={(event) => {Change_soc_insur_insur_qual_acq_date(event)}}
+          value={socInsurInsurQualAcqDate}
+          onChange={(event) => {Change_socInsurInsurQualAcqDate(event)}}
           inputFormat='YYYY年MM月DD日'
           mask='____年__月'
           leftArrowButtonText="前月を表示"
@@ -186,9 +193,9 @@ export default function PaymentForm(props) {
           fullWidth
           openTo="year"
           views={['year', 'month', 'day']}
-          value={soc_insur_insur_qual_lost_date}
+          value={socInsurInsurQualLostDate}
           onChange={(newValue) => {
-            Change_soc_insur_insur_qual_lost_date(newValue);
+            Change_socInsurInsurQualLostDate(newValue);
           }}
           inputFormat='YYYY年MM月DD日'
           mask='____年__月'
