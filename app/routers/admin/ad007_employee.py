@@ -20,7 +20,7 @@ async def ad007_01_put(item:ad007):
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
     emp = session.query(m_employeestable)\
-            .filter(m_employeestable.id == item.employee_id).first
+            .filter(m_employeestable.id == item.employee_id).first()
     emp.employee_num = item.employee_num
     emp.idm = item.idm
     emp.shift_id = item.shift_id
@@ -53,7 +53,7 @@ async def ad007_01_put(item:ad007):
     emp.update_at = get_time
     # emp.update_acc = get_time
     pay = session.query(m_paymentstable)\
-            .filter(m_paymentstable.employee_id == item.employee_id).first
+            .filter(m_paymentstable.employee_id == item.employee_id).first()
     pay.base = item.base
     pay.salary_type = item.salary_type
     pay.std_monthly_compensation = item.std_monthly_compensation
