@@ -28,7 +28,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import ja from 'date-fns/locale/ja'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
-import AddPayment from './payment_dialog'
+// import AddPayment from './payment_dialog'
+import AddPayment from './addPayment/addPayment'
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 // import AddPayment from './addPayment/addEmployee'
@@ -41,14 +42,14 @@ function Payment() {
   const [paymentData, setPaymentData] = useState([])
   const [open, setOpen] = useState(false);
   const [value, setValue] = React.useState(dayjs(new Date()));
-  // const [value, setValue] = React.useState(dayjs('2022-10-01'));
   const [empId,setEmpId] = React.useState('');
   const [empName, setEmpName] = React.useState('');
   const [empNum,setEmpNum] = React.useState('');
   const [selectedrow,setSelectedRow] = React.useState([]);
   const headers = ["支払日", "支払い給与", "基本給", "時間外労働手当", "深夜手当", "休日手当", "通勤手当", "健康保険料", "介護保険料", "厚生年金保険料", "雇用保険料", "所得税", "住民税", "源泉徴収", "調整手当", "その他"]
   const [outputData,setOutputData] = React.useState([])
-
+  const [dialogTitle,setDialogTitle] = React.useState('')
+  
   const handleChange = (event) => {
     setEmpId(event.target.value);
     let valuess = employeesData.filter((emp)=>{
@@ -106,7 +107,6 @@ function Payment() {
   //勤怠データ取得
   const SearchAttend = () => {
     let param = '/t_payments_comp/?YYYY=' + value.format("YYYY") + '&MM=' + value.format("MM")
-    console.log(param)
       axios.get(baseURL + param).then(res => {
         setPaymentData(res.data)
         console.log(res.data)
@@ -134,13 +134,45 @@ function Payment() {
       })      
   }
 
-  const UpdateAttend = (event, name) =>{
+  // const UpdateAttend = (event, name) =>{
+  //   setOpen(true)
+  //   console.log(attendData[name -1])
+  //   setSelectedRow(attendData[name - 1])
+  // }
+
+  // const InsertPayment = (event, name) =>{
+  //   setOpen(true)
+  // }
+
+  const UpdateAttend = (event, data) =>{
+    setDialogTitle({title:'賃金台帳編集', mode:1})
+    setSelectedRow(data)
     setOpen(true)
-    console.log(attendData[name -1])
-    setSelectedRow(attendData[name - 1])
+    console.log(data)
   }
 
   const InsertPayment = (event, name) =>{
+    setDialogTitle({title:'賃金台帳追加', mode:2})
+    setSelectedRow({t_paymentstable:{
+                      id:1,
+                      employee_id:1,
+                      payment_date:dayjs(new Date()),
+                      income:"",
+                      base:"",
+                      overtime_pay:"",
+                      nighttime_pay:"",
+                      holiday_pay:"",
+                      commuting_pay:"",
+                      health_insur:"",
+                      care_insur:"",
+                      pension_insur:"",
+                      employee_insur:"",
+                      income_tax:"",
+                      inhabitant_tax:"",
+                      withholding_tax:"",
+                      adj_pay:"",
+                      others:""
+                                  }})
     setOpen(true)
   }
 
@@ -238,20 +270,21 @@ function Payment() {
                 <TableCell align="center">{data.t_paymentstable.withholding_tax}</TableCell>
                 <TableCell align="center">{data.t_paymentstable.adj_pay}</TableCell>
                 <TableCell align="center">{data.t_paymentstable.others}</TableCell>                
-                  <TableCell align="center">
-                    <Button variant="contained" onClick={(event) => UpdateAttend(event,data.day)}>編集</Button>
-                  </TableCell>
+                  {/* <TableCell align="center">
+                    <Button variant="contained" onClick={(event) => UpdateAttend(event,data)}>編集</Button>
+                  </TableCell> */}
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        <Fab color="primary" aria-label="add" variant="extended" onClick={InsertPayment}>
+        {/* <Fab color="primary" aria-label="add" variant="extended" onClick={InsertPayment}>
           <AddIcon />賃金台帳追加
-        </Fab>
+        </Fab> */}
     </Container>
-    <AddPayment open={open} setOpen={setOpen}/>
+    <AddPayment open={open} setOpen={setOpen} paymentData={selectedrow} dialogTitle={dialogTitle}/>
   </>
   )
     }
     export default Payment;
+    

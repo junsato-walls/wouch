@@ -11,38 +11,39 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 
 export default function Review(props) {
-  const {base, setbase,
-         std_monthly_compensation, setstd_monthly_compensation,
-         commuting_pay, setcommuting_pay,
-         health_insur, sethealth_insur,
-         care_insur, setcare_insur,
-         pension_insur, setpension_insur,
-         income_tax, setincome_tax,
-         inhabitant_tax, setinhabitant_tax,
+
+  const {base, setBase,
+         stdMonthlyCompensation, setStdMonthlyCompensation,
+         commutingPay, setCommutingPay,
+         healthInsur, setHealthInsur,
+         careInsur, setCareInsur,
+         pensionInsur, setPensionInsur,
+         incomeTax, setIncomeTax,
+         inhabitantTax, setInhabitantTax,
         } = props
   const Change_base = (event) =>{
-    setbase(event.target.data)
+    setBase(event.target.data)
   }
-  const Change_std_monthly_compensation = (event) =>{
-    setstd_monthly_compensation(event.target.data)
+  const Change_stdMonthlyCompensation = (event) =>{
+    setStdMonthlyCompensation(event.target.data)
   }
-  const Change_commuting_pay = (event) =>{
-    setcommuting_pay(event.target.data)
+  const Change_commutingPay = (event) =>{
+    setCommutingPay(event.target.data)
   }
-  const Change_health_insur = (event) =>{
-    sethealth_insur(event.target.data)
+  const Change_healthInsur = (event) =>{
+    setHealthInsur(event.target.data)
   }
-  const Change_care_insur = (event) =>{
-    setcare_insur(event.target.data)
+  const Change_careInsur = (event) =>{
+    setCareInsur(event.target.data)
   }
-  const Change_pension_insur = (event) =>{
-    setpension_insur(event.target.data)
+  const Change_pensionInsur = (event) =>{
+    setPensionInsur(event.target.data)
   }
-  const Change_income_tax = (event) =>{
-    setincome_tax(event.target.data)
+  const Change_incomeTax = (event) =>{
+    setIncomeTax(event.target.data)
   }
-  const Change_inhabitant_tax = (event) =>{
-    setinhabitant_tax(event.target.data)
+  const Change_inhabitantTax = (event) =>{
+    setInhabitantTax(event.target.data)
   }
   
   return (
@@ -73,8 +74,8 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={std_monthly_compensation}   
-            onChange={(event) => Change_std_monthly_compensation(event)}         
+            value={stdMonthlyCompensation}   
+            onChange={(event) => Change_stdMonthlyCompensation(event)}         
           />
         </Grid>
         <Grid item xs={12} sm={4}>
@@ -85,8 +86,8 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={commuting_pay}
-            onChange={(event) => Change_commuting_pay(event)}
+            value={commutingPay}
+            onChange={(event) => Change_commutingPay(event)}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
@@ -97,8 +98,8 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={income_tax}
-            onChange={(event) => Change_income_tax(event)}
+            value={incomeTax}
+            onChange={(event) => Change_incomeTax(event)}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
@@ -109,8 +110,8 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={inhabitant_tax}
-            onChange={(event) => Change_inhabitant_tax(event)}
+            value={inhabitantTax}
+            onChange={(event) => Change_inhabitantTax(event)}
           />
         </Grid>
         <Grid item xs={12} sm={1}>
@@ -123,8 +124,8 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={health_insur}
-            onChange={(event) => Change_health_insur(event)}
+            value={healthInsur}
+            onChange={(event) => Change_healthInsur(event)}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
@@ -135,8 +136,8 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={care_insur}
-            onChange={(event) => Change_care_insur(event)}
+            value={careInsur}
+            onChange={(event) => Change_careInsur(event)}
           />
         </Grid>        
         <Grid item xs={12} sm={4}>
@@ -147,8 +148,8 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={pension_insur}
-            onChange={(event) => Change_pension_insur(event)}
+            value={pensionInsur}
+            onChange={(event) => Change_pensionInsur(event)}
           />
         </Grid>
       </Grid>

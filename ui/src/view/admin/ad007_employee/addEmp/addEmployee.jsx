@@ -27,7 +27,7 @@ const steps = ['社員情報', '各種保険', '契約情報'];
 const theme = createTheme();
 
 export default function AlertDialog(props) {
-  const { open, setOpen, empData, setEmpData } = props
+  const { open, setOpen, empData, dialogTitle } = props
   const [activeStep, setActiveStep] = React.useState(0);
   const [data, setData] = React.useState(0);
   // 社員情報 名前 フリガナ
@@ -228,7 +228,26 @@ export default function AlertDialog(props) {
         empData={insurance} setEmpData={setInsurance} 
         />;
       case 2:
-        return <Review empData={contract} setEmpData={setContract} />;
+        return <Review empData={contract} setEmpData={setContract} 
+        // 契約
+        // 基本給 給与形態 標準月額報酬 通勤手当 健康保険料 介護保険料 厚生年金保険料 所得税 住民税
+            base={base}
+            setBase={setBase}
+            salaryType={salaryType}
+            setSalaryType={setSalaryType}
+            stdMonthlyCompensation={stdMonthlyCompensation}
+            setStdMonthlyCompensation={setStdMonthlyCompensation}
+            commutingPay={commutingPay}
+            setCommutingPay={setCommutingPay}
+            careInsur={careInsur}
+            setCareInsur={setCareInsur}
+            pensionInsur={pensionInsur}
+            setPensionInsur={setPensionInsur}
+            incomeTax={incomeTax}
+            setIncomeTax={setIncomeTax}
+            inhabitantTax={inhabitantTax}
+            setInhabitantTax={setInhabitantTax}        
+        />;
       default:
         throw new Error('Unknown step');
     }
@@ -267,7 +286,7 @@ export default function AlertDialog(props) {
 
               <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
                 <Typography component="h1" variant="h4" align="center">
-                  従業員追加
+                {dialogTitle.title}
                 </Typography>
                 <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
                   {steps.map((label) => (

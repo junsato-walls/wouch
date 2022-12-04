@@ -10,142 +10,173 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function PaymentForm(props) {
-  const {empData, setEmpData} = props
-  const [value, setValue] = React.useState(dayjs('2022-10-01'));
+  const { health_insur, setHealthInsur,
+    careInsur, setCareInsur,
+    pensionInsur, setPensionInsur,
+    employeeInsur, setEmployeeInsur,
+    incomeTax, setIncome_tax,
+    inhabitantTax, setInhabitantTax,
+    withholdingTax, setWithholdingTax,
+    others, setOthers
+  } = props
+  const Change_value = (event, value) => {
+    switch (value) {
+      case 'health_insur':
+        setHealthInsur(parseInt(event.target.value,10))
+        break;
+      case 'careInsur':
+        setCareInsur(parseInt(event.target.value,10))
+        break;
+      case 'pensionInsur':
+        setPensionInsur(parseInt(event.target.value,10))
+        break;
+      case 'employeeInsur':
+        setEmployeeInsur(parseInt(event.target.value,10))
+        break;
+      case 'incomeTax':
+        setIncome_tax(parseInt(event.target.value,10))
+        break;
+      case 'inhabitantTax':
+        setInhabitantTax(parseInt(event.target.value,10))
+        break;   
+      case 'withholdingTax':
+        setWithholdingTax(parseInt(event.target.value,10))
+        break;
+      case 'others':
+        setOthers(parseInt(event.target.value,10))
+        break;
+    }
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-        保険
-      </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="Name"
-            label="雇用保険被保険者番号"
-            fullWidth
-            autoComplete="name"
-            variant="standard"
-            value={empData.empl_insur_insured_num}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          
-          <TextField
-            required
-            id="Name"
-            label="基礎年金番号"
-            fullWidth
-            autoComplete="name"
-            variant="standard"
-            value={empData.pension_num}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="Name"
-            label="健康保険被保険者整理記号"
-            fullWidth
-            autoComplete="name"
-            variant="standard"
-            value={empData.health_insur_num}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="Name"
-            label="被扶養者"
-            fullWidth
-            autoComplete="name"
-            variant="standard"
-            value={empData.dependent}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            id="Name"
-            label="雇用保険被保険者番号"
-            fullWidth
-            autoComplete="name"
-            variant="standard"
-            value={empData.empl_insur_insured_num}
-          />
-        </Grid>
+      <React.Fragment>
+        <Typography variant="h6" gutterBottom>
+          保険料・税金
+        </Typography>
 
-        <Grid item xs={12} sm={6}>
-        <DatePicker
-          disableFuture
-          label="雇用保険被保険者資格取得日"
-          openTo="year"
-          views={['year', 'month', 'day']}
-          value={empData.empl_insur_insur_qual_acq_date}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => 
-          <TextField {...params} 
-            variant="standard"
-          />}
-        />
-        </Grid>
+        <Grid container spacing={3}>
+          <Grid item xs={6}>
+            <TextField
+              required
+              id="Name"
+              label="健康保険料"
+              type="number"
+              fullWidth
+              autoComplete="name"
+              variant="standard"
+              InputLabelProps={{ shrink: true }}
+              value={health_insur}
+              onChange={(event) => Change_value(event, 'health_insur')}
+            />
+          </Grid>
 
-        <Grid item xs={12} sm={6}>
-        <DatePicker
-          disableFuture
-          label="雇用保険被保険者資格喪失日"
-          openTo="year"
-          views={['year', 'month', 'day']}
-          value={empData.empl_insur_insur_qual_lost_date}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => 
-          <TextField {...params} 
-            variant="standard"
-          />}
-        />
-        </Grid>
+          <Grid item xs={6}>
+            <TextField
+              required
+              id="Name"
+              label="介護保険料"
+              type="number"
+              fullWidth
+              autoComplete="name"
+              variant="standard"
+              InputLabelProps={{ shrink: true }}
+              value={careInsur}
+              onChange={(event) => Change_value(event, 'careInsur')}
+            />
+          </Grid>
 
-        <Grid item xs={12} sm={6}>
-        <DatePicker
-          disableFuture
-          label="社会保険被保険者資格取得日"
-          openTo="year"
-          views={['year', 'month', 'day']}
-          value={empData.soc_insur_insur_qual_acq_date}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => 
-          <TextField {...params} 
-            variant="standard"
-          />}
-        />
-        </Grid>
+          <Grid item xs={6}>
+            <TextField
+              required
+              id="Name"
+              label="厚生年金保険料"
+              type="number"
+              fullWidth
+              autoComplete="name"
+              variant="standard"
+              InputLabelProps={{ shrink: true }}
+              value={pensionInsur}
+              onChange={(event) => Change_value(event, 'pensionInsur')}
+            />
+          </Grid>
 
-        <Grid item xs={12} sm={6}>
-        <DatePicker
-          disableFuture
-          label="社会保険被保険者資格喪失日"
-          openTo="year"
-          views={['year', 'month', 'day']}
-          value={empData.soc_insur_insur_qual_lost_date}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => 
-          <TextField {...params} 
-            variant="standard"
-          />}
-        />
+          <Grid item xs={6}>
+            <TextField
+              required
+              id="Name"
+              label="雇用保険料"
+              type="number"
+              fullWidth
+              autoComplete="name"
+              variant="standard"
+              InputLabelProps={{ shrink: true }}
+              value={employeeInsur}
+              onChange={(event) => Change_value(event, 'employeeInsur')}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              required
+              id="Name"
+              label="所得税"
+              type="number"
+              fullWidth
+              autoComplete="name"
+              variant="standard"
+              InputLabelProps={{ shrink: true }}
+              value={incomeTax}
+              onChange={(event) => Change_value(event, 'incomeTax')}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              required
+              id="Name"
+              label="住民税"
+              type="number"
+              fullWidth
+              autoComplete="name"
+              variant="standard"
+              InputLabelProps={{ shrink: true }}
+              value={inhabitantTax}
+              onChange={(event) => Change_value(event, 'inhabitantTax')}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              required
+              id="Name"
+              label="源泉徴収"
+              type="number"
+              fullWidth
+              autoComplete="name"
+              variant="standard"
+              InputLabelProps={{ shrink: true }}
+              value={withholdingTax}
+              onChange={(event) => Change_value(event, 'withholdingTax')}
+            />
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              required
+              id="Name"
+              label="その他"
+              type="number"
+              fullWidth
+              autoComplete="name"
+              variant="standard"
+              InputLabelProps={{ shrink: true }}
+              value={others}
+              onChange={(event) => Change_value(event, 'others')}
+            />
+          </Grid>
         </Grid>
-      </Grid>
-    </React.Fragment>
+      </React.Fragment>
     </LocalizationProvider>
   );
 }

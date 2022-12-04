@@ -82,7 +82,7 @@ async def t_payments_in(item:t_payments):
     pay.withholding_tax = item.withholding_tax
     pay.adj_pay = item.adj_pay
     pay.others = item.others
-    pay.credate_at = get_time
+    pay.create_at = get_time
     session.add(pay)
     session.commit()
     session.close()

@@ -16,8 +16,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 const AddressForm = (props) => {
-  const {empData, setEmpData,
-         employeeNum,setEmployeeNum,
+  const {employeeNum,setEmployeeNum,
          name,setName,
          nameKana,setNameKana,
          birthday,setBirthday,
@@ -32,21 +31,13 @@ const AddressForm = (props) => {
          mynumber,setMynumber,
          nationality,setNationality
         } = props
-
-  const [value, setValue] = React.useState(dayjs('2022-10-01'));
-  const [value2, setValue2] = React.useState(dayjs('1992-12-01'));
-  const test = () =>{
-    console.log(empData)
-  }
-
   const Change_employeeNum = (event) =>{    
     setEmployeeNum(event.target.data)
   }
   const Change_name = (event) =>{    
     setName(event.target.data)
   }
-  const Change_nameKana = (event) =>{
-    console.log(event.target.data)    
+  const Change_nameKana = (event) =>{ 
     setNameKana(event.target.data)
   }
   const Change_birthday = (event) =>{
@@ -56,7 +47,6 @@ const AddressForm = (props) => {
     setInCompany(dayjs(event))
   }
   const Change_exitCompany = (event) =>{
-    console.log(dayjs(event))
     setExitCompany(dayjs(event))
   }
   const Change_sex = (event) =>{    
@@ -138,7 +128,7 @@ const AddressForm = (props) => {
         toolbarTitle="日付選択"
         cancelText="キャンセル"
         okText="選択"
-        toolbarFormat="YYYY年MM月dd日"
+        toolbarFormat="YYYY年MM月DD日"
         renderInput={(params) =>
         <TextField {...params} 
           variant="standard"
