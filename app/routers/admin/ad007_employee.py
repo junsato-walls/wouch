@@ -51,6 +51,8 @@ async def ad007_01_put(item:ad007):
     emp.end = item.end
     emp.memo = item.memo
     emp.update_at = get_time
+    session.commit()
+    session.close()
     # emp.update_acc = get_time
     pay = session.query(m_paymentstable)\
             .filter(m_paymentstable.employee_id == item.employee_id).first()
@@ -70,7 +72,7 @@ async def ad007_01_put(item:ad007):
     session.close()
     return 
 
-@router.post("/ad007_01/")
+@router.post("/ad007_02/")
 async def ad007_01_post(item:ad007):
     m_employees = m_employeestable()
     m_payments = m_paymentstable()

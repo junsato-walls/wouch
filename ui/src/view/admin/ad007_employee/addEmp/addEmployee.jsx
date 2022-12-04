@@ -32,6 +32,7 @@ export default function AlertDialog(props) {
   const baseURL = 'http://localhost:8000'
   const [activeStep, setActiveStep] = React.useState(0);
   const [data, setData] = React.useState(0);
+  const [empId, setEmpId] = React.useState("")
   // 社員情報 名前 フリガナ
   const [employeeNum, setEmployeeNum] = React.useState("")
   const [name, setName] = React.useState("");
@@ -119,6 +120,7 @@ export default function AlertDialog(props) {
 
   useEffect(() => {
     if (empData != ""){
+      setEmpId(empData.m_employeestable.id)
       // 社員情報
       setEmployeeNum(empData.m_employeestable.employee_num)
       setName(empData.m_employeestable.name)
@@ -298,13 +300,14 @@ export default function AlertDialog(props) {
           inhabitant_tax:inhabitantTax
         })
       axios.put(baseURL + "/ad007_01", {
+        employee_id:empId,
         employee_num:employeeNum,
         shift_id:1,
         name:name,
         name_kana:nameKana,
         birthday:birthday,
         in_company:inCompany,
-        exit_company:exitCompany,
+        // exit_company:exitCompany,
         sex:sex,
         weekly_work_time:weeklyWorkTime,
         post_code:postCode,
@@ -337,14 +340,14 @@ export default function AlertDialog(props) {
 
       })
     }else if(dialogTitle.mode == 2){ 
-      axios.post(baseURL + "/ad007_01/", { 
+      axios.post(baseURL + "/ad007_02/", { 
         employee_num:employeeNum,
         shift_id:1,
         name:name,
         name_kana:nameKana,
         birthday:birthday,
         in_company:inCompany,
-        exit_company:exitCompany,
+        // exit_company:exitCompany,
         sex:sex,
         weekly_work_time:weeklyWorkTime,
         post_code:postCode,
