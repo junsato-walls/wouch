@@ -12,8 +12,9 @@ import Button from '@mui/material/Button';
 
 export default function PaymentForm(props) {
   const {weeklyWorkTime, setWeeklyWorkTime,
+         emplInsurInsuredNum,setEmplInsurInsuredNum,
          pensionNum, setPensionNum,
-         dependent, setdependent,
+         dependent, setDependent,
          healthInsurNum, setHealthInsurNum,
          emplInsurInsurQualAcqDate, setEmplInsurInsurQualAcqDate,
          emplInsurInsurQualLostDate, setEmplInsurInsurQualLostDate,
@@ -21,17 +22,18 @@ export default function PaymentForm(props) {
          socInsurInsurQualLostDate, setSocInsurInsurQualLostDate
         } = props
 
-  const Change_weeklyWorkTime = (event) =>{
-    setWeeklyWorkTime(event.target.data)
+  const Change_emplInsurInsuredNum = (event) =>{
+    console.log(event.target.value)
+    setEmplInsurInsuredNum(event.target.value)
   }
   const Change_pensionNum = (event) =>{
-    setPensionNum(event.target.data)
+    setPensionNum(event.target.value)
   }
   const Change_dependent = (event) =>{
-    setdependent(event.target.data)
+    setDependent(event.target.value)
   }
   const Change_healthInsurNum = (event) =>{
-    setHealthInsurNum(event.target.data)
+    setHealthInsurNum(event.target.value)
   }
   const Change_emplInsurInsurQualAcqDate = (event) =>{
     setEmplInsurInsurQualAcqDate(dayjs(event))
@@ -46,11 +48,6 @@ export default function PaymentForm(props) {
     setSocInsurInsurQualLostDate(dayjs(event))
   }
   
-  const test = () =>{
-    console.log(weeklyWorkTime)
-    console.log(weeklyWorkTime)
-  }
-
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
     <React.Fragment>
@@ -58,8 +55,8 @@ export default function PaymentForm(props) {
         保険
       </Typography>
 
-
       <Grid container spacing={6}>
+
         <Grid item xs={12} sm={6}>
           <TextField
             required
@@ -68,8 +65,8 @@ export default function PaymentForm(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
-            value={weeklyWorkTime}
-            onChange={(event) => Change_weeklyWorkTime(event)}
+            value={emplInsurInsuredNum}
+            onChange={(event) => Change_emplInsurInsuredNum(event)}
           />
         </Grid>
         

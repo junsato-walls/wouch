@@ -149,26 +149,26 @@ export default function AlertDialog(props) {
     if (activeStep + 1 === steps.length) {
       console.log('登録')
       if (dialogTitle.mode == 1){
-      console.log('dialogTitle:' + dialogTitle.title)
-      console.log({ 
-        employee_id:empID,
-        payment_date:paymentDate,
-        income:income,
-        base:base,
-        overtime_pay:overtimePay,
-        nighttime_pay:nighttimePay,
-        holiday_pay:holidayPay,
-        commuting_pay:commutingPay,
-        health_insur:healthInsur,
-        care_insur:careInsur,
-        pension_insur:pensionInsur,
-        employee_insur:employeeInsur,
-        income_tax:incomeTax,
-        inhabitant_tax:inhabitantTax,
-        withholding_tax:withholdingTax,
-        adj_pay:adjPay,
-        others:others
-      })
+      // console.log('dialogTitle:' + dialogTitle.title)
+      // console.log({ 
+      //   employee_id:empID,
+      //   payment_date:paymentDate,
+      //   income:income,
+      //   base:base,
+      //   overtime_pay:overtimePay,
+      //   nighttime_pay:nighttimePay,
+      //   holiday_pay:holidayPay,
+      //   commuting_pay:commutingPay,
+      //   health_insur:healthInsur,
+      //   care_insur:careInsur,
+      //   pension_insur:pensionInsur,
+      //   employee_insur:employeeInsur,
+      //   income_tax:incomeTax,
+      //   inhabitant_tax:inhabitantTax,
+      //   withholding_tax:withholdingTax,
+      //   adj_pay:adjPay,
+      //   others:others
+      // })
 
       axios.put(baseURL + "/t_payments_up", {
         id:paymentID, 

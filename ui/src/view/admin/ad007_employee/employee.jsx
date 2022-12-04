@@ -84,7 +84,7 @@ function Employee() {
             <TableBody>
               {EmployeeData.map((data) => (
                 <TableRow>
-                  <TableCell align="center">{data.m_employeestable.pension_num}</TableCell>
+                  <TableCell align="center">{data.m_employeestable.employee_num}</TableCell>
                   <TableCell align="center">{data.m_employeestable.name}</TableCell>
                   <TableCell align="center">{data.m_employeestable.name_kana}</TableCell>
                   <TableCell align="center">

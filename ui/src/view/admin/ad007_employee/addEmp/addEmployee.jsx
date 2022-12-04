@@ -22,12 +22,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddressForm from './EmployeeForm';
 import PaymentForm from './InsuranceForm';
 import Review from './ContractForm';
+import axios from "axios";
 
 const steps = ['社員情報', '各種保険', '契約情報'];
 const theme = createTheme();
 
 export default function AlertDialog(props) {
   const { open, setOpen, empData, dialogTitle } = props
+  const baseURL = 'http://localhost:8000'
   const [activeStep, setActiveStep] = React.useState(0);
   const [data, setData] = React.useState(0);
   // 社員情報 名前 フリガナ
@@ -76,7 +78,7 @@ export default function AlertDialog(props) {
   const [pensionInsur, setPensionInsur] = React.useState("");
   const [incomeTax, setIncomeTax] = React.useState("");
   const [inhabitantTax, setInhabitantTax] = React.useState("");
-
+  const [healthInsur, setHealthInsur] = React.useState("");
   const [employeeInfo, setEmployeeInfo] = React.useState({
     employee_num: "",
     name_kana: "",
@@ -155,7 +157,7 @@ export default function AlertDialog(props) {
       setPensionInsur(empData.m_paymentstable.pension_insur)
       setIncomeTax(empData.m_paymentstable.income_tax)
       setInhabitantTax(empData.m_paymentstable.inhabitant_tax)
-    
+      setHealthInsur(empData.m_paymentstable.health_insur)
     }
     setData(empData)
   }, [open])
@@ -246,7 +248,9 @@ export default function AlertDialog(props) {
             incomeTax={incomeTax}
             setIncomeTax={setIncomeTax}
             inhabitantTax={inhabitantTax}
-            setInhabitantTax={setInhabitantTax}        
+            setInhabitantTax={setInhabitantTax}
+            healthInsur={healthInsur}
+            setHealthInsur={setHealthInsur}        
         />;
       default:
         throw new Error('Unknown step');
@@ -254,7 +258,126 @@ export default function AlertDialog(props) {
   }
 
   const handleNext = () => {
-    console.log(empData)
+    if (activeStep + 1 === steps.length) {
+      if (dialogTitle.mode == 1){
+        console.log({
+          employee_num:employeeNum,
+          shift_id:1,
+          name:name,
+          name_kana:nameKana,
+          birthday:birthday,
+          in_company:inCompany,
+          exit_company:exitCompany,
+          sex:sex,
+          weekly_work_time:weeklyWorkTime,
+          post_code:postCode,
+          address_pref:addressPref,
+          address_city:addressCity,
+          address_other:addressOther,
+          tell:tell,
+          empl_insur_insured_num:emplInsurInsuredNum,
+          pension_num:pensionNum,
+          mynumber:mynumber,
+          former_job:formerJob,
+          dependent:dependent,
+          health_insur_num:healthInsurNum,
+          nationality:nationality,
+          empl_insur_insur_qual_acq_date:emplInsurInsurQualAcqDate,
+          empl_insur_insur_qual_lost_date:emplInsurInsurQualLostDate,
+          soc_insur_insur_qual_acq_date:socInsurInsurQualAcqDate,
+          soc_insur_insur_qual_lost_date:socInsurInsurQualLostDate,
+          memo:memo,
+          base:base,
+          salary_type:salaryType,
+          std_monthly_compensation:stdMonthlyCompensation,
+          commuting_pay:commutingPay,
+          health_insur:healthInsur,
+          care_insur:careInsur,
+          pension_insur:pensionInsur,
+          income_tax:incomeTax,
+          inhabitant_tax:inhabitantTax
+        })
+      axios.put(baseURL + "/ad007_01", {
+        employee_num:employeeNum,
+        shift_id:1,
+        name:name,
+        name_kana:nameKana,
+        birthday:birthday,
+        in_company:inCompany,
+        exit_company:exitCompany,
+        sex:sex,
+        weekly_work_time:weeklyWorkTime,
+        post_code:postCode,
+        address_pref:addressPref,
+        address_city:addressCity,
+        address_other:addressOther,
+        tell:tell,
+        empl_insur_insured_num:emplInsurInsuredNum,
+        pension_num:pensionNum,
+        mynumber:mynumber,
+        former_job:formerJob,
+        dependent:dependent,
+        health_insur_num:healthInsurNum,
+        nationality:nationality,
+        empl_insur_insur_qual_acq_date:emplInsurInsurQualAcqDate,
+        empl_insur_insur_qual_lost_date:emplInsurInsurQualLostDate,
+        soc_insur_insur_qual_acq_date:socInsurInsurQualAcqDate,
+        soc_insur_insur_qual_lost_date:socInsurInsurQualLostDate,
+        memo:memo,
+        base:base,
+        salary_type:salaryType,
+        std_monthly_compensation:stdMonthlyCompensation,
+        commuting_pay:commutingPay,
+        health_insur:healthInsur,
+        care_insur:careInsur,
+        pension_insur:pensionInsur,
+        income_tax:incomeTax,
+        inhabitant_tax:inhabitantTax
+      }).then((res) => {
+
+      })
+    }else if(dialogTitle.mode == 2){ 
+      axios.post(baseURL + "/ad007_01/", { 
+        employee_num:employeeNum,
+        shift_id:1,
+        name:name,
+        name_kana:nameKana,
+        birthday:birthday,
+        in_company:inCompany,
+        exit_company:exitCompany,
+        sex:sex,
+        weekly_work_time:weeklyWorkTime,
+        post_code:postCode,
+        address_pref:addressPref,
+        address_city:addressCity,
+        address_other:addressOther,
+        tell:tell,
+        empl_insur_insured_num:emplInsurInsuredNum,
+        pension_num:pensionNum,
+        mynumber:mynumber,
+        former_job:formerJob,
+        dependent:dependent,
+        health_insur_num:healthInsurNum,
+        nationality:nationality,
+        empl_insur_insur_qual_acq_date:emplInsurInsurQualAcqDate,
+        empl_insur_insur_qual_lost_date:emplInsurInsurQualLostDate,
+        soc_insur_insur_qual_acq_date:socInsurInsurQualAcqDate,
+        soc_insur_insur_qual_lost_date:socInsurInsurQualLostDate,
+        memo:memo,
+        base:base,
+        salary_type:salaryType,
+        std_monthly_compensation:stdMonthlyCompensation,
+        commuting_pay:commutingPay,
+        health_insur:healthInsur,
+        care_insur:careInsur,
+        pension_insur:pensionInsur,
+        income_tax:incomeTax,
+        inhabitant_tax:inhabitantTax
+      }).then((res) => {
+
+      })
+    }
+    }
     setActiveStep(activeStep + 1);
   };
 

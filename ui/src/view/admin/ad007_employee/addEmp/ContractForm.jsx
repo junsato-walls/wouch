@@ -9,6 +9,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
+import Button from '@mui/material/Button';
 
 export default function Review(props) {
 
@@ -54,6 +55,7 @@ export default function Review(props) {
         契約
       </Typography>
       <Grid container spacing={6}>
+
         <Grid item xs={12} sm={4}>
           <TextField
             required
@@ -62,6 +64,7 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
+            InputLabelProps={{ shrink: true }}
             value={base}
             onChange={(event) => Change_base(event)}
           />
@@ -74,6 +77,7 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
+            InputLabelProps={{ shrink: true }}
             value={stdMonthlyCompensation}   
             onChange={(event) => Change_stdMonthlyCompensation(event)}         
           />
@@ -86,6 +90,7 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
+            InputLabelProps={{ shrink: true }}
             value={commutingPay}
             onChange={(event) => Change_commutingPay(event)}
           />
@@ -98,6 +103,7 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
+            InputLabelProps={{ shrink: true }}
             value={incomeTax}
             onChange={(event) => Change_incomeTax(event)}
           />
@@ -110,6 +116,7 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
+            InputLabelProps={{ shrink: true }}
             value={inhabitantTax}
             onChange={(event) => Change_inhabitantTax(event)}
           />
@@ -124,6 +131,7 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
+            InputLabelProps={{ shrink: true }}
             value={healthInsur}
             onChange={(event) => Change_healthInsur(event)}
           />
@@ -136,6 +144,7 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
+            InputLabelProps={{ shrink: true }}
             value={careInsur}
             onChange={(event) => Change_careInsur(event)}
           />
@@ -148,6 +157,7 @@ export default function Review(props) {
             fullWidth
             autoComplete="name"
             variant="standard"
+            InputLabelProps={{ shrink: true }}
             value={pensionInsur}
             onChange={(event) => Change_pensionInsur(event)}
           />
