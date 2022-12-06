@@ -40,6 +40,7 @@ import AddAttend from './attend_dialog'
 function Attend() {
   const baseURL = 'http://localhost:8000'
   const [employeesData, setEmployeesData] = useState([])
+  const [jobShiftData, setJobShiftData] = useState([])
   const [attendData, setAttendData] = useState([])
   const [open, setOpen] = useState(false);
   const [value, setValue] = React.useState(dayjs('2022-10-01'));
@@ -90,6 +91,7 @@ function Attend() {
 
   useEffect(() => {
     GetEmpoyees()
+    GetJobShift()
   }, [])
 
   useEffect(() => {
@@ -113,7 +115,12 @@ function Attend() {
       console.log(res.data)
     })
   }
-
+  const GetJobShift = () => { 
+    axios.get(baseURL + '/m_jobshift').then(res => {
+      setJobShiftData(res.data[0])
+      console.log(res.data[0])
+    })
+  }
   //勤怠データ取得
   const SearchAttend = () => {
     let param = '/ad005_01/?employee_id=' + empId +'&YYYY=' + value.format("YYYY") +'&MM=' + value.format("MM")
@@ -129,9 +136,7 @@ function Attend() {
     setOpen(true)
     console.log(value.format("YYYY年MM月"))
     console.log(attendData[name -1])
-    // console.log(value.)
     setSelectedRow(attendData[name - 1])
-
   }
   return (
   <>
@@ -243,7 +248,7 @@ function Attend() {
           </Table>
         </TableContainer>
     </Container>
-    <AddAttend open={open} setOpen={setOpen} ym={value} empNum={empNum} name={empName} empId={empId} attend={selectedrow} />
+    <AddAttend open={open} setOpen={setOpen} ym={value} empNum={empNum} name={empName} empId={empId} attend={selectedrow} jobShiftData={jobShiftData}/>
   </>
   )
     }

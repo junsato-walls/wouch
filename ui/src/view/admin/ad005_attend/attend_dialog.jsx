@@ -16,7 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-
+import dayjs from 'dayjs';
 import CssBaseline from '@mui/material/CssBaseline';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -31,7 +31,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios";
 
 const AttendDialog = (props) => {
-  const {open,setOpen,ym,empNum,name,empId,attend } = props
+  const {open,setOpen,ym,empNum,name,empId,attend,jobShiftData } = props
   const baseURL = 'http://localhost:8000'
   const [activeStep, setActiveStep] = React.useState(0);
   const [workInTimeH, setWorkInTimeH] = React.useState("09");
@@ -55,9 +55,7 @@ const AttendDialog = (props) => {
   };
 
   const valueChange = (event) => {
-    // console.log(event.target.id)
     let value = ('0' + event.target.value.slice(-2)).substring( 1, 3 )
-    // console.log((event.target.id).substr(-1,1))
     if (event.target.id.substr(-1,1) == "M" && Number(value) >= 60){
       return
     }
@@ -85,8 +83,42 @@ const AttendDialog = (props) => {
   };
 
   useEffect(() => {
-    if (open == 'true') {
+    if (attend.length != 0){
+      // 出勤時間      
+      if (attend.round_work_in_time.length != 8){
+        setWorkInTimeH(jobShiftData.work_in_time.substring(0,2))
+        setWorkInTimeM(jobShiftData.work_in_time.substring(3,5))  
+      }else{
+        setWorkInTimeH(attend.round_work_in_time.substring(0,2))
+        setWorkInTimeM(attend.round_work_in_time.substring(3,5))  
+      }
+      // 退勤時間
+      if (attend.round_work_out_time.length != 8){
+        setWorkOutTimeH(jobShiftData.work_out_time.substring(0,2))
+        setWorkOutTimeM(jobShiftData.work_out_time.substring(3,5))
+      }else{
+        setWorkOutTimeH(attend.round_work_out_time.substring(0,2))
+        setWorkOutTimeM(attend.round_work_out_time.substring(3,5))
+      }
+      // 休憩時間
+      if (attend.rest.length != 8){
+        setRestH(jobShiftData.rest.substring(0,2))
+        setRestM(jobShiftData.rest.substring(3,5))
+      }else{
+        setRestH(attend.rest.substring(0,2))
+        setRestM(attend.rest.substring(3,5))
+      }
+      // 勤務状態
+      if (attend.working_st == ""){
+        setWorkingSt(1)
+      }else{
+        setWorkingSt(attend.working_st)
+      }
+    }
+
+    if (open == true) {
       setActiveStep(0);
+
     }
   }, [open])
 
@@ -95,7 +127,6 @@ const AttendDialog = (props) => {
   }
 
   const insertAttend = () =>{
-
     if (attend.id == ""){
       axios.post(baseURL + "/ad005_03", {
         employee_id: empId,
@@ -104,6 +135,13 @@ const AttendDialog = (props) => {
         round_work_out_time: ym.format("YYYY-MM-") + attend.day + " " + workOutTimeH + ':' + workOutTimeM,
         rest: restH + ':' + restM
       }).then((res) => {
+        if (workingSt == 2 ){
+          axios.put(baseURL + "/leave_minus/", {
+            employee_id: empId  
+          }).then((res) => {
+          })
+        }
+
         setTimeout(() => {
           setOpen(false);
       }, 100);
@@ -118,6 +156,22 @@ const AttendDialog = (props) => {
         round_work_out_time: ym.format("YYYY-MM-") + attend.day + " " + workOutTimeH + ':' + workOutTimeM,
         rest: restH + ':' + restM
       }).then((res) => {
+        console.log(attend.working_st)
+        console.log(workingSt)
+
+        if (attend.working_st == 2 && workingSt != 2){
+          axios.put(baseURL + "/leave_plus/", {
+            employee_id: empId
+          }).then((res) => {
+          })
+        }
+        if (attend.working_st != 2 && workingSt == 2 ){
+          axios.put(baseURL + "/leave_minus/", {
+            employee_id: empId  
+          }).then((res) => {
+          })                
+        }
+
         setTimeout(() => {
           setOpen(false);
       }, 100);
