@@ -1,19 +1,10 @@
 import * as React from 'react';
 import { useState, useRef, useEffect } from "react";
-import ErrorDialog from '../../../components/dialog';
-import Footer from '../../../components/footer';
-import Button from '../../../components/button';
-import Label from '../../../components/label';
-import styled from "styled-components";
 import axios from "axios";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Dialog from '@mui/material/Dialog';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -36,22 +27,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 function Calendar() {
-  const childRef = useRef()
   const baseURL = "http://localhost:8000";
-  const [nfcid, setNFCID] = useState("");
-  const [UserDate, setUserDate] = useState();
-  const [workMode, setWorkMode] = useState(0);
-  const [ModeWord, setModeWord] = useState("出勤");
-  const [VisibleFlg, setVisibleFlg] = useState(false);
-  const [WorkInColor, setWorkInColor] = useState(true);
-  const [BreakTimeColor, setBreakTimeColor] = useState(false);
-  const [WorkOutColor, setWorkOutColor] = useState(false);
-  const [LeaveRequestColor, setLeaveRequestColor] = useState(false);
-  const [LeaveRemainDate, setLeaveRemainDate] = useState([]);
-  const [LeaveRequestDate, setLeaveRequestDate] = useState([]);
   const [InfoDate, setInfoDate] = useState();
   const [YMD, setYMD] = useState(new Date());
-  const [HMS, setHMS] = useState();
   const [open, setOpen] = useState(true);
   const [holiday, setHoliday] = useState([]);
   const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
@@ -123,12 +101,6 @@ function Calendar() {
         console.log(res.data)
     })
   }
-//   const countup = () => {
-//       const nowTime = new Date();
-//       const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
-//       setYMD(nowTime.getFullYear() + "年" + (nowTime.getMonth() + 1) + "月" + nowTime.getDate() + "日" + dayOfWeekStrJP[nowTime.getDay()]);
-//       setHMS(('00' + nowTime.getHours()).slice(-2) + ":" + ('00' + nowTime.getMinutes()).slice(-2) + ":" + ('00' + nowTime.getSeconds()).slice(-2));
-//   }; setInterval(countup, 1000);
 
   const ExistHoliday = (value) =>{
     setInfoDate(value.dateStr);
@@ -169,15 +141,6 @@ function Calendar() {
                                   events={holiday}
                                   // 日付クリック動作
                                   dateClick={(value) => ExistHoliday(value) }
-                                  //   dateClick={
-                                //       function (clickInfoDate) {
-                                //         ExistHoliday(clickInfoDate)
-
-                                //         console.log(clickInfoDate)
-                                //         //   setInfoDate(clickInfoDate.dateStr);
-                                //         //   handleClickOpenGet();
-                                //       }
-                                //   }
                                   // 前へ　次へを押下時にgetリクエストの送信
                                   datesSet={(valueDate) => getYMD(valueDate)}
                               />
@@ -255,50 +218,3 @@ function Calendar() {
   );
 }
 export default Calendar;
-
-const Back = styled.div`
-          background-color: #FFFFFF;
-          min-height: 90vh;
-          `;
-
-const Main = styled.div`
-          display: flex;
-          justify-content: top;
-          flex-direction: column;
-          align-items: top;
-          min-height: 65vh;
-          `;
-
-const ClockYMD = styled.div`
-          font-size: 5.0vw;
-          color: black;
-          `;
-
-const ClockHMS = styled.div`
-          font-size: 15.0vw;
-          color: black;
-          `;
-
-const WorkInButton = {
-  // background: "#FFFFAA",
-  color: "#00000",
-
-};
-
-const BreakTimeButton = {
-  // background: "#AADDFF",
-  color: "#00000",
-};
-
-const WorkOutButton = {
-  // background: "#FFBBBB",
-  color: "#00000",
-};
-
-const LeaveRequestButton = {
-  // background: "#AAFF88",
-  color: "#00000",
-};
-
-const FooterTheme = {
-};
