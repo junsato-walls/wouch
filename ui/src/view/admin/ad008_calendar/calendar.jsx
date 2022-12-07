@@ -60,7 +60,7 @@ function Calendar() {
   const [OpenDel, setOpenDel] = React.useState(false);
 
   const handleClickOpenGet = () => {
-      setOpenAlert(true);
+      setOpenGet(true);
   };
 
   const handleClickOpenDel = () => {
