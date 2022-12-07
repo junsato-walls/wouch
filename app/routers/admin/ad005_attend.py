@@ -37,7 +37,7 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
         worktime = ''
         over = ''
         if len(rec) != 0:
-            id = rec[0].employee_id
+            id = rec[0].id
             workst = rec[0].working_st
             rwit = rec[0].round_work_in_time.time()
             rwot = rec[0].round_work_out_time.time()
