@@ -57,9 +57,29 @@ const AttendDialog = (props) => {
   const valueChange = (event) => {
     let value = ('0' + event.target.value.slice(-2)).substring( 1, 3 )
     if (event.target.id.substr(-1,1) == "M" && Number(value) >= 60){
-      return
+      value = 0
+    }else if(event.target.id.substr(-1,1) == "M" && Number(value) < 0){
+      value = 59
     }
     
+    if (event.target.id == "workInTimeH" && Number(value) > 23){
+      value = 0
+    }else if(event.target.id == "workInTimeH" && Number(value) < 0){
+      value = 23
+    }
+
+    if (event.target.id == "workOutTimeH" && Number(value) > 36){
+      value = 0
+    }else if(event.target.id == "workOutTimeH" && Number(value) < 0){
+      value = 36
+    }
+
+    if (event.target.id == "restH" && Number(value) > 23){
+      value = 0
+    }else if(event.target.id == "restH" && Number(value) < 0){
+      value = 23
+    }
+
     switch (event.target.id) {
       case "workInTimeH":
         setWorkInTimeH(value)
@@ -125,14 +145,30 @@ const AttendDialog = (props) => {
   const dialogclose = () => {
     setOpen(false);
   }
-
+  // Number(value)
   const insertAttend = () =>{
+    let InTime = ((Number(workInTimeH) + Number(restH) ) * 60) + Number(workInTimeM) + Number(restM)
+    let OutTime = (Number(workOutTimeH) * 60) + Number(workOutTimeM)
+    if (InTime >= OutTime){
+      console.log(InTime)
+      console.log(OutTime)      
+      return
+    }
+    let roundWorkInTime = ym.format("YYYY-MM-") + attend.day + " " + workInTimeH + ":" + workInTimeM
+    let roundWorkOutTime = ym.format("YYYY-MM-") + attend.day + " " + workOutTimeH + ':' + workOutTimeM
+    if (workOutTimeH >= 24){
+      const workdate = new Date(ym.format("YYYY-MM-") + (Number(attend.day)))
+      roundWorkOutTime = ym.format("YYYY-MM-") + (Number(attend.day) + 1) + " " + (workOutTimeH - 24) + ':' + workOutTimeM
+      workdate.setDate(workdate.getDate() + 1)
+      roundWorkOutTime = dayjs(workdate).format("YYYY-MM-DD") + " " + (workOutTimeH - 24) + ':' + workOutTimeM
+      console.log(roundWorkOutTime)
+    }
     if (attend.id == ""){
       axios.post(baseURL + "/ad005_03", {
         employee_id: empId,
         working_st: workingSt,
-        round_work_in_time: ym.format("YYYY-MM-") + attend.day + " " + workInTimeH + ":" + workInTimeM,
-        round_work_out_time: ym.format("YYYY-MM-") + attend.day + " " + workOutTimeH + ':' + workOutTimeM,
+        round_work_in_time: roundWorkInTime,
+        round_work_out_time: roundWorkOutTime,
         rest: restH + ':' + restM
       }).then((res) => {
         if (workingSt == 2 ){
@@ -152,8 +188,8 @@ const AttendDialog = (props) => {
         id: attend.id,
         employee_id: empId,
         working_st: workingSt,
-        round_work_in_time: ym.format("YYYY-MM-") + attend.day + " " + workInTimeH + ":" + workInTimeM,
-        round_work_out_time: ym.format("YYYY-MM-") + attend.day + " " + workOutTimeH + ':' + workOutTimeM,
+        round_work_in_time: roundWorkInTime,
+        round_work_out_time: roundWorkOutTime,
         rest: restH + ':' + restM
       }).then((res) => {
         console.log(attend.working_st)
