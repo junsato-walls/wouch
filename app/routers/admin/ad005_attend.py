@@ -19,18 +19,23 @@ router = APIRouter()
 
 @router.get("/ad005_01/")
 async def ad005_01(employee_id: int, YYYY: int, MM: int):
+    if MM == 12:
+        YYYY_end = YYYY + 1
+        MM_end = 1
+    else:
+        YYYY_end = YYYY
+        MM_end = MM + 1
     get_ad005 = session.query(t_attendstable)\
                 .filter(t_attendstable.employee_id == employee_id)\
                 .filter(t_attendstable.working_st != 8)\
-                .filter(extract('year',t_attendstable.round_work_in_time) == YYYY )\
-                .filter(extract('month',t_attendstable.round_work_in_time) == MM )\
+                .filter(t_attendstable.ymd >= date(YYYY, MM, 1))\
+                .filter(t_attendstable.ymd < date(YYYY_end, MM_end, 1))\
                 .all()
-    session.close
     m_range = calendar.monthrange(YYYY, MM)[1]
     param = []
     for i in range(1, m_range + 1):
         day = date(YYYY, MM, i)
-        rec = list(filter(lambda x: x.round_work_in_time.day == i, get_ad005))
+        rec = list(filter(lambda x: x.ymd.day == i, get_ad005))
         id = ''
         workst = ''
         rwit = ''
@@ -41,9 +46,12 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
         if len(rec) != 0:
             id = rec[0].id
             workst = rec[0].working_st
-            rwit = rec[0].round_work_in_time.time()
-            rwot = rec[0].round_work_out_time.time()
-            rest = rec[0].rest
+            if rec[0].round_work_in_time != None:
+                rwit = rec[0].round_work_in_time.time()
+            if rec[0].round_work_out_time != None:
+                rwot = rec[0].round_work_out_time.time()
+            if rec[0].rest != None:
+                rest = rec[0].rest
             worktime = rec[0].work_time
             over = rec[0].overtime
         param.append({
@@ -57,6 +65,7 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
             'worktime': worktime,
             'overtime': over
             })
+    session.close
     return param
 
 @router.put("/ad005_02/")
@@ -68,19 +77,29 @@ async def ad005_02(item:ad005):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
-    get_rec.employee_id = item.employee_id
-    get_rec.round_work_in_time = item.round_work_in_time
-    get_rec.rest = item.rest
-    get_rec.round_work_out_time = item.round_work_out_time
-    get_rec.working_st = item.working_st
-    worktime = work_time(item)
-    overtime = over_time(item, std_work_time)
-    nighttime = night_time(item, worktime)
-    get_rec.work_time = worktime
-    get_rec.overtime = overtime
-    get_rec.nighttime = nighttime
-    get_rec.update_at = get_time
-    # t_attendstable.update_acc = item.acc_id
+    if item.working_st == 2 or item.working_st == 6:
+        get_rec.round_work_in_time = None
+        get_rec.rest = None
+        get_rec.round_work_out_time = None
+        get_rec.working_st = item.working_st
+        get_rec.work_time = None
+        get_rec.overtime = None
+        get_rec.nighttime = None
+        get_rec.update_at = get_time
+        # t_attendstable.update_acc = item.acc_id
+    else:
+        get_rec.round_work_in_time = item.round_work_in_time
+        get_rec.rest = item.rest
+        get_rec.round_work_out_time = item.round_work_out_time
+        get_rec.working_st = item.working_st
+        worktime = work_time(item)
+        overtime = over_time(item, std_work_time)
+        nighttime = night_time(item, worktime)
+        get_rec.work_time = worktime
+        get_rec.overtime = overtime
+        get_rec.nighttime = nighttime
+        get_rec.update_at = get_time
+        # t_attendstable.update_acc = item.acc_id
     session.commit()
     session.close()
     return
@@ -93,19 +112,31 @@ async def ad005_02(item:ad005):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
-    attend.employee_id = item.employee_id
-    attend.round_work_in_time = item.round_work_in_time
-    attend.rest = item.rest
-    attend.round_work_out_time = item.round_work_out_time
-    attend.working_st = item.working_st
-    worktime = work_time(item)
-    overtime = over_time(item, std_work_time)
-    nighttime = night_time(item, worktime)
-    attend.work_time = worktime
-    attend.overtime = overtime
-    attend.nighttime = nighttime
-    attend.create_at = get_time
-    attend.create_acc = item.acc_id
+    if item.working_st == 2 or item.working_st == 6:
+        attend.employee_id = None
+        attend.round_work_in_time = None
+        attend.rest = None
+        attend.round_work_out_time = None
+        attend.working_st = item.working_st
+        attend.work_time = None
+        attend.overtime = None
+        attend.nighttime = None
+        attend.create_at = get_time
+        # attend.create_acc = item.acc_id
+    else:
+        attend.employee_id = item.employee_id
+        attend.round_work_in_time = item.round_work_in_time
+        attend.rest = item.rest
+        attend.round_work_out_time = item.round_work_out_time
+        attend.working_st = item.working_st
+        worktime = work_time(item)
+        overtime = over_time(item, std_work_time)
+        nighttime = night_time(item, worktime)
+        attend.work_time = worktime
+        attend.overtime = overtime
+        attend.nighttime = nighttime
+        attend.create_at = get_time
+        # attend.create_acc = item.acc_id
     session.add(attend)
     session.commit()
     session.close()
@@ -115,7 +146,7 @@ def work_time(item):
     h = item.rest.hour
     m = item.rest.minute
     wt = item.round_work_out_time - item.round_work_in_time
-    if  item.rest != None  and wt > timedelta(hours=h, minutes=m):
+    if  item.rest != None  and wt >= timedelta(hours=h, minutes=m):
         wt = item.round_work_out_time - item.round_work_in_time - timedelta(hours=h, minutes=m)
     return wt
 
@@ -167,7 +198,7 @@ async def ad005_request(item:tc002):
     return
 
     # 論理削除API
-@router.put("/tc002_03/")
+@router.put("/ad005_05/")
 async def tc002_put(item:tc002):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')

@@ -62,7 +62,7 @@ async def ad008_post(item: ad008):
         attends = t_attendstable()
         attends.employee_id = emp.id
         attends.ymd = item.ymd
-        attends.working_st = item.working_st
+        attends.working_st = 7
         attends.create_at = get_time
         # attends.create_acc = item.acc_id
         session.add(attends)
@@ -77,7 +77,8 @@ async def ad008_delete(item:ad008):
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
     cal_del = session.query(m_calendartable)\
-                .filter(m_calendartable.id == item.id)\
+                .filter(m_calendartable.ymd == item.ymd)\
+                .filter(m_calendartable.attend_st != 3)\
                 .first()
     cal_del.attend_st = 3
     cal_del.update_at = get_time
@@ -87,6 +88,7 @@ async def ad008_delete(item:ad008):
                 .filter(t_attendstable.ymd == item.ymd)\
                 .filter(t_attendstable.working_st != 2)\
                 .filter(t_attendstable.working_st != 6)\
+                .filter(t_attendstable.round_work_in_time == None)\
                 .all()
     for delete in attend_del:
         delete.working_st = 8

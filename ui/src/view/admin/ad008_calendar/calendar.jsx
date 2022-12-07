@@ -59,14 +59,6 @@ function Calendar() {
   const [OpenGet, setOpenGet] = React.useState(false);
   const [OpenDel, setOpenDel] = React.useState(false);
 
-  const handleClickOpenGet = () => {
-      setOpenGet(true);
-  };
-
-  const handleClickOpenDel = () => {
-      setOpenDel(true);
-  };
-
   const handleCloseAlert = () => {
       setOpenGet(false);
       setOpenDel(false);
@@ -78,17 +70,25 @@ function Calendar() {
     axios.post(baseURL + "/ad008_02/", {
       ymd: InfoDate,
       attend_st: 0
+    }).then((res) => {
+        setTimeout(() => {
+            getholiday()
+      }, 100);
     })
     setOpenGet(false);
   };
 
   const delHoliday = () => {
     console.log(InfoDate)
-    axios.post(baseURL + "/ad008_02/", {
+    axios.put(baseURL + "/ad008_03/", {
       ymd: InfoDate,
       attend_st: 0
+    }).then((res) => {
+        setTimeout(() => {
+            getholiday()
+      }, 100);
     })
-    setOpenGet(false);
+    setOpenDel(false);
   };
 
   const getYMD = (valueDate) => {
@@ -131,23 +131,18 @@ function Calendar() {
 //   }; setInterval(countup, 1000);
 
   const ExistHoliday = (value) =>{
+    setInfoDate(value.dateStr);
     const checkHoliday = holiday.filter((data, index) => {
       return data.start == value.dateStr;
     });
     if (checkHoliday.length == 1){
         console.log('休日')
-
-
-
-
+        setOpenDel(true);
     }else{
         console.log('休日設定なし')
+        setOpenGet(true);
     }
     console.log(value.dateStr)
-
-
-
-
   }
 
   const handleClose = () => {
@@ -210,7 +205,7 @@ function Calendar() {
                   </table>
                   <div>
                         <Dialog
-                            open={OpenDel}
+                            open={OpenGet}
                             onClose={handleCloseAlert}
                             aria-labelledby="get-dialog-title"
                             aria-describedby="get-dialog-description"
@@ -233,7 +228,7 @@ function Calendar() {
                   </div>
                   <div>
                         <Dialog
-                            open={OpenGet}
+                            open={OpenDel}
                             onClose={handleCloseAlert}
                             aria-labelledby="del-dialog-title"
                             aria-describedby="del-dialog-description"

@@ -171,7 +171,7 @@ def work_time(round_out, attend):
     h = attend.t_attendstable.rest.hour
     m = attend.t_attendstable.rest.minute
     wt = round_out - attend.t_attendstable.round_work_in_time
-    if  attend.t_attendstable.rest != None  and (wt - timedelta(hours=h, minutes=m)) > 0:
+    if  attend.t_attendstable.rest != None  and wt >= timedelta(hours=h, minutes=m):
         wt = round_out - attend.t_attendstable.round_work_in_time - timedelta(hours=h, minutes=m)
     return wt
 
