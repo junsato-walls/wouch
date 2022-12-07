@@ -51,7 +51,7 @@ function Attend() {
   const [worktime,setWorktime] = React.useState('0h');  
   const [selectedrow,setSelectedRow] = React.useState([]);
 
-  const working_st ={1: '出勤',2: '有給',3: '遅刻',4: '早退',5: '欠勤',6:'特別休暇'} 
+  const working_st ={1: '出勤',2: '有給',3: '遅刻',4: '早退',5: '欠勤',6:'特別休暇',7:"休業日"} 
 
   const handleChange = (event) => {
     setEmpId(event.target.value);

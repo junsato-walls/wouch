@@ -15,6 +15,9 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import Datepickers from '../../../../components/datepicker';
+
+
 const AddressForm = (props) => {
   const {employeeNum,setEmployeeNum,
          name,setName,
@@ -96,8 +99,14 @@ const AddressForm = (props) => {
             onChange={(event) => Change_employeeNum(event)}
           />
       </Grid>
-
+          
       <Grid item xs={12} sm={5}>
+      <Datepickers 
+      label="入社日"
+      value={inCompany}
+      setValue={setInCompany}
+      />
+      {/* <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>    
       <DatePicker
         disableFuture
         label="入社日"
@@ -105,16 +114,31 @@ const AddressForm = (props) => {
         views={['year', 'month', 'day']}
         value={inCompany}
         onChange={(event) => Change_inCompany(event)}
+        inputFormat='yyyy年MM月dd日'
+              mask='____年__月__日'
+              leftArrowButtonText="前月を表示"
+              rightArrowButtonText="次月を表示"
+              toolbarTitle="日付選択"
+              cancelText="キャンセル"
+              okText="選択"
+              toolbarFormat="YYYY年MM月DD日"
         renderInput={(params) => 
         <TextField {...params} 
           variant="standard"
           InputLabelProps={{ shrink: true }}
         />}
       />
+      </LocalizationProvider> */}
       </Grid>
 
       <Grid item xs={12} sm={5}>
-        <DatePicker
+      <Datepickers 
+      label="退社日"
+      value={exitCompany}
+      setValue={setExitCompany}
+      />
+      {/* <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}> */}
+        {/* <DatePicker
         disableFuture
         label="退社日"
         openTo="year"
@@ -134,8 +158,10 @@ const AddressForm = (props) => {
           variant="standard"
           InputLabelProps={{ shrink: true }}
         />}
-      />
+      /> */}
+      {/* </LocalizationProvider> */}
       </Grid>
+      {/* </LocalizationProvider> */}
 
       <Grid item xs={12}sm={6}>
         <TextField
@@ -214,7 +240,12 @@ const AddressForm = (props) => {
         </Grid>
 
         <Grid item xs={12} sm={5}>
-          <DatePicker
+        <Datepickers 
+          label="生年月日"
+          value={birthday}
+          setValue={setBirthday}
+        />
+          {/* <DatePicker
           disableFuture
           label="生年月日"
           openTo="year"
@@ -225,7 +256,7 @@ const AddressForm = (props) => {
           variant="standard"
           InputLabelProps={{ shrink: true }}
           />}
-        />
+        /> */}
         </Grid>
 
         <Grid item xs={12} sm={4}>

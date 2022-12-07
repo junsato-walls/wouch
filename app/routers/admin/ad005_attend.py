@@ -167,14 +167,14 @@ async def ad005_request(item:tc002):
     return
 
     # 論理削除API
-@router.put("/tc002_03/")
+@router.put("/ad005_05/")
 async def tc002_put(item:tc002):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
     record = session.query(t_leaverequesttable)\
                 .filter(t_leaverequesttable.employee_id == item.employee_id)\
-                .filter(t_leaverequesttable.target_date == item.YMD)\
+                .filter(t_leaverequesttable.target_date == item.target_date)\
                 .first()
     record.subm_st = 3
     record.create_at = get_time
