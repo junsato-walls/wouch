@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useImperativeHandle, useEffect, forwardRef } from "react";
+import { useState, useImperativeHandle, useEffect, forwardRef,useRef } from "react";
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -28,6 +28,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import MessageDialog from '../../../components/dialog'
 import axios from "axios";
 
 const AttendDialog = (props) => {
@@ -47,8 +48,13 @@ const AttendDialog = (props) => {
                       {id:4,value:'早退'},
                       {id:5,value:'欠勤'},
                       {id:6,value:'特別休暇'},
-                      {id:7,value:'休日'}
+                      {id:7,value:'休業日'}
                       ]
+  
+  const childRef = useRef()
+  const handleSubmit = (value) => {
+    childRef.current.MessageOpen(value)
+  } 
 
   const handleChange = (event) => {
     setWorkingSt(event.target.value);
@@ -145,13 +151,11 @@ const AttendDialog = (props) => {
   const dialogclose = () => {
     setOpen(false);
   }
-  // Number(value)
   const insertAttend = () =>{
     let InTime = ((Number(workInTimeH) + Number(restH) ) * 60) + Number(workInTimeM) + Number(restM)
     let OutTime = (Number(workOutTimeH) * 60) + Number(workOutTimeM)
-    if (InTime >= OutTime){
-      console.log(InTime)
-      console.log(OutTime)      
+    if (InTime > OutTime){
+      handleSubmit("ad005-e001")
       return
     }
     let roundWorkInTime = ym.format("YYYY-MM-") + attend.day + " " + workInTimeH + ":" + workInTimeM
@@ -176,6 +180,11 @@ const AttendDialog = (props) => {
             employee_id: empId  
           }).then((res) => {
           })
+          axios.post(baseURL + "/ad005_04/", {
+            employee_id: empId,  
+            target_date: ym.format("YYYY-MM-") + attend.day
+          }).then((res) => {
+          })        
         }
 
         setTimeout(() => {
@@ -200,12 +209,22 @@ const AttendDialog = (props) => {
             employee_id: empId
           }).then((res) => {
           })
+          axios.put(baseURL + "/ad005_05/", {
+            employee_id: empId,  
+            target_date: ym.format("YYYY-MM-") + attend.day
+          }).then((res) => {
+          })        
         }
         if (attend.working_st != 2 && workingSt == 2 ){
           axios.put(baseURL + "/leave_minus/", {
             employee_id: empId  
           }).then((res) => {
-          })                
+          })  
+          axios.post(baseURL + "/ad005_04/", {
+            employee_id: empId,  
+            target_date: ym.format("YYYY-MM-") + attend.day
+          }).then((res) => {
+          })                      
         }
 
         setTimeout(() => {
@@ -355,7 +374,7 @@ const AttendDialog = (props) => {
           <Button onClick={dialogclose} sx={{ mt: 3, ml: 1 }}>キャンセル</Button>
         </DialogActions>
       </Dialog>
-
+      <MessageDialog ref={childRef} />
     </>
   )
 }

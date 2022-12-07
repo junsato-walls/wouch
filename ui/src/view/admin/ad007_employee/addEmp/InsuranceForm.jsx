@@ -9,6 +9,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Button from '@mui/material/Button';
+import Datepickers from '../../../../components/datepicker';
 
 export default function PaymentForm(props) {
   const {weeklyWorkTime, setWeeklyWorkTime,
@@ -67,6 +68,7 @@ export default function PaymentForm(props) {
             variant="standard"
             value={emplInsurInsuredNum}
             onChange={(event) => Change_emplInsurInsuredNum(event)}
+            InputLabelProps={{ shrink: true }}
           />
         </Grid>
         
@@ -83,11 +85,17 @@ export default function PaymentForm(props) {
             variant="standard"
             value={dependent}
             onChange={(event) => Change_dependent(event)}
+            InputLabelProps={{ shrink: true }}
           />
         </Grid>
 
         <Grid item xs={12} sm={6}>
-        <DatePicker
+        <Datepickers 
+          label="雇用保険被保険者資格取得日"
+          value={emplInsurInsurQualAcqDate}
+          setValue={setEmplInsurInsurQualAcqDate}
+        />
+        {/* <DatePicker
           disableFuture
           label="雇用保険被保険者資格取得日"
           fullWidth
@@ -106,12 +114,18 @@ export default function PaymentForm(props) {
           renderInput={(params) => 
           <TextField {...params} 
             variant="standard"
+            InputLabelProps={{ shrink: true }}
           />}
-        />
+        /> */}
         </Grid>
 
         <Grid item xs={12} sm={6}>
-        <DatePicker
+        <Datepickers 
+          label="雇用保険被保険者資格喪失日"
+          value={emplInsurInsurQualLostDate}
+          setValue={setEmplInsurInsurQualLostDate}
+        />
+        {/* <DatePicker
           disableFuture
           label="雇用保険被保険者資格喪失日"
           fullWidth
@@ -130,8 +144,9 @@ export default function PaymentForm(props) {
           renderInput={(params) => 
           <TextField {...params} 
             variant="standard"
+            InputLabelProps={{ shrink: true }}
           />}
-        />
+        /> */}
         </Grid>
 
         <Grid item xs={12} sm={6}>
@@ -144,6 +159,7 @@ export default function PaymentForm(props) {
             variant="standard"
             value={pensionNum}
             onChange={(event) => Change_pensionNum(event)}
+            InputLabelProps={{ shrink: true }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -156,11 +172,17 @@ export default function PaymentForm(props) {
             variant="standard"
             value={healthInsurNum}
             onChange={(event) => Change_healthInsurNum(event)}
+            InputLabelProps={{ shrink: true }}
           />
         </Grid>
 
         <Grid item xs={12} sm={6}>
-        <DatePicker
+        <Datepickers 
+          label="社会保険被保険者資格取得日"
+          value={socInsurInsurQualAcqDate}
+          setValue={setSocInsurInsurQualAcqDate}
+        />
+        {/* <DatePicker
           disableFuture
           label="社会保険被保険者資格取得日"
           fullWidth
@@ -179,12 +201,18 @@ export default function PaymentForm(props) {
           renderInput={(params) => 
           <TextField {...params} 
             variant="standard"
+            InputLabelProps={{ shrink: true }}
           />}
-        />
+        /> */}
         </Grid>
 
         <Grid item xs={12} sm={6}>
-        <DatePicker
+        <Datepickers 
+          label="社会保険被保険者資格喪失日"
+          value={socInsurInsurQualLostDate}
+          setValue={setSocInsurInsurQualLostDate}
+        />
+        {/* <DatePicker
           disableFuture
           label="社会保険被保険者資格喪失日"
           fullWidth
@@ -205,8 +233,9 @@ export default function PaymentForm(props) {
           renderInput={(params) => 
           <TextField {...params} 
             variant="standard"
+            InputLabelProps={{ shrink: true }}
           />}
-        />
+        /> */}
         </Grid>
       </Grid>
     </React.Fragment>

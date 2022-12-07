@@ -24,7 +24,8 @@ const AlertDialog = (props, ref) => {
     { id: 'ad001-e001', title: 'ログインエラー', message: 'ログインIDが間違っています。' },
     { id: 'ad001-e002', title: 'ログインエラー', message: 'パスワードが間違っています。' },
     { id: 'ad012-e001', title: '有給管理エラー', message: 'これ以上、有給休暇を増やすことができません。' },
-    { id: 'ad012-e002', title: '有給管理エラー', message: 'これ以上、有給休暇を減らすことができません。' }
+    { id: 'ad012-e002', title: '有給管理エラー', message: 'これ以上、有給休暇を減らすことができません。' },
+    { id: 'ad005-e001', title: '入力値エラー', message: '入力時間が不正です。' }
     ]
     
     const InfoMessage = [{ id: 'ad000-i001', title: 'データ追加', message: 'データの追加が完了しました。' },

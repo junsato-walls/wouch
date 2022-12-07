@@ -49,8 +49,61 @@ function Employee() {
   }
 
   const AddAttend = () =>{
-    setDialogTitle({title:'従業員追加', mode:2})
-    setUpdateData("")
+    setDialogTitle({title:'従業員追加', mode:2})        
+    setUpdateData({
+      m_employeestable:{
+        ddress_city: "",
+        address_other: "",
+        address_pref: "",
+        birthday: "",
+        create_acc: "",
+        create_at: "",
+        dependent: "",
+        empl_insur_insur_qual_acq_date: "",
+        empl_insur_insur_qual_lost_date: "",
+        empl_insur_insured_num: "",
+        employee_num: "",
+        end: "",
+        exit_company: "",
+        former_job: "",
+        health_insur_num: "",
+        id: "",
+        idm: "",
+        in_company: "",
+        memo: "",
+        mynumber: "",
+        name: "",
+        name_kana: "",
+        nationality: "",
+        pension_num: "",
+        post_code: "",
+        sex: "",
+        shift_id: "",
+        soc_insur_insur_qual_acq_date: "",
+        soc_insur_insur_qual_lost_date: "",
+        start: "",
+        tell: "",
+        update_acc: "",
+        update_at: "",
+        weekly_work_time: ""
+      },m_paymentstable:{
+        base: "",
+        care_insur: "",
+        commuting_pay: "",
+        create_acc: "",
+        create_at: "",
+        employee_id: "",
+        health_insur: "",
+        id: "",
+        income_tax: "",
+        inhabitant_tax: "",
+        pension_insur: "",
+        salary_type: "",
+        std_monthly_compensation: "",
+        update_acc: "",
+        update_at: ""
+      }
+    })
     setOpen('true')
   }
   

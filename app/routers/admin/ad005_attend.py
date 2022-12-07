@@ -205,7 +205,7 @@ async def tc002_put(item:tc002):
     get_time = datetime.now(JST)
     record = session.query(t_leaverequesttable)\
                 .filter(t_leaverequesttable.employee_id == item.employee_id)\
-                .filter(t_leaverequesttable.target_date == item.YMD)\
+                .filter(t_leaverequesttable.target_date == item.target_date)\
                 .first()
     record.subm_st = 3
     record.create_at = get_time
