@@ -2,7 +2,9 @@ from fastapi import APIRouter, FastAPI, HTTPException
 from sqlalchemy import extract
 from sqlalchemy.types import Date, DateTime, Time, Float
 from models.t01_attends import t_attends, t_attendstable
+from models.t02_leaverequest import t_leaverequest, t_leaverequesttable
 from models.admin.ad005_attend import ad005
+from models.timecard.tc002_request import tc002
 from sqlalchemy.orm import session
 from typing import List  # ネストされたBodyを定義するために必要
 from db import session  # DBと接続するためのセッション
@@ -145,3 +147,38 @@ def night_time(item, worktime):
     else :
         nt = "0:00"
     return nt
+
+
+@router.post("/ad005_04/")
+async def ad005_request(item:tc002):
+    t_delta = timedelta(hours=9)
+    JST = timezone(t_delta, 'JST')
+    get_time = datetime.now(JST)
+    req = t_leaverequesttable()
+    req.employee_id = item.employee_id
+    req.request_date = get_time.date()
+    req.target_date = item.target_date
+    req.subm_st = 1
+    req.create_at = get_time
+    # req.create_acc = item.acc_id
+    session.add(req)
+    session.commit()
+    session.close()
+    return
+
+    # 論理削除API
+@router.put("/tc002_03/")
+async def tc002_put(item:tc002):
+    t_delta = timedelta(hours=9)
+    JST = timezone(t_delta, 'JST')
+    get_time = datetime.now(JST)
+    record = session.query(t_leaverequesttable)\
+                .filter(t_leaverequesttable.employee_id == item.employee_id)\
+                .filter(t_leaverequesttable.target_date == item.YMD)\
+                .first()
+    record.subm_st = 3
+    record.create_at = get_time
+    # record.create_acc = item.acc_id
+    session.commit()
+    session.close()
+    return

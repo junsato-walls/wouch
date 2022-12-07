@@ -56,24 +56,39 @@ function Calendar() {
   const [holiday, setHoliday] = useState([]);
   const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
 
-  const [OpenAlert, setOpenAlert] = React.useState(false);
+  const [OpenGet, setOpenGet] = React.useState(false);
+  const [OpenDel, setOpenDel] = React.useState(false);
 
-  const handleClickOpenAlert = () => {
+  const handleClickOpenGet = () => {
       setOpenAlert(true);
   };
 
+  const handleClickOpenDel = () => {
+      setOpenDel(true);
+  };
+
   const handleCloseAlert = () => {
-      setOpenAlert(false);
+      setOpenGet(false);
+      setOpenDel(false);
   };
 
   //リクエストをDBへ投げる
-  const sendHoliday = () => {
+  const getHoliday = () => {
     console.log(InfoDate)
     axios.post(baseURL + "/ad008_02/", {
       ymd: InfoDate,
       attend_st: 0
     })
-    setOpenAlert(false);
+    setOpenGet(false);
+  };
+
+  const delHoliday = () => {
+    console.log(InfoDate)
+    axios.post(baseURL + "/ad008_02/", {
+      ymd: InfoDate,
+      attend_st: 0
+    })
+    setOpenGet(false);
   };
 
   const getYMD = (valueDate) => {
@@ -121,10 +136,17 @@ function Calendar() {
     });
     if (checkHoliday.length == 1){
         console.log('休日')
+
+
+
+
     }else{
         console.log('休日設定なし')
     }
     console.log(value.dateStr)
+
+
+
 
   }
 
@@ -158,7 +180,7 @@ function Calendar() {
 
                                 //         console.log(clickInfoDate)
                                 //         //   setInfoDate(clickInfoDate.dateStr);
-                                //         //   handleClickOpenAlert();
+                                //         //   handleClickOpenGet();
                                 //       }
                                 //   }
                                   // 前へ　次へを押下時にgetリクエストの送信
@@ -188,23 +210,46 @@ function Calendar() {
                   </table>
                   <div>
                         <Dialog
-                            open={OpenAlert}
+                            open={OpenDel}
                             onClose={handleCloseAlert}
-                            aria-labelledby="alert-dialog-title"
-                            aria-describedby="alert-dialog-description"
+                            aria-labelledby="get-dialog-title"
+                            aria-describedby="get-dialog-description"
                         >
-                            <DialogTitle id="alert-dialog-title">
+                            <DialogTitle id="get-dialog-title">
                                 {"休業日設定"}
                             </DialogTitle>
                             <DialogContent>
-                                <DialogContentText id="alert-dialog-description">
+                                <DialogContentText id="get-dialog-description">
                                     {dayjs(InfoDate).format("M月D日") + dayOfWeekStrJP[dayjs(InfoDate).format("d")]}を休業日に設定しますか？
                                 </DialogContentText>
                             </DialogContent>
                             <DialogActions>
                                 <Stack direction="row" spacing={1}>
                                     <Chip label="いいえ" onClick={handleCloseAlert} />
-                                    <Chip label="はい" onClick={sendHoliday} />
+                                    <Chip label="はい" onClick={getHoliday} />
+                                </Stack>
+                            </DialogActions>
+                        </Dialog>
+                  </div>
+                  <div>
+                        <Dialog
+                            open={OpenGet}
+                            onClose={handleCloseAlert}
+                            aria-labelledby="del-dialog-title"
+                            aria-describedby="del-dialog-description"
+                        >
+                            <DialogTitle id="del-dialog-title">
+                                {"休業日解除"}
+                            </DialogTitle>
+                            <DialogContent>
+                                <DialogContentText id="del-dialog-description">
+                                    {dayjs(InfoDate).format("M月D日") + dayOfWeekStrJP[dayjs(InfoDate).format("d")]}を稼働日に設定しますか？
+                                </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                                <Stack direction="row" spacing={1}>
+                                    <Chip label="いいえ" onClick={handleCloseAlert} />
+                                    <Chip label="はい" onClick={delHoliday} />
                                 </Stack>
                             </DialogActions>
                         </Dialog>

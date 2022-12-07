@@ -7,6 +7,7 @@ from typing import Union
 
 class ad005(BaseModel):
     id: Union[int, None] = None
+    YMD: Union[date, None] = None
     acc_id: Union[int, None] = None
     employee_id: Union[int, None] = None
     working_st: Union[int, None] = None
