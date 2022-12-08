@@ -12,7 +12,6 @@ import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
 
 export default function Review(props) {
-
   const {base, setBase,
          stdMonthlyCompensation, setStdMonthlyCompensation,
          commutingPay, setCommutingPay,
@@ -23,28 +22,28 @@ export default function Review(props) {
          inhabitantTax, setInhabitantTax,
         } = props
   const Change_base = (event) =>{
-    setBase(event.target.data)
+    setBase(event.target.value)
   }
   const Change_stdMonthlyCompensation = (event) =>{
-    setStdMonthlyCompensation(event.target.data)
+    setStdMonthlyCompensation(event.target.value)
   }
   const Change_commutingPay = (event) =>{
-    setCommutingPay(event.target.data)
+    setCommutingPay(event.target.value)
   }
   const Change_healthInsur = (event) =>{
-    setHealthInsur(event.target.data)
+    setHealthInsur(event.target.value)
   }
   const Change_careInsur = (event) =>{
-    setCareInsur(event.target.data)
+    setCareInsur(event.target.value)
   }
   const Change_pensionInsur = (event) =>{
-    setPensionInsur(event.target.data)
+    setPensionInsur(event.target.value)
   }
   const Change_incomeTax = (event) =>{
-    setIncomeTax(event.target.data)
+    setIncomeTax(event.target.value)
   }
   const Change_inhabitantTax = (event) =>{
-    setInhabitantTax(event.target.data)
+    setInhabitantTax(event.target.value)
   }
   
   return (

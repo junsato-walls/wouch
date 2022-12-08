@@ -40,6 +40,9 @@ function Employee() {
   useEffect(() => {
     GetAttend()
   }, [])
+  useEffect(()=>{
+    GetAttend()
+  },[open])
   //勤怠データ取得
   const GetAttend = () => {
     axios.get(baseURL + '/m_employees').then(res => {
@@ -52,7 +55,7 @@ function Employee() {
     setDialogTitle({title:'従業員追加', mode:2})        
     setUpdateData({
       m_employeestable:{
-        ddress_city: "",
+        address_city: "",
         address_other: "",
         address_pref: "",
         birthday: "",
@@ -104,13 +107,13 @@ function Employee() {
         update_at: ""
       }
     })
-    setOpen('true')
+    setOpen(true)
   }
   
   const UpdateAttend = (event, name) =>{
     setDialogTitle({title:'従業員編集', mode:1})
     setUpdateData(name)
-    setOpen('true')
+    setOpen(true)
     console.log(name)
   }
 

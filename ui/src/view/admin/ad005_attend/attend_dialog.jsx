@@ -170,6 +170,7 @@ const AttendDialog = (props) => {
     if (attend.id == ""){
       axios.post(baseURL + "/ad005_03", {
         employee_id: empId,
+        ymd: ym.format("YYYY-MM-") + attend.day,
         working_st: workingSt,
         round_work_in_time: roundWorkInTime,
         round_work_out_time: roundWorkOutTime,

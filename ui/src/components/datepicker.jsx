@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 const AlertDialog = (props) => {
     const {label, value, setValue} = props
     const changeValue = (event) =>{
-        setValue(dayjs(event))
+        setValue(dayjs(event).format("YYYY-MM-DD"))
       }
     return (
     <>
