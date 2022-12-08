@@ -35,13 +35,13 @@ const AddressForm = (props) => {
          nationality,setNationality
         } = props
   const Change_employeeNum = (event) =>{    
-    setEmployeeNum(event.target.data)
+    setEmployeeNum(event.target.value)
   }
   const Change_name = (event) =>{    
-    setName(event.target.data)
+    setName(event.target.value)
   }
   const Change_nameKana = (event) =>{ 
-    setNameKana(event.target.data)
+    setNameKana(event.target.value)
   }
   const Change_birthday = (event) =>{
     setBirthday(event)
@@ -53,28 +53,28 @@ const AddressForm = (props) => {
     setExitCompany(dayjs(event))
   }
   const Change_sex = (event) =>{    
-    setSex(event.target.data)
+    setSex(event.target.value)
   }
   const Change_postCode = (event) =>{    
-    setPostCode(event.target.data)
+    setPostCode(event.target.value)
   }
   const Change_addressPref = (event) =>{    
-    setAddressPref(event.target.data)
+    setAddressPref(event.target.value)
   }
   const Change_addressCity = (event) =>{    
-    setAddressCity(event.target.data)
+    setAddressCity(event.target.value)
   }
   const Change_addressOther = (event) =>{    
-    setAddressOther(event.target.data)
+    setAddressOther(event.target.value)
   }
   const Change_tell = (event) =>{    
-    setTell(event.target.data)
+    setTell(event.target.value)
   }
   const Change_mynumber = (event) =>{    
-    setMynumber(event.target.data)
+    setMynumber(event.target.value)
   }
-  const Change_nationality = (event) =>{    
-    setNationality(event.target.data)
+  const Change_nationality = (event) =>{
+    setNationality(event.target.value)
   }
 
   return (

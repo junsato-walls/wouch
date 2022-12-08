@@ -79,21 +79,7 @@ export default function AlertDialog(props) {
   const [pensionInsur, setPensionInsur] = React.useState("");
   const [incomeTax, setIncomeTax] = React.useState("");
   const [inhabitantTax, setInhabitantTax] = React.useState("");
-  const [healthInsur, setHealthInsur] = React.useState("");
-  const [employeeInfo, setEmployeeInfo] = React.useState({
-    employee_num: "",
-    name_kana: "",
-    name: "",
-    birthday: "",
-    in_company: "",
-    post_code: "",
-    address_pref: "",
-    address_city: "",
-    address_other: "",
-    tell: "",
-    mynumber: "",
-    nationality: ""
-  });
+  const [healthInsur, setHealthInsur] = React.useState("");  
   // 各種保険
   const [insurance, setInsurance] = React.useState({
     empl_insur_insured_num: "",
@@ -119,7 +105,8 @@ export default function AlertDialog(props) {
   });
 
   useEffect(() => {
-    if (empData != ""){
+    console.log(open)
+    if (open == true){
       setEmpId(empData.m_employeestable.id)
       // 社員情報
       setEmployeeNum(empData.m_employeestable.employee_num)
@@ -127,7 +114,7 @@ export default function AlertDialog(props) {
       setNameKana(empData.m_employeestable.name_kana)
       setBirthday(empData.m_employeestable.birthday)
       setInCompany(empData.m_employeestable.in_company)
-      setExitCompany(empData.m_employeestable.post_code)
+      setExitCompany(empData.m_employeestable.exitCompany)
       setSex(empData.m_employeestable.sex)
       setPostCode(empData.m_employeestable.post_code)
       setAddressPref(empData.m_employeestable.address_pref)
@@ -160,7 +147,49 @@ export default function AlertDialog(props) {
       setIncomeTax(empData.m_paymentstable.income_tax)
       setInhabitantTax(empData.m_paymentstable.inhabitant_tax)
       setHealthInsur(empData.m_paymentstable.health_insur)
+    }else{
+      setEmpId("")
+      // 社員情報
+      setEmployeeNum("")
+      setName("")
+      setNameKana("")
+      setBirthday("")
+      setInCompany("")
+      setExitCompany("")
+      setSex("")
+      setPostCode("")
+      setAddressPref("")
+      setAddressCity("")
+      setAddressOther("")
+      setTell("")
+      setMynumber("")
+      setNationality("")
+
+      // 各種保険
+      setWeeklyWorkTime("")
+      setEmplInsurInsuredNum("")
+      setPensionNum("")
+      setFormerJob("")
+      setDependent("")
+      setHealthInsurNum("")
+      setEmplInsurInsurQualAcqDate("")
+      setEmplInsurInsurQualLostDate("")
+      setSocInsurInsurQualAcqDate("")
+      setSocInsurInsurQualLostDate("")
+      setMemo("")
+
+      // 契約
+      setBase("")
+      setSalaryType("")
+      setStdMonthlyCompensation("")
+      setCommutingPay("")
+      setCareInsur("")
+      setPensionInsur("")
+      setIncomeTax("")
+      setInhabitantTax("")
+      setHealthInsur("")
     }
+
     setData(empData)
   }, [open])
 
@@ -289,96 +318,133 @@ export default function AlertDialog(props) {
           soc_insur_insur_qual_acq_date:socInsurInsurQualAcqDate,
           soc_insur_insur_qual_lost_date:socInsurInsurQualLostDate,
           memo:memo,
-          base:base,
-          salary_type:salaryType,
-          std_monthly_compensation:stdMonthlyCompensation,
-          commuting_pay:commutingPay,
-          health_insur:healthInsur,
-          care_insur:careInsur,
-          pension_insur:pensionInsur,
-          income_tax:incomeTax,
-          inhabitant_tax:inhabitantTax
+          base:Number(base),
+          salary_type:Number(salaryType),
+          std_monthly_compensation:Number(stdMonthlyCompensation),
+          commuting_pay:Number(commutingPay),
+          health_insur:Number(healthInsur),
+          care_insur:Number(careInsur),
+          pension_insur:Number(pensionInsur),
+          income_tax:(incomeTax),
+          inhabitant_tax:(inhabitantTax)
         })
-      // axios.put(baseURL + "/ad007_01", {
-      //   employee_id:empId,
-      //   employee_num:employeeNum,
-      //   shift_id:1,
-      //   name:name,
-      //   name_kana:nameKana,
-      //   birthday:birthday,
-      //   in_company:inCompany,
-      //   // exit_company:exitCompany,
-      //   sex:sex,
-      //   weekly_work_time:weeklyWorkTime,
-      //   post_code:postCode,
-      //   address_pref:addressPref,
-      //   address_city:addressCity,
-      //   address_other:addressOther,
-      //   tell:tell,
-      //   empl_insur_insured_num:emplInsurInsuredNum,
-      //   pension_num:pensionNum,
-      //   mynumber:mynumber,
-      //   former_job:formerJob,
-      //   dependent:dependent,
-      //   health_insur_num:healthInsurNum,
-      //   nationality:nationality,
-      //   empl_insur_insur_qual_acq_date:emplInsurInsurQualAcqDate,
-      //   empl_insur_insur_qual_lost_date:emplInsurInsurQualLostDate,
-      //   soc_insur_insur_qual_acq_date:socInsurInsurQualAcqDate,
-      //   soc_insur_insur_qual_lost_date:socInsurInsurQualLostDate,
-      //   memo:memo,
-      //   base:base,
-      //   salary_type:salaryType,
-      //   std_monthly_compensation:stdMonthlyCompensation,
-      //   commuting_pay:commutingPay,
-      //   health_insur:healthInsur,
-      //   care_insur:careInsur,
-      //   pension_insur:pensionInsur,
-      //   income_tax:incomeTax,
-      //   inhabitant_tax:inhabitantTax
-      // }).then((res) => {
+      axios.put(baseURL + "/ad007_01", {
+        employee_id:empId,
+        employee_num:employeeNum,
+        shift_id:1,
+        name:name,
+        name_kana:nameKana,
+        birthday:birthday,
+        in_company:inCompany,
+        exit_company:exitCompany,
+        sex:sex,
+        weekly_work_time:weeklyWorkTime,
+        post_code:postCode,
+        address_pref:addressPref,
+        address_city:addressCity,
+        address_other:addressOther,
+        tell:tell,
+        empl_insur_insured_num:emplInsurInsuredNum,
+        pension_num:pensionNum,
+        mynumber:mynumber,
+        former_job:formerJob,
+        dependent:dependent,
+        health_insur_num:healthInsurNum,
+        nationality:nationality,
+        empl_insur_insur_qual_acq_date:emplInsurInsurQualAcqDate,
+        empl_insur_insur_qual_lost_date:emplInsurInsurQualLostDate,
+        soc_insur_insur_qual_acq_date:socInsurInsurQualAcqDate,
+        soc_insur_insur_qual_lost_date:socInsurInsurQualLostDate,
+        memo:memo,
+        base:base,
+        salary_type:salaryType,
+        std_monthly_compensation:stdMonthlyCompensation,
+        commuting_pay:commutingPay,
+        health_insur:healthInsur,
+        care_insur:careInsur,
+        pension_insur:pensionInsur,
+        income_tax:incomeTax,
+        inhabitant_tax:inhabitantTax
+      }).then((res) => {
 
-      // })
+      })
     }else if(dialogTitle.mode == 2){ 
-      // axios.post(baseURL + "/ad007_02/", { 
-      //   employee_num:employeeNum,
-      //   shift_id:1,
-      //   name:name,
-      //   name_kana:nameKana,
-      //   birthday:birthday,
-      //   in_company:inCompany,
-      //   // exit_company:exitCompany,
-      //   sex:sex,
-      //   weekly_work_time:weeklyWorkTime,
-      //   post_code:postCode,
-      //   address_pref:addressPref,
-      //   address_city:addressCity,
-      //   address_other:addressOther,
-      //   tell:tell,
-      //   empl_insur_insured_num:emplInsurInsuredNum,
-      //   pension_num:pensionNum,
-      //   mynumber:mynumber,
-      //   former_job:formerJob,
-      //   dependent:dependent,
-      //   health_insur_num:healthInsurNum,
-      //   nationality:nationality,
-      //   empl_insur_insur_qual_acq_date:emplInsurInsurQualAcqDate,
-      //   empl_insur_insur_qual_lost_date:emplInsurInsurQualLostDate,
-      //   soc_insur_insur_qual_acq_date:socInsurInsurQualAcqDate,
-      //   soc_insur_insur_qual_lost_date:socInsurInsurQualLostDate,
-      //   memo:memo,
-      //   base:base,
-      //   salary_type:salaryType,
-      //   std_monthly_compensation:stdMonthlyCompensation,
-      //   commuting_pay:commutingPay,
-      //   health_insur:healthInsur,
-      //   care_insur:careInsur,
-      //   pension_insur:pensionInsur,
-      //   income_tax:incomeTax,
-      //   inhabitant_tax:inhabitantTax
-      // }).then((res) => {
+      console.log({
+        employee_num:Number(employeeNum),
+        shift_id:1,
+        name:name,
+        name_kana:nameKana,
+        birthday:birthday,
+        in_company:inCompany,
+        exit_company:exitCompany,
+        sex:Number(sex),
+        weekly_work_time:weeklyWorkTime,
+        post_code:postCode,
+        address_pref:addressPref,
+        address_city:addressCity,
+        address_other:addressOther,
+        tell:tell,
+        empl_insur_insured_num:emplInsurInsuredNum,
+        pension_num:pensionNum,
+        mynumber:mynumber,
+        former_job:formerJob,
+        dependent:Number(dependent),
+        health_insur_num:healthInsurNum,
+        nationality:nationality,
+        empl_insur_insur_qual_acq_date:emplInsurInsurQualAcqDate,
+        empl_insur_insur_qual_lost_date:emplInsurInsurQualLostDate,
+        soc_insur_insur_qual_acq_date:socInsurInsurQualAcqDate,
+        soc_insur_insur_qual_lost_date:socInsurInsurQualLostDate,
+        memo:memo,
+        base:base,
+        salary_type:Number(salaryType),
+        std_monthly_compensation:Number(stdMonthlyCompensation),
+        commuting_pay:Number(commutingPay),
+        health_insur:Number(healthInsur),
+        care_insur:Number(careInsur),
+        pension_insur:Number(pensionInsur),
+        income_tax:Number(incomeTax),
+        inhabitant_tax:Number(inhabitantTax)
+      })
+      axios.post(baseURL + "/ad007_02/", { 
+        employee_num:Number(employeeNum),
+        shift_id:1,
+        name:name,
+        name_kana:nameKana,
+        birthday:birthday,
+        in_company:inCompany,
+        exit_company:exitCompany,
+        sex:Number(sex),
+        weekly_work_time:weeklyWorkTime,
+        post_code:postCode,
+        address_pref:addressPref,
+        address_city:addressCity,
+        address_other:addressOther,
+        tell:tell,
+        empl_insur_insured_num:emplInsurInsuredNum,
+        pension_num:pensionNum,
+        mynumber:mynumber,
+        former_job:formerJob,
+        dependent:Number(dependent),
+        health_insur_num:healthInsurNum,
+        nationality:nationality,
+        empl_insur_insur_qual_acq_date:emplInsurInsurQualAcqDate,
+        empl_insur_insur_qual_lost_date:emplInsurInsurQualLostDate,
+        soc_insur_insur_qual_acq_date:socInsurInsurQualAcqDate,
+        soc_insur_insur_qual_lost_date:socInsurInsurQualLostDate,
+        memo:memo,
+        base:Number(base),
+        salary_type:Number(salaryType),
+        std_monthly_compensation:Number(stdMonthlyCompensation),
+        commuting_pay:Number(commutingPay),
+        health_insur:Number(healthInsur),
+        care_insur:Number(careInsur),
+        pension_insur:Number(pensionInsur),
+        income_tax:Number(incomeTax),
+        inhabitant_tax:Number(inhabitantTax)
+      }).then((res) => {
 
-      // })
+      })
     }
     }
     setActiveStep(activeStep + 1);
@@ -388,7 +454,7 @@ export default function AlertDialog(props) {
     setActiveStep(activeStep - 1);
   };
   useEffect(() => {
-    if (open == 'true') {
+    if (open == true) {
       setActiveStep(0);
     }
   }, [open])
