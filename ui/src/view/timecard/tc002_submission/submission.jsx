@@ -110,13 +110,13 @@ function leaveRequest() {
         targetDate = 1
     }
     console.log(targetYear, targetMonth, targetDate)
-
-    // let param = '/tc002_02/?employee_id=' + employee_id
+    // let paramDate = '/tc002_02/?employee_id=' + employee_id +'&YYYY=' + targetYear +'&MM=' + targetMonth
     let paramDate = '/tc002_02/?employee_id=' + 1 +'&YYYY=' + targetYear +'&MM=' + targetMonth
     axios.get(baseURL + paramDate).then(res => {
         setLeaveRequestDate(res.data)
         console.log(LeaveRequestDate)
     })
+    // let paramLabel = '/tc002_05/?employee_id=' + employee_id +'&YYYY=' + targetYear +'&MM=' + targetMonth
     let paramLabel = '/tc002_05/?employee_id=' + 1 +'&YYYY=' + targetYear +'&MM=' + targetMonth
     axios.get(baseURL + paramLabel).then(res => {
         setLeaveRequestLabel(res.data)
