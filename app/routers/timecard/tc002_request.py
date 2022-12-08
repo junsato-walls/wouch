@@ -1,4 +1,5 @@
 from fastapi import APIRouter, FastAPI, HTTPException
+from sqlalchemy import extract
 from models.m07_leavemanage import m_leavemanage, m_leavemanagetable
 from models.t02_leaverequest import t_leaverequest, t_leaverequesttable
 from models.timecard.tc002_request import tc002
@@ -37,11 +38,12 @@ async def tc002_get(employee_id: int):
     return param
 
 @router.get("/tc002_02/")
-async def tc002_get_request(employee_id: int):
+async def tc002_get_request(employee_id: int, YYYY: int, MM: int):
     ymd = date.today()
     get_request = session.query(t_leaverequesttable)\
                     .filter(t_leaverequesttable.employee_id == employee_id)\
-                    .filter(t_leaverequesttable.target_date > ymd + timedelta(days=-180))\
+                    .filter(extract('year', t_leaverequesttable.target_date) == YYYY)\
+                    .filter(extract('month', t_leaverequesttable.target_date) == MM)\
                     .filter(t_leaverequesttable.subm_st != 3)\
                     .order_by(desc(t_leaverequesttable.target_date))\
                     .all()
@@ -72,10 +74,29 @@ async def tc002_put(item:tc002):
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
     record = session.query(t_leaverequesttable)\
-                .filter(t_leaverequesttable.id == item.id).first()
+                .filter(t_leaverequesttable.employee_id == item.employee_id)\
+                .filter(t_leaverequesttable.target_date == item.target_date)\
+                .filter(t_leaverequesttable.subm_st != 3)\
+                .first()
     record.subm_st = 3
     record.create_at = get_time
     # record.create_acc = item.acc_id
     session.commit()
     session.close()
     return
+
+@router.get("/tc002_05/")
+async def request_label(employee_id: int, YYYY: int, MM: int):
+    request = session.query(t_leaverequesttable)\
+                .filter(t_leaverequesttable.employee_id == employee_id)\
+                .filter(extract('year', t_leaverequesttable.target_date) == YYYY)\
+                .filter(extract('month', t_leaverequesttable.target_date) == MM)\
+                .filter(t_leaverequesttable.subm_st != 3)\
+                .all()
+    label=[]
+    for data in request:
+        label.append({
+            "title": "有給休暇",
+            "start": data.target_date
+        })
+    return label

@@ -22,10 +22,6 @@ import Stack from '@mui/material/Stack';
 import dayjs from 'dayjs';
 
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 function Calendar() {
   const baseURL = "http://localhost:8000";
   const [InfoDate, setInfoDate] = useState();
@@ -50,7 +46,7 @@ function Calendar() {
       attend_st: 0
     }).then((res) => {
         setTimeout(() => {
-            getholiday()
+            getHolidayList()
       }, 100);
     })
     setOpenGet(false);
@@ -63,7 +59,7 @@ function Calendar() {
       attend_st: 0
     }).then((res) => {
         setTimeout(() => {
-            getholiday()
+            getHolidayList()
       }, 100);
     })
     setOpenDel(false);
@@ -74,10 +70,10 @@ function Calendar() {
   }
 
   useEffect(() => {
-        getholiday()
+        getHolidayList()
   }, [YMD]);
     
-  const getholiday = () => {
+  const getHolidayList = () => {
     let targetYear = new Date(YMD.startStr).getFullYear()
     let targetMonth = new Date(YMD.startStr).getMonth() + 1
     let targetDate = new Date(YMD.startStr).getDate()
@@ -108,10 +104,8 @@ function Calendar() {
       return data.start == value.dateStr;
     });
     if (checkHoliday.length == 1){
-        console.log('休日')
         setOpenDel(true);
     }else{
-        console.log('休日設定なし')
         setOpenGet(true);
     }
     console.log(value.dateStr)
@@ -127,7 +121,6 @@ function Calendar() {
                   fullScreen
                   open={open}
                   onClose={handleClose}
-                  TransitionComponent={Transition}
               >
                   <table>
                       <tr>
