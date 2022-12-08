@@ -114,6 +114,7 @@ async def ad005_02(item:ad005):
     get_time = datetime.now(JST)
     if item.working_st == 2 or item.working_st == 6:
         attend.employee_id = None
+        attend.ymd = item.ymd
         attend.round_work_in_time = None
         attend.rest = None
         attend.round_work_out_time = None
@@ -125,6 +126,7 @@ async def ad005_02(item:ad005):
         # attend.create_acc = item.acc_id
     else:
         attend.employee_id = item.employee_id
+        attend.ymd = item.ymd
         attend.round_work_in_time = item.round_work_in_time
         attend.rest = item.rest
         attend.round_work_out_time = item.round_work_out_time

@@ -48,7 +48,7 @@ async def tc002_get_request(employee_id: int):
     session.close
     return get_request
 
-@router.post("/tc002_01/")
+@router.post("/tc002_03/")
 async def tc002_post(item:tc002):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
@@ -66,7 +66,7 @@ async def tc002_post(item:tc002):
     return
 
 # 論理削除API
-@router.put("/tc002_03/")
+@router.put("/tc002_04/")
 async def tc002_put(item:tc002):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
