@@ -135,7 +135,6 @@ export default function AlertDialog(props) {
       setEmplInsurInsurQualLostDate(empData.m_employeestable.empl_insur_insur_qual_lost_date)
       setSocInsurInsurQualAcqDate(empData.m_employeestable.soc_insur_insur_qual_acq_date)
       setSocInsurInsurQualLostDate(empData.m_employeestable.soc_insur_insur_qual_lost_date)
-      setMemo(empData.m_employeestable.memo)
 
       // 契約
       setBase(empData.m_paymentstable.base)
@@ -147,6 +146,9 @@ export default function AlertDialog(props) {
       setIncomeTax(empData.m_paymentstable.income_tax)
       setInhabitantTax(empData.m_paymentstable.inhabitant_tax)
       setHealthInsur(empData.m_paymentstable.health_insur)
+      setMemo(empData.m_employeestable.memo)
+
+
     }else{
       setEmpId("")
       // 社員情報
@@ -196,7 +198,8 @@ export default function AlertDialog(props) {
   const getStepContent = (step) => {
     switch (step) {
       case 0:
-        return <AddressForm 
+        return <AddressForm
+            dialogFlg={dialogTitle.mode} 
         // 社員情報
         // 社員番号 名前 フリガナ
             employeeNum={employeeNum} 
@@ -230,6 +233,8 @@ export default function AlertDialog(props) {
             setMynumber={setMynumber}
             nationality={nationality}
             setNationality={setNationality}
+            formerJob={formerJob}
+            setFormerJob={setFormerJob}
         />;
       case 1:
         return <PaymentForm 
@@ -241,8 +246,6 @@ export default function AlertDialog(props) {
             setEmplInsurInsuredNum={setEmplInsurInsuredNum}
             pensionNum={pensionNum}
             setPensionNum={setPensionNum}
-            formerJob={formerJob}
-            setFormerJob={setFormerJob}
             dependent={dependent}
             setDependent={setDependent}
             healthInsurNum={healthInsurNum}
@@ -256,14 +259,14 @@ export default function AlertDialog(props) {
             setSocInsurInsurQualAcqDate={setSocInsurInsurQualAcqDate}
             socInsurInsurQualLostDate={socInsurInsurQualLostDate}
             setSocInsurInsurQualLostDate={setSocInsurInsurQualLostDate}
-            memo={memo}
-            setMemo={setMemo}            
-        empData={insurance} setEmpData={setInsurance} 
+            empData={insurance} setEmpData={setInsurance} 
         />;
       case 2:
         return <Review empData={contract} setEmpData={setContract} 
         // 契約
         // 基本給 給与形態 標準月額報酬 通勤手当 健康保険料 介護保険料 厚生年金保険料 所得税 住民税
+            weeklyWorkTime={weeklyWorkTime}
+            setWeeklyWorkTime={setWeeklyWorkTime}            
             base={base}
             setBase={setBase}
             salaryType={salaryType}
@@ -282,6 +285,8 @@ export default function AlertDialog(props) {
             setInhabitantTax={setInhabitantTax}
             healthInsur={healthInsur}
             setHealthInsur={setHealthInsur}        
+            memo={memo}
+            setMemo={setMemo}            
         />;
       default:
         throw new Error('Unknown step');
@@ -370,50 +375,12 @@ export default function AlertDialog(props) {
       })
     }else if(dialogTitle.mode == 2){ 
       console.log({
-        employee_num:Number(employeeNum),
+        employee_num:employeeNum,
         shift_id:1,
         name:name,
         name_kana:nameKana,
         birthday:birthday,
         in_company:inCompany,
-        exit_company:exitCompany,
-        sex:Number(sex),
-        weekly_work_time:weeklyWorkTime,
-        post_code:postCode,
-        address_pref:addressPref,
-        address_city:addressCity,
-        address_other:addressOther,
-        tell:tell,
-        empl_insur_insured_num:emplInsurInsuredNum,
-        pension_num:pensionNum,
-        mynumber:mynumber,
-        former_job:formerJob,
-        dependent:Number(dependent),
-        health_insur_num:healthInsurNum,
-        nationality:nationality,
-        empl_insur_insur_qual_acq_date:emplInsurInsurQualAcqDate,
-        empl_insur_insur_qual_lost_date:emplInsurInsurQualLostDate,
-        soc_insur_insur_qual_acq_date:socInsurInsurQualAcqDate,
-        soc_insur_insur_qual_lost_date:socInsurInsurQualLostDate,
-        memo:memo,
-        base:base,
-        salary_type:Number(salaryType),
-        std_monthly_compensation:Number(stdMonthlyCompensation),
-        commuting_pay:Number(commutingPay),
-        health_insur:Number(healthInsur),
-        care_insur:Number(careInsur),
-        pension_insur:Number(pensionInsur),
-        income_tax:Number(incomeTax),
-        inhabitant_tax:Number(inhabitantTax)
-      })
-      axios.post(baseURL + "/ad007_02/", { 
-        employee_num:Number(employeeNum),
-        shift_id:1,
-        name:name,
-        name_kana:nameKana,
-        birthday:birthday,
-        in_company:inCompany,
-        exit_company:exitCompany,
         sex:Number(sex),
         weekly_work_time:weeklyWorkTime,
         post_code:postCode,
@@ -442,8 +409,44 @@ export default function AlertDialog(props) {
         pension_insur:Number(pensionInsur),
         income_tax:Number(incomeTax),
         inhabitant_tax:Number(inhabitantTax)
+      })
+      axios.post(baseURL + "/ad007_02/", { 
+        employee_num:employeeNum,
+        shift_id:1,
+        name:name,
+        name_kana:nameKana,
+        birthday:birthday,
+        in_company:inCompany,
+        sex:Number(sex),
+        weekly_work_time:weeklyWorkTime,
+        post_code:postCode,
+        address_pref:addressPref,
+        address_city:addressCity,
+        address_other:addressOther,
+        tell:tell,
+        empl_insur_insured_num:emplInsurInsuredNum,
+        pension_num:pensionNum,
+        mynumber:mynumber,
+        former_job:"test",
+        dependent:Number(dependent),
+        health_insur_num:healthInsurNum,
+        nationality:nationality,
+        empl_insur_insur_qual_acq_date:emplInsurInsurQualAcqDate,
+        empl_insur_insur_qual_lost_date:emplInsurInsurQualLostDate,
+        soc_insur_insur_qual_acq_date:socInsurInsurQualAcqDate,
+        soc_insur_insur_qual_lost_date:socInsurInsurQualLostDate,
+        memo:memo,
+        base:Number(base),
+        salary_type:Number(salaryType),
+        std_monthly_compensation:Number(stdMonthlyCompensation),
+        commuting_pay:Number(commutingPay),
+        health_insur:Number(healthInsur),
+        care_insur:Number(careInsur),
+        pension_insur:Number(pensionInsur),
+        income_tax:Number(incomeTax),
+        inhabitant_tax:Number(inhabitantTax)
       }).then((res) => {
-
+        console.log(res)
       })
     }
     }
