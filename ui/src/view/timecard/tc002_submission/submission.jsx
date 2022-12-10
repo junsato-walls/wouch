@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -29,7 +29,14 @@ import dayjs from 'dayjs';
 //   return <Slide direction="up" ref={ref} {...props} />;
 // });
 
-function leaveRequest() {
+// tc001に書き込む内容
+{/* <div>
+<Tc002 empId ={UserDate.employee_id} setOpen={setOpen} open={open}/>
+</div> */}
+///////////
+
+function leaveRequest(props) {
+//   const {open,setOpen,empId } = props
   const baseURL = "http://localhost:8000";
   const [InfoDate, setInfoDate] = useState();
   const [YMD, setYMD] = useState(new Date());
@@ -77,7 +84,7 @@ function leaveRequest() {
 
   //残有給日数の取得
   const GetLeaveRemainDate = () => {
-    // let param = '/tc002_01/?employee_id=' + employee_id
+    // let param = '/tc002_01/?employee_id=' + empId
     let param = '/tc002_01/?employee_id=' + 1
     axios.get(baseURL + param).then(res => {
         setLeaveRemainDate(res.data)
@@ -110,13 +117,13 @@ function leaveRequest() {
         targetDate = 1
     }
     console.log(targetYear, targetMonth, targetDate)
-    // let paramDate = '/tc002_02/?employee_id=' + employee_id +'&YYYY=' + targetYear +'&MM=' + targetMonth
+    // let paramDate = '/tc002_02/?employee_id=' + empId +'&YYYY=' + targetYear +'&MM=' + targetMonth
     let paramDate = '/tc002_02/?employee_id=' + 1 +'&YYYY=' + targetYear +'&MM=' + targetMonth
     axios.get(baseURL + paramDate).then(res => {
         setLeaveRequestDate(res.data)
         console.log(LeaveRequestDate)
     })
-    // let paramLabel = '/tc002_05/?employee_id=' + employee_id +'&YYYY=' + targetYear +'&MM=' + targetMonth
+    // let paramLabel = '/tc002_05/?employee_id=' + empId +'&YYYY=' + targetYear +'&MM=' + targetMonth
     let paramLabel = '/tc002_05/?employee_id=' + 1 +'&YYYY=' + targetYear +'&MM=' + targetMonth
     axios.get(baseURL + paramLabel).then(res => {
         setLeaveRequestLabel(res.data)
