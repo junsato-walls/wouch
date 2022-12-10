@@ -35,6 +35,7 @@ function Input(props) {
     const [LeaveRequestColor, setLeaveRequestColor] = useState(false);
     const [LeaveRemainDate, setLeaveRemainDate] = useState([]);
     const [LeaveRequestDate, setLeaveRequestDate] = useState([]);
+    const [requestPaper, setRequestPaper] = useState(false);
     const [EventInfoDate, setEventInfoDate] = useState();
     const [InfoDate, setInfoDate] = useState();
     const [YMD, setYMD] = useState();
@@ -115,6 +116,7 @@ function Input(props) {
             if (workMode == 3) {
                 GetLeaveRemainDate()
                 GetLeaveRequestDate()
+                setRequestPaper(true)
                 setOpen(true)
             }
         }
@@ -174,7 +176,6 @@ function Input(props) {
             setBreakTimeColor(false)
             setWorkOutColor(false)
             setLeaveRequestColor(true)
-            setOpen(true)
             return;
         }
     }
@@ -243,7 +244,10 @@ function Input(props) {
                 </Footer>
             </Back>
             <div>
-                <Tc002 empId ={UserDate.employee_id} setOpen={setOpen} open={open}/>
+                {
+                requestPaper &&
+                    <Tc002 empId ={UserDate.employee_id} setOpen={setOpen} open={open}/>
+                }
             </div> 
         </>
     );
