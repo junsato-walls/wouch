@@ -9,3 +9,4 @@ class tc001(BaseModel):
     workMode: Union[str, None] = None
     idm: Union[str, None] = None
     employee_id: Union[int, None] = None
+    employee_num: Union[str, None] = None

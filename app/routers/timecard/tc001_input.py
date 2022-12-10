@@ -30,10 +30,10 @@ async def tc001_01(item:tc001):
     day = datetime.combine(todate,time(0,0,0))
     ymd = day.astimezone()
     emp = session.query(m_employeestable)\
-            .filter(m_employeestable.idm == item.idm).first()
+            .filter(m_employeestable.employee_num == item.employee_num).first()
     attend = session.query(t_attendstable,m_employeestable)\
                 .join(m_employeestable, m_employeestable.id == t_attendstable.employee_id)\
-                .filter(m_employeestable.idm == item.idm)\
+                .filter(m_employeestable.employee_num == item.employee_num)\
                 .filter(t_attendstable.ymd == todate)\
                 .filter(t_attendstable.working_st != 8).first()
     shift = session.query(m_jobshifttable).first()

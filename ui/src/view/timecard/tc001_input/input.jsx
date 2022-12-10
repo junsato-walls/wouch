@@ -53,7 +53,7 @@ function Input(props) {
         if (nfcid !== "") {
             axios.post(baseURL + "/tc001_01/", {
                 workMode: workMode,
-                idm: nfcid
+                employee_num: nfcid
             })
                 .then((res) => {
                     if (res.status === 200) {
