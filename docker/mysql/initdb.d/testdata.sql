@@ -11,7 +11,7 @@ company_name, post_code, address_pref, address_city, address_other, facility_nam
 Insert Into m_employees ( 
 shift_id, employee_num, idm, name, name_kana, birthday, in_company, exit_company, sex, weekly_work_time, post_code, address_pref, address_city, address_other, tell, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
  ) values ( 
-'1', 'w001', "012e5524f1463b3d", '神谷太郎', 'カミヤタロウ', '1990-04-01', '2010-04-01', NULL, '1', '40', '123-4567', '北海道', '留萌市', '大字留萌1-1', '1234-567-890', '1234567890123', '1234567890', '123456789012', NULL, '1', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022/04/03', '1', NULL
+'1', 'Admin', "012e5524f1463b3d", '神谷太郎', 'カミヤタロウ', '1990-04-01', '2010-04-01', NULL, '1', '40', '123-4567', '北海道', '留萌市', '大字留萌1-1', '1234-567-890', '1234567890123', '1234567890', '123456789012', NULL, '1', '1234567890123', '日本', '2010-04-01', NULL, '2010-04-01', NULL, '2010-04-01', NULL, '2020-04-07', '1', '2022/04/03', '1', NULL
  );
 Insert Into m_employees ( 
 shift_id, employee_num, idm, name, name_kana, birthday, in_company, exit_company, sex, weekly_work_time, post_code, address_pref, address_city, address_other, tell, empl_insur_insured_num, pension_num, mynumber, former_job, dependent, health_insur_num, nationality, empl_insur_insur_qual_acq_date, empl_insur_insur_qual_lost_date, soc_insur_insur_qual_acq_date, soc_insur_insur_qual_lost_date, start, end, create_at, create_acc, update_at, update_acc, memo
