@@ -32,9 +32,12 @@ const AddressForm = (props) => {
          addressOther,setAddressOther,
          tell,setTell,
          mynumber,setMynumber,
-         nationality,setNationality
+         nationality,setNationality,
+         formerJob,setFormerJob,
+         dialogFlg
         } = props
-  const Change_employeeNum = (event) =>{    
+  const Change_employeeNum = (event) =>{   
+    console.log(dialogFlg) 
     setEmployeeNum(event.target.value)
   }
   const Change_name = (event) =>{    
@@ -75,6 +78,9 @@ const AddressForm = (props) => {
   }
   const Change_nationality = (event) =>{
     setNationality(event.target.value)
+  }
+  const Change_formerJob = (event) =>{
+    setFormerJob(event.target.value)
   }
 
   return (
@@ -130,38 +136,21 @@ const AddressForm = (props) => {
       />
       </LocalizationProvider> */}
       </Grid>
+      {(() => {
+        if (dialogFlg == 1) {
+          return  <Grid item xs={12} sm={5}>
+                  <Datepickers label="退社日" value={exitCompany} setValue={setExitCompany} />
+                  </Grid>
+        }
+      })()}
 
-      <Grid item xs={12} sm={5}>
+      {/* <Grid item xs={12} sm={5}>
       <Datepickers 
       label="退社日"
       value={exitCompany}
       setValue={setExitCompany}
       />
-      {/* <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}> */}
-        {/* <DatePicker
-        disableFuture
-        label="退社日"
-        openTo="year"
-        views={['year', 'month', 'day']}
-        value={exitCompany}
-        onChange={(event) => {Change_exitCompany(event)}}
-        inputFormat='YYYY年MM月DD日'
-        mask='____年__月__日'
-        leftArrowButtonText="前月を表示"
-        rightArrowButtonText="次月を表示"
-        toolbarTitle="日付選択"
-        cancelText="キャンセル"
-        okText="選択"
-        toolbarFormat="YYYY年MM月DD日"
-        renderInput={(params) =>
-        <TextField {...params} 
-          variant="standard"
-          InputLabelProps={{ shrink: true }}
-        />}
-      /> */}
-      {/* </LocalizationProvider> */}
-      </Grid>
-      {/* </LocalizationProvider> */}
+      </Grid> */}
 
       <Grid item xs={12}sm={6}>
         <TextField
@@ -259,6 +248,35 @@ const AddressForm = (props) => {
         /> */}
         </Grid>
 
+        <Grid item xs={12}sm={5}>
+          <TextField
+            required
+            id="tell"
+            name="tell"
+            label="電話番号"
+            fullWidth
+            autoComplete="shipping address-line1"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={tell}
+            onChange={(event) => Change_tell(event)}            
+          />
+        </Grid>
+        <Grid item xs={12}sm={7}>
+          <TextField
+            required
+            id="former_job"
+            name="former_job"
+            label="前職名"
+            fullWidth
+            autoComplete="shipping address-line1"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={formerJob}
+            onChange={(event) => Change_formerJob(event)}            
+          />
+        </Grid>
+
         <Grid item xs={12} sm={4}>
           <TextField
             required
@@ -314,20 +332,6 @@ const AddressForm = (props) => {
             InputLabelProps={{ shrink: true }}
             value={addressOther}
             onChange={(event) => Change_addressOther(event)}
-          />
-        </Grid>
-        <Grid item xs={12}sm={6}>
-          <TextField
-            required
-            id="address1"
-            name="address1"
-            label="電話番号"
-            fullWidth
-            autoComplete="shipping address-line1"
-            variant="standard"
-            InputLabelProps={{ shrink: true }}
-            value={tell}
-            onChange={(event) => Change_tell(event)}            
           />
         </Grid>
       </Grid>

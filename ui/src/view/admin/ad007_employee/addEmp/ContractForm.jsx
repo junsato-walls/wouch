@@ -12,7 +12,8 @@ import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
 
 export default function Review(props) {
-  const {base, setBase,
+  const {weeklyWorkTime,setWeeklyWorkTime,
+         base, setBase,
          stdMonthlyCompensation, setStdMonthlyCompensation,
          commutingPay, setCommutingPay,
          healthInsur, setHealthInsur,
@@ -20,7 +21,13 @@ export default function Review(props) {
          pensionInsur, setPensionInsur,
          incomeTax, setIncomeTax,
          inhabitantTax, setInhabitantTax,
+         memo,setMemo
         } = props
+
+  const Change_weeklyWorkTime = (event) =>{
+    setWeeklyWorkTime(event.target.value)
+  }
+      
   const Change_base = (event) =>{
     setBase(event.target.value)
   }
@@ -45,35 +52,38 @@ export default function Review(props) {
   const Change_inhabitantTax = (event) =>{
     setInhabitantTax(event.target.value)
   }
+  const Change_memo = (event) =>{
+    setMemo(event.target.value)
+  }
   
-  return (
-    
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+  return (    
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
         契約
       </Typography>
       <Grid container spacing={6}>
-
-        <Grid item xs={12} sm={4}>
+         <Grid item xs={12} sm={4}>
           <TextField
             required
             id="Name"
-            label="基本給"
+            label="週所定労働時間"
             fullWidth
+            type="number"
             autoComplete="name"
             variant="standard"
             InputLabelProps={{ shrink: true }}
-            value={base}
-            onChange={(event) => Change_base(event)}
+            value={weeklyWorkTime}
+            onChange={(event) => Change_weeklyWorkTime(event)}
           />
         </Grid>
+        
         <Grid item xs={12} sm={4}>
           <TextField
             required
             id="Name"
             label="標準月額報酬"
             fullWidth
+            type="number"
             autoComplete="name"
             variant="standard"
             InputLabelProps={{ shrink: true }}
@@ -81,12 +91,31 @@ export default function Review(props) {
             onChange={(event) => Change_stdMonthlyCompensation(event)}         
           />
         </Grid>
+        <Grid item xs={12} sm={1}>
+        </Grid>
+
+        <Grid item xs={12} sm={4}>
+          <TextField
+            required
+            id="Name"
+            label="基本給"
+            fullWidth
+            type="number"
+            autoComplete="name"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={base}
+            onChange={(event) => Change_base(event)}
+          />
+        </Grid>
+
         <Grid item xs={12} sm={4}>
           <TextField
             required
             id="Name"
             label="通勤手当"
             fullWidth
+            type="number"
             autoComplete="name"
             variant="standard"
             InputLabelProps={{ shrink: true }}
@@ -94,12 +123,16 @@ export default function Review(props) {
             onChange={(event) => Change_commutingPay(event)}
           />
         </Grid>
+
+        <Grid item xs={12} sm={1}>
+        </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
             id="Name"
             label="所得税"
             fullWidth
+            type="number"
             autoComplete="name"
             variant="standard"
             InputLabelProps={{ shrink: true }}
@@ -113,6 +146,7 @@ export default function Review(props) {
             id="Name"
             label="住民税"
             fullWidth
+            type="number"
             autoComplete="name"
             variant="standard"
             InputLabelProps={{ shrink: true }}
@@ -122,12 +156,14 @@ export default function Review(props) {
         </Grid>
         <Grid item xs={12} sm={1}>
         </Grid>
+
         <Grid item xs={12} sm={4}>
           <TextField
             required
             id="Name"
             label="健康保険料"
             fullWidth
+            type="number"
             autoComplete="name"
             variant="standard"
             InputLabelProps={{ shrink: true }}
@@ -141,6 +177,7 @@ export default function Review(props) {
             id="Name"
             label="介護保険料"
             fullWidth
+            type="number"
             autoComplete="name"
             variant="standard"
             InputLabelProps={{ shrink: true }}
@@ -154,6 +191,8 @@ export default function Review(props) {
             id="Name"
             label="厚生年金保健料"
             fullWidth
+            type="number"
+
             autoComplete="name"
             variant="standard"
             InputLabelProps={{ shrink: true }}
@@ -161,8 +200,20 @@ export default function Review(props) {
             onChange={(event) => Change_pensionInsur(event)}
           />
         </Grid>
+        <Grid item xs={12} sm={12}>
+          <TextField
+            required
+            id="Name"
+            label="メモ"
+            fullWidth
+            autoComplete="name"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={memo}
+            onChange={(event) => Change_memo(event)}
+          />
+        </Grid>
       </Grid>
     </React.Fragment>
-    </LocalizationProvider>
   );
 }

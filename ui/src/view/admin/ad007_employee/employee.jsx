@@ -21,6 +21,11 @@ import Container from '@mui/material/Container';
 import Test from './addEmp/addEmployee'
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import dayjs from 'dayjs';
 
 function Employee() {
   const [open, setOpen] = useState(false);
@@ -28,6 +33,8 @@ function Employee() {
   const [ EmployeeData, setEmployeeData] = useState([])
   const [updateData,setUpdateData] = useState("")
   const [dialogTitle,setDialogTitle] = React.useState('')
+  const [exitCompany,setExitCompany] = React.useState(1)
+  
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
@@ -43,12 +50,31 @@ function Employee() {
   useEffect(()=>{
     GetAttend()
   },[open])
-  //勤怠データ取得
+  useEffect(()=>{
+    GetAttend()
+  },[exitCompany])
+
+  //従業員データ取得
   const GetAttend = () => {
     axios.get(baseURL + '/m_employees').then(res => {
       setEmployeeData(res.data)
-      console.log(res.data)
+      if (exitCompany == 1){
+        const res_filter = res.data.filter(data =>{
+          return data.m_employeestable.exit_company == null
+        })
+        setEmployeeData(res_filter)
+      }else if(exitCompany == 2) {
+        const res_filter = res.data.filter(data =>{
+          return data.m_employeestable.exit_company != null
+        })
+        setEmployeeData(res_filter)
+      }
     })
+  }
+
+  // 退職者
+  const Change_exitCompany = (event) =>{
+    setExitCompany(event.target.value)
   }
 
   const AddAttend = () =>{
@@ -58,21 +84,19 @@ function Employee() {
         address_city: "",
         address_other: "",
         address_pref: "",
-        birthday: "",
-        create_acc: "",
-        create_at: "",
-        dependent: "",
-        empl_insur_insur_qual_acq_date: "",
-        empl_insur_insur_qual_lost_date: "",
+        birthday: null,
+        dependent: null,
+        empl_insur_insur_qual_acq_date: null,
+        empl_insur_insur_qual_lost_date: null,
         empl_insur_insured_num: "",
         employee_num: "",
         end: "",
-        exit_company: "",
+        exit_company: null,
         former_job: "",
         health_insur_num: "",
         id: "",
         idm: "",
-        in_company: "",
+        in_company: dayjs(new Date()).format("YYYY-MM-DD"),
         memo: "",
         mynumber: "",
         name: "",
@@ -80,31 +104,24 @@ function Employee() {
         nationality: "",
         pension_num: "",
         post_code: "",
-        sex: "",
-        shift_id: "",
-        soc_insur_insur_qual_acq_date: "",
-        soc_insur_insur_qual_lost_date: "",
+        sex: null,
+        shift_id: 1,
+        soc_insur_insur_qual_acq_date: null,
+        soc_insur_insur_qual_lost_date: null,
         start: "",
         tell: "",
-        update_acc: "",
-        update_at: "",
-        weekly_work_time: ""
+        weekly_work_time: null
       },m_paymentstable:{
-        base: "",
-        care_insur: "",
-        commuting_pay: "",
-        create_acc: "",
-        create_at: "",
-        employee_id: "",
+        base: null,
+        care_insur: null,
+        commuting_pay: null,
+        employee_id: null,
         health_insur: "",
-        id: "",
-        income_tax: "",
-        inhabitant_tax: "",
-        pension_insur: "",
-        salary_type: "",
-        std_monthly_compensation: "",
-        update_acc: "",
-        update_at: ""
+        income_tax: null,
+        inhabitant_tax: null,
+        pension_insur: null,
+        salary_type: 1,
+        std_monthly_compensation: null
       }
     })
     setOpen(true)
@@ -134,7 +151,21 @@ function Employee() {
                 <TableCell align="center">社員番号</TableCell>
                 <TableCell align="center">名前</TableCell>
                 <TableCell align="center">フリガナ</TableCell>
-                <TableCell align="center"></TableCell>
+                <TableCell align="center">
+                <FormControl variant="standard" sx={{minWidth: 200}} size="small">
+                  <InputLabel id="sex-select-label" labelPlacement="top" shrink>退職者</InputLabel>
+                    <Select
+                      labelId="sex-select-label"
+                      id="sex-select"
+                      value={exitCompany}
+                      onChange={(event) => Change_exitCompany(event)}
+                    >
+                    <MenuItem value={1}>在籍者のみ</MenuItem>
+                    <MenuItem value={2}>退職者のみ</MenuItem>
+                    <MenuItem value={3}>全て</MenuItem>
+                    </Select>
+                  </FormControl>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -147,6 +178,7 @@ function Employee() {
                   <Button variant="contained" onClick={(event) => UpdateAttend(event,data)}>編集</Button>
                   </TableCell>
                 </TableRow>
+
               ))}
             </TableBody>
           </Table>

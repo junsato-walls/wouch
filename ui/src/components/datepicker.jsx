@@ -11,7 +11,25 @@ import TextField from '@mui/material/TextField';
 const AlertDialog = (props) => {
     const {label, value, setValue} = props
     const changeValue = (event) =>{
-        setValue(dayjs(event).format("YYYY-MM-DD"))
+
+      console.log(dayjs(event))
+      if (dayjs(event).format("YYYY-MM-DD") == "Invalid Date"){
+        setValue(null)
+      }else{
+        setValue(dayjs(event).format("YYYY-MM-DD"))        
+      }
+      // console.log(dayjs(event).format("YYYY-MM-DD"))
+      // // console.log(isNaN(Date.getDate(event)))
+      // let date = new Date(dayjs(event).format("YYYY"),dayjs(event).format("MM"),dayjs(event).format("DD"))
+      // setValue(dayjs(event).format("YYYY-MM-DD"))
+      // console.log(date)
+      // setValue(event)
+      
+        // if (dayjs(event).format("YYYY-MM-DD") = ""){
+        //   setValue(null)  
+        // } else(
+        //   setValue(dayjs(event).format("YYYY-MM-DD"))
+        // )
       }
     return (
     <>

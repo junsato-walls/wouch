@@ -17,8 +17,8 @@ const AlertDialog = (props, ref) => {
     // エラーコード,title,message
     const ErrorMessage = [{ id: 'ad000-e001', title: '未入力エラー', message: '値が未入力です。' },
     { id: 'ad000-e001', title: '存在チェックエラー', message: '指定のデータが見つかりません。' },
-    { id: 'ad000-e001', title: '文字数エラー', message: '文字数は20文字以下にしてください。' },
-    { id: 'ad001-e001', title: 'ネットワークエラー', message: 'ネットワーク障害が発生しました。管理者に問い合わせてください。' },
+    { id: 'ad000-e002', title: '文字数エラー', message: '文字数は20文字以下にしてください。' },
+    { id: 'ad000-e003', title: 'ネットワークエラー', message: 'ネットワーク障害が発生しました。管理者に問い合わせてください。' },
     { id: 'tc001-e001', title: '従業員ID未登録', message: '従業員IDが未登録です。管理者に問い合わせてください。' },
     { id: 'tc001-e002', title: '出勤時間未登録', message: '出勤時間が未登録です。管理者に問い合わせてください。' },
     { id: 'ad001-e001', title: 'ログインエラー', message: 'ログインIDが間違っています。' },

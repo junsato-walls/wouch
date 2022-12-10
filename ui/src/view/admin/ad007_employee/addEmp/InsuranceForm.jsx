@@ -81,6 +81,7 @@ export default function PaymentForm(props) {
             id="Name"
             label="被扶養者人数"
             fullWidth
+            type="number"
             autoComplete="name"
             variant="standard"
             value={dependent}
