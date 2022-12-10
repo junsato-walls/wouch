@@ -5,7 +5,6 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import Dialog from '@mui/material/Dialog';
-import Slide from '@mui/material/Slide';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -20,13 +19,23 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import dayjs from 'dayjs';
+import Toolbar from '../../../components/toolbar'
+import AppBar from '@mui/material/AppBar';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 
 function Calendar() {
+    const darkTheme = createTheme({
+      palette: {
+        mode: 'dark',
+        primary: {
+          main: '#1976d2',
+        },
+      },
+    });
   const baseURL = "http://localhost:8000";
   const [InfoDate, setInfoDate] = useState();
   const [YMD, setYMD] = useState(new Date());
-  const [open, setOpen] = useState(true);
   const [holiday, setHoliday] = useState([]);
   const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
 
@@ -110,103 +119,93 @@ function Calendar() {
     }
     console.log(value.dateStr)
   }
-
-  const handleClose = () => {
-      setOpen(false);
-  };
     return (
-        <>
-          <div>
-              <Dialog
-                  fullScreen
-                  open={open}
-                  onClose={handleClose}
-              >
-                  <table>
-                      <tr>
-                          <td style={{ width: "80%" }}>
-                              <FullCalendar
-                                  plugins={[dayGridPlugin, interactionPlugin]}
-                                  contentHeight="auto"
-                                  locale="ja"
-                                  selectable="true"
-                                  // 取得データを配列に挿入
-                                  events={holiday}
-                                  // 日付クリック動作
-                                  dateClick={(value) => ExistHoliday(value) }
-                                  // 前へ　次へを押下時にgetリクエストの送信
-                                  datesSet={(valueDate) => getYMD(valueDate)}
-                              />
-                          </td>
-                          <td style={{ width: "20%" }}>
-                              <TableContainer component={Paper}>
-                                  <Table aria-label="spanning table">
-                                      <TableHead>
-                                          <TableRow>
-                                              <TableCell align="">休業日</TableCell>
-                                          </TableRow>
-                                      </TableHead>
-                                      <TableBody>
-                                          {holiday.map((holi) => (
-                                              <TableRow>
-                                                  <TableCell>{dayjs(holi.start).format("M月D日") + dayOfWeekStrJP[dayjs(holi.start).format("d")]}</TableCell>
-                                              </TableRow>
-                                          ))}
-                                      </TableBody>
-                                  </Table>
-                              </TableContainer>
-
-                          </td>
-                      </tr>
-                  </table>
-                  <div>
-                        <Dialog
-                            open={OpenGet}
-                            onClose={handleCloseAlert}
-                            aria-labelledby="get-dialog-title"
-                            aria-describedby="get-dialog-description"
-                        >
-                            <DialogTitle id="get-dialog-title">
-                                {"休業日設定"}
-                            </DialogTitle>
-                            <DialogContent>
-                                <DialogContentText id="get-dialog-description">
-                                    {dayjs(InfoDate).format("M月D日") + dayOfWeekStrJP[dayjs(InfoDate).format("d")]}を休業日に設定しますか？
-                                </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                                <Stack direction="row" spacing={1}>
-                                    <Chip label="いいえ" onClick={handleCloseAlert} />
-                                    <Chip label="はい" onClick={getHoliday} />
-                                </Stack>
-                            </DialogActions>
-                        </Dialog>
-                  </div>
-                  <div>
-                        <Dialog
-                            open={OpenDel}
-                            onClose={handleCloseAlert}
-                            aria-labelledby="del-dialog-title"
-                            aria-describedby="del-dialog-description"
-                        >
-                            <DialogTitle id="del-dialog-title">
-                                {"休業日解除"}
-                            </DialogTitle>
-                            <DialogContent>
-                                <DialogContentText id="del-dialog-description">
-                                    {dayjs(InfoDate).format("M月D日") + dayOfWeekStrJP[dayjs(InfoDate).format("d")]}を稼働日に設定しますか？
-                                </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                                <Stack direction="row" spacing={1}>
-                                    <Chip label="いいえ" onClick={handleCloseAlert} />
-                                    <Chip label="はい" onClick={delHoliday} />
-                                </Stack>
-                            </DialogActions>
-                        </Dialog>
-                  </div>
-              </Dialog>
-          </div>
+      <>
+        <Stack spacing={2} sx={{ flexGrow: 1 }}>
+            <ThemeProvider theme={darkTheme}>
+            <AppBar position="staic" color="primary" enableColorOnDark>
+            <Toolbar label='カレンダー'/>
+            </AppBar>
+            </ThemeProvider>
+        </Stack>
+        <table>
+            <tr>
+                <td style={{ width: "80%" }}>
+                    <FullCalendar
+                        plugins={[dayGridPlugin, interactionPlugin]}
+                        contentHeight="auto"
+                        locale="ja"
+                        selectable="true"
+                        // 取得データを配列に挿入
+                        events={holiday}
+                        // 日付クリック動作
+                        dateClick={(value) => ExistHoliday(value) }
+                        // 前へ　次へを押下時にgetリクエストの送信
+                        datesSet={(valueDate) => getYMD(valueDate)}
+                    />
+                </td>
+                <td style={{ width: "20%" }}>
+                    <TableContainer component={Paper}>
+                        <Table aria-label="spanning table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="">休業日</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {holiday.map((holi) => (
+                                    <TableRow>
+                                        <TableCell>{dayjs(holi.start).format("M月D日") + dayOfWeekStrJP[dayjs(holi.start).format("d")]}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </td>
+            </tr>
+        </table>
+        <Dialog
+            open={OpenGet}
+            onClose={handleCloseAlert}
+            aria-labelledby="get-dialog-title"
+            aria-describedby="get-dialog-description"
+        >
+            <DialogTitle id="get-dialog-title">
+                {"休業日設定"}
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="get-dialog-description">
+                    {dayjs(InfoDate).format("M月D日") + dayOfWeekStrJP[dayjs(InfoDate).format("d")]}を休業日に設定しますか？
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Stack direction="row" spacing={1}>
+                    <Chip label="いいえ" onClick={handleCloseAlert} />
+                    <Chip label="はい" onClick={getHoliday} />
+                </Stack>
+            </DialogActions>
+        </Dialog>
+        <Dialog
+            open={OpenDel}
+            onClose={handleCloseAlert}
+            aria-labelledby="del-dialog-title"
+            aria-describedby="del-dialog-description"
+        >
+            <DialogTitle id="del-dialog-title">
+                {"休業日解除"}
+            </DialogTitle>
+            <DialogContent>
+                <DialogContentText id="del-dialog-description">
+                    {dayjs(InfoDate).format("M月D日") + dayOfWeekStrJP[dayjs(InfoDate).format("d")]}を稼働日に設定しますか？
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Stack direction="row" spacing={1}>
+                    <Chip label="いいえ" onClick={handleCloseAlert} />
+                    <Chip label="はい" onClick={delHoliday} />
+                </Stack>
+            </DialogActions>
+        </Dialog>
       </>
   );
 }
