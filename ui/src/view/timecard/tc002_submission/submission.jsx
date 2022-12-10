@@ -36,14 +36,14 @@ import dayjs from 'dayjs';
 ///////////
 
 function leaveRequest(props) {
-//   const {open,setOpen,empId } = props
+  const {open,setOpen,empId } = props
   const baseURL = "http://localhost:8000";
   const [InfoDate, setInfoDate] = useState();
   const [YMD, setYMD] = useState(new Date());
   const [LeaveRemainDate, setLeaveRemainDate] = useState([]);
   const [LeaveRequestDate, setLeaveRequestDate] = useState([]);
   const [LeaveRequestLabel, setLeaveRequestLabel] = useState([]);
-  const [open, setOpen] = useState(true);
+//   const [open, setOpen] = useState(true);
   const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
   const submStList = [" 申請中", " 許可", " 却下"];
 
@@ -84,8 +84,8 @@ function leaveRequest(props) {
 
   //残有給日数の取得
   const GetLeaveRemainDate = () => {
-    // let param = '/tc002_01/?employee_id=' + empId
-    let param = '/tc002_01/?employee_id=' + 1
+    let param = '/tc002_01/?employee_id=' + empId
+    // let param = '/tc002_01/?employee_id=' + 1
     axios.get(baseURL + param).then(res => {
         setLeaveRemainDate(res.data)
     })
@@ -117,14 +117,14 @@ function leaveRequest(props) {
         targetDate = 1
     }
     console.log(targetYear, targetMonth, targetDate)
-    // let paramDate = '/tc002_02/?employee_id=' + empId +'&YYYY=' + targetYear +'&MM=' + targetMonth
-    let paramDate = '/tc002_02/?employee_id=' + 1 +'&YYYY=' + targetYear +'&MM=' + targetMonth
+    let paramDate = '/tc002_02/?employee_id=' + empId +'&YYYY=' + targetYear +'&MM=' + targetMonth
+    // let paramDate = '/tc002_02/?employee_id=' + 1 +'&YYYY=' + targetYear +'&MM=' + targetMonth
     axios.get(baseURL + paramDate).then(res => {
         setLeaveRequestDate(res.data)
         console.log(LeaveRequestDate)
     })
-    // let paramLabel = '/tc002_05/?employee_id=' + empId +'&YYYY=' + targetYear +'&MM=' + targetMonth
-    let paramLabel = '/tc002_05/?employee_id=' + 1 +'&YYYY=' + targetYear +'&MM=' + targetMonth
+    let paramLabel = '/tc002_05/?employee_id=' + empId +'&YYYY=' + targetYear +'&MM=' + targetMonth
+    // let paramLabel = '/tc002_05/?employee_id=' + 1 +'&YYYY=' + targetYear +'&MM=' + targetMonth
     axios.get(baseURL + paramLabel).then(res => {
         setLeaveRequestLabel(res.data)
         console.log(LeaveRequestLabel)
