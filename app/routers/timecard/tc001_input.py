@@ -47,7 +47,7 @@ async def tc001_01(item:tc001):
         return
 
     if (attend != None and item.workMode != "0") and item.workMode != "3":
-        if attend.work_in == None:
+        if attend.t_attendstable.work_in == None:
             raise HTTPException(status_code=400, detail="tc001-e002")
             return
 
@@ -66,9 +66,9 @@ async def tc001_01(item:tc001):
                 session.add(t_attend)
                 session.commit()
             elif attend.t_attendstable.working_st == 2 or attend.t_attendstable.working_st == 6 or attend.t_attendstable.working_st == 7:
-                attend.round_work_in_time = round_in
-                attend.work_in = get_time
-                attend.create_at = get_time
+                attend.t_attendstable.round_work_in_time = round_in
+                attend.t_attendstable.work_in = get_time
+                attend.t_attendstable.create_at = get_time
                 # attend.t_attendstable.update_acc = emp.id
                 session.commit()
             elif attend.t_attendstable.work_in == None:
@@ -94,7 +94,7 @@ async def tc001_01(item:tc001):
                 round_out = round_out_time(rt)
                 worktime = work_time(round_out, attend)
                 overtime = over_time(round_out, attend, std_work_time)
-                nighttime = night_time(attend, round_out, worktime, night_start, night_end)
+                nighttime = night_time(attend, round_out, worktime)
                 attend.t_attendstable.work_out = get_time
                 attend.t_attendstable.round_work_out_time = round_out
                 attend.t_attendstable.work_time = worktime
@@ -185,20 +185,20 @@ def over_time(round_out, attend, std_work_time):
     return ovt
 
 def night_time(attend, round_out, worktime):
-    night_start = datetime.combine(attend.round_work_in_time.date(),time(22,0,0))
-    night_end1 = datetime.combine(attend.round_work_in_time.date(),time(5,0,0))
-    night_end2 = datetime.combine(attend.round_work_in_time.date() + timedelta(days = 1),time(5,0,0))
-    if attend.round_work_in_time < night_end1 and round_out < night_end1:
+    night_start = datetime.combine(attend.t_attendstable.round_work_in_time.date(),time(22,0,0))
+    night_end1 = datetime.combine(attend.t_attendstable.round_work_in_time.date(),time(5,0,0))
+    night_end2 = datetime.combine(attend.t_attendstable.round_work_in_time.date() + timedelta(days = 1),time(5,0,0))
+    if attend.t_attendstable.round_work_in_time < night_end1 and round_out < night_end1:
         nt = worktime
-    elif attend.round_work_in_time < night_end1:
-        nt = night_end1 - attend.round_work_in_time
-    elif night_start > attend.round_work_in_time and round_out > night_start and round_out < night_end2 and night_end1 < attend.round_work_in_time:
+    elif attend.t_attendstable.round_work_in_time < night_end1:
+        nt = night_end1 - attend.t_attendstable.round_work_in_time
+    elif night_start > attend.t_attendstable.round_work_in_time and round_out > night_start and round_out < night_end2 and night_end1 < attend.t_attendstable.round_work_in_time:
         nt = round_out - night_start
-    elif night_start < attend.round_work_in_time and  attend.round_work_in_time > night_end2 and night_end1 < attend.round_work_in_time:
-        nt = night_end2 - attend.round_work_in_time
-    elif night_start < attend.round_work_in_time and round_out < night_end2 and night_end1 < attend.round_work_in_time:
+    elif night_start < attend.t_attendstable.round_work_in_time and  attend.t_attendstable.round_work_in_time > night_end2 and night_end1 < attend.t_attendstable.round_work_in_time:
+        nt = night_end2 - attend.t_attendstable.round_work_in_time
+    elif night_start < attend.t_attendstable.round_work_in_time and round_out < night_end2 and night_end1 < attend.t_attendstable.round_work_in_time:
         nt = worktime
-    elif night_start > attend.round_work_in_time and round_out > night_end2 and night_end1 < attend.round_work_in_time:
+    elif night_start > attend.t_attendstable.round_work_in_time and round_out > night_end2 and night_end1 < attend.t_attendstable.round_work_in_time:
         nt = night_end2 - night_start
     else :
         nt = "0:00"
