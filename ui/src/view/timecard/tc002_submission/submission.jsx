@@ -59,7 +59,7 @@ function leaveRequest(props) {
   const putRequest = () => {
     console.log(InfoDate)
     axios.post(baseURL + "/tc002_03/", {
-      employee_id: 1,
+      employee_id: empId,
       target_date: InfoDate
     }).then((res) => {
         setTimeout(() => {
@@ -72,12 +72,12 @@ function leaveRequest(props) {
   const delRequest = () => {
     console.log(InfoDate)
     axios.put(baseURL + "/tc002_04/", {
-        employee_id: 1,
+        employee_id: empId,
         target_date: InfoDate
     }).then((res) => {
         if (res.data == 1){
             axios.put(baseURL + "/leave_plus/", {
-                employee_id: value.employee_id
+                employee_id: empId
         })}
         setTimeout(() => {
             GetLeaveRequestDate()
