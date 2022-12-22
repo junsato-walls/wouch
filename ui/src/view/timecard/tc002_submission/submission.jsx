@@ -75,8 +75,13 @@ function leaveRequest(props) {
         employee_id: 1,
         target_date: InfoDate
     }).then((res) => {
+        if (res.data == 1){
+            axios.put(baseURL + "/leave_plus/", {
+                employee_id: value.employee_id
+        })}
         setTimeout(() => {
             GetLeaveRequestDate()
+            GetLeaveRemainDate()
       }, 100);
     })
     setOpenDel(false);
