@@ -36,14 +36,15 @@ import dayjs from 'dayjs';
 ///////////
 
 function leaveRequest(props) {
-  const {open,setOpen,empId } = props
+  const [empId, setEmpId] = useState(1);
+//   const {open,setOpen,empId } = props
   const baseURL = "http://localhost:8000";
   const [InfoDate, setInfoDate] = useState();
   const [YMD, setYMD] = useState(new Date());
   const [LeaveRemainDate, setLeaveRemainDate] = useState([]);
   const [LeaveRequestDate, setLeaveRequestDate] = useState([]);
   const [LeaveRequestLabel, setLeaveRequestLabel] = useState([]);
-//   const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(true);
   const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
   const submStList = [" 申請中", " 許可", " 却下"];
 
@@ -59,7 +60,7 @@ function leaveRequest(props) {
   const putRequest = () => {
     console.log(InfoDate)
     axios.post(baseURL + "/tc002_03/", {
-      employee_id: 1,
+      employee_id: empId,
       target_date: InfoDate
     }).then((res) => {
         setTimeout(() => {
@@ -72,11 +73,16 @@ function leaveRequest(props) {
   const delRequest = () => {
     console.log(InfoDate)
     axios.put(baseURL + "/tc002_04/", {
-        employee_id: 1,
+        employee_id: empId,
         target_date: InfoDate
     }).then((res) => {
+        if (res.data == 1){
+          axios.put(baseURL + "/leave_plus/", {
+            employee_id: empId
+        })}
         setTimeout(() => {
             GetLeaveRequestDate()
+            GetLeaveRemainDate()
       }, 100);
     })
     setOpenDel(false);
