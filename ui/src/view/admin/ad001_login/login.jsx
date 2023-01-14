@@ -22,7 +22,7 @@ function Login() {
   const baseURL = process.env.REACT_APP_IP_PORT
   // const baseURL = 'http://localhost:8000'
   const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState(null);
+  const [loginID, setloginID] = useState(null);
   const [pass, setPass] = useState(null);
 
   const childRef = useRef()
@@ -32,18 +32,18 @@ function Login() {
   const menuOpen = () => {
     setOpen(true)
   }
-  const Change_email = (event) =>{    
-    setEmail(event.target.value)
+  const Change_loginID = (event) =>{    
+    setloginID(event.target.value)
   }
   const Change_pass = (event) =>{    
     setPass(event.target.value)
   }
   const Login_onClick = () =>{
-    console.log(email)
+    console.log(loginID)
     console.log(pass)
     // /m_admin
     axios.post(baseURL + "/m_admin/", { 
-      login_id:email,
+      login_id:loginID,
       password:pass
     }).then((res) => {
       console.log(res.status)
@@ -79,13 +79,13 @@ return (
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="メールアドレス"
-            name="email"
-            autoComplete="email"
+            id="loginID"
+            label="ログインID"
+            name="loginID"
+            autoComplete="loginID"
             autoFocus
-            value={email}
-            onChange={(event) => Change_email(event)}
+            value={loginID}
+            onChange={(event) => Change_loginID(event)}
           />
 
           <TextField
