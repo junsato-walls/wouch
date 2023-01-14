@@ -37,7 +37,8 @@ import dayjs from 'dayjs';
 
 function leaveRequest(props) {
   const {open,setOpen,empId } = props
-  const baseURL = "http://localhost:8000";
+//   const baseURL = "http://localhost:8000";
+  const baseURL = process.env.REACT_APP_IP_PORT
   const [InfoDate, setInfoDate] = useState();
   const [YMD, setYMD] = useState(new Date());
   const [LeaveRemainDate, setLeaveRemainDate] = useState([]);

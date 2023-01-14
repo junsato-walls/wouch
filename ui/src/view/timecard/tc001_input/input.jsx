@@ -23,7 +23,8 @@ const test = [{ title: "会社休み", start: "2022-10-18", end: "2022-10-25" }]
 
 function Input(props) {
     const childRef = useRef()
-    const baseURL = "http://localhost:8000";
+    // const baseURL = "http://localhost:8000";
+    const baseURL = process.env.REACT_APP_IP_PORT
     const [nfcid, setNFCID] = useState("");
     const [UserDate, setUserDate] = useState();
     const [workMode, setWorkMode] = useState(0);

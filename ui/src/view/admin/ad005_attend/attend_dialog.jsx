@@ -33,7 +33,8 @@ import axios from "axios";
 
 const AttendDialog = (props) => {
   const {open,setOpen,ym,empNum,name,empId,attend,jobShiftData } = props
-  const baseURL = 'http://localhost:8000'
+  // const baseURL = 'http://localhost:8000'
+  const baseURL = process.env.REACT_APP_IP_PORT
   const [activeStep, setActiveStep] = React.useState(0);
   const [workInTimeH, setWorkInTimeH] = React.useState("09");
   const [workInTimeM, setWorkInTimeM] = React.useState("00");

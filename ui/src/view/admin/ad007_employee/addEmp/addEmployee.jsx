@@ -29,7 +29,8 @@ const theme = createTheme();
 
 export default function AlertDialog(props) {
   const { open, setOpen, empData, dialogTitle } = props
-  const baseURL = 'http://localhost:8000'
+  const baseURL = process.env.REACT_APP_IP_PORT
+  // const baseURL = 'http://localhost:8000'
   const [activeStep, setActiveStep] = React.useState(0);
   const [data, setData] = React.useState(0);
   const [empId, setEmpId] = React.useState("")

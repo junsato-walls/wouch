@@ -36,7 +36,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { CSVLink, CSVDownload } from "react-csv";
 
 function Payment() {
-  const baseURL = 'http://localhost:8000'
+  const baseURL = process.env.REACT_APP_IP_PORT
+  // const baseURL = 'http://localhost:8000'
   const [employeesData, setEmployeesData] = useState([])
   const [attendData, setAttendData] = useState([])
   const [paymentData, setPaymentData] = useState([])
