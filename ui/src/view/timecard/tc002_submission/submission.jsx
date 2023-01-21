@@ -35,7 +35,7 @@ import dayjs from 'dayjs';
 </div> */}
 ///////////
 
-function leaveRequest(props) {
+function LeaveRequest(props) {
   const {open,setOpen,empId } = props
 //   const baseURL = "http://localhost:8000";
   const baseURL = process.env.REACT_APP_IP_PORT
@@ -264,4 +264,4 @@ function leaveRequest(props) {
       </>
   );
 }
-export default leaveRequest;
+export default LeaveRequest;
