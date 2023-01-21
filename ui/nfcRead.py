@@ -14,7 +14,7 @@ from msedge.selenium_tools import EdgeOptions, Edge
 
 # baseURL = "http://192.168.0.9:3000"
 
-print(setting.BASE_URL)
+# print(setting.BASE_URL)
 
 options = EdgeOptions()
 options.use_chromium = True
