@@ -2,7 +2,7 @@
 # モデルの定義
 from sqlalchemy import Column, Integer, String, text
 from sqlalchemy.types import Date, DateTime, Time, Float
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from db import Base
 from db import ENGINE
 from datetime import datetime, time, date
@@ -47,7 +47,7 @@ class m_companiestable(Base):
 class m_companies(BaseModel):
     id: Union[int, None] = None
     company_name: Union[str, None] = None
-    post_code: Union[str, None] = None
+    post_code: Union[str, None] = Field(None, max_length=8)
     address_pref: Union[str, None] = None
     address_city: Union[str, None] = None
     address_other: Union[str, None] = None
@@ -57,14 +57,14 @@ class m_companies(BaseModel):
     capital: Union[str, None] = None
     pay_cutoff_date: Union[str, None] = None
     pay_date: Union[str, None] = None
-    empl_insur_apply_office_num: Union[str, None] = None
+    empl_insur_apply_office_num: Union[str, None] = Field(None, max_length=13)
     empl_insur_estab_date: Union[date, None] = None
-    labor_insur_num: Union[str, None] = None
+    labor_insur_num: Union[str, None] = Field(None, max_length=15)
     labor_insur_estab_date: Union[date, None] = None
-    social_insur_num: Union[str, None] = None
+    social_insur_num: Union[str, None] = Field(None, max_length=6)
     social_insur_estab_date: Union[date, None] = None
-    welfare_pension_insur_office_num: Union[str, None] = None
-    corporate_num: Union[str, None] = None
+    welfare_pension_insur_office_num: Union[str, None] = Field(None, max_length=4)
+    corporate_num: Union[str, None] = Field(None, max_length=13)
     industry_class: Union[int, None] = None
     industry_type: Union[str, None] = None
     start: Union[date, None] = None
