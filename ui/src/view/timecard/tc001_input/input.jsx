@@ -41,7 +41,7 @@ function Input(props) {
     const [InfoDate, setInfoDate] = useState();
     const [YMD, setYMD] = useState();
     const [HMS, setHMS] = useState();
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [OpenGetAlert, setOpenGetAlert] = useState(false);
     const [OpenCancelAlert, setOpenCancelAlert] = useState(false);
 
@@ -245,10 +245,11 @@ function Input(props) {
                 </Footer>
             </Back>
             <div>
-                {
+            <Tc002 empId ='w002' setOpen={setOpen} open={open}/>
+                {/* {
                 requestPaper &&
                     <Tc002 empId ={UserDate.employee_id} setOpen={setOpen} open={open}/>
-                }
+                } */}
             </div> 
         </>
     );
