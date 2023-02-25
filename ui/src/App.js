@@ -14,6 +14,7 @@ import Payment_Emp from './view/admin/ad010_payment/payment_emp';
 import Payment_Month from './view/admin/ad010_payment/payment_month';
 import LeaveManage from './view/admin/ad012_leavemanage/leavemanage';
 import Admin from './view/admin/ad011_admin/admin';
+import Company from './view/admin/ad013_company/company';
 import Test from './view/admin/test/checkout';
 import NoMatch from './view/nomatch';
 
@@ -36,6 +37,7 @@ function App() {
           <Route path="/payment_emp" element={<Payment_Emp />} />
           <Route path="/payment_month" element={<Payment_Month />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/company" element={<Company />} />
           <Route path="/test" element={<Test />} />          
           <Route path="*" element={<NoMatch />} />
         </Routes>

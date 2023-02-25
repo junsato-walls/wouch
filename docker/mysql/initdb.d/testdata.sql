@@ -114,11 +114,11 @@ company_name, post_code, address_pref, address_city, address_other, facility_nam
 -- '2023-3-11', '2023', '3', '11', '土', '1', '1', NULL, '2022-03-22', '1', '2022-03-28', '1'
 --  );
 
--- Insert Into m_jobshift ( 
--- shift_name, delete_flg, job_type, work_in_time, work_out_time, rest, memo, create_at, create_acc, update_at, update_acc
---  ) values ( 
--- '昼勤', '1', '1', '08:00', '17:00', '1:00', NULL, '2021-03-22', '1', '2022-01-18', '1'
---  );
+Insert Into m_jobshift ( 
+shift_name, delete_flg, job_type, work_in_time, work_out_time, rest, memo, create_at, create_acc, update_at, update_acc
+ ) values ( 
+'昼勤', '1', '1', '08:00', '17:00', '1:00', NULL, '2021-03-22', '1', '2022-01-18', '1'
+ );
 -- Insert Into m_jobshift ( 
 -- shift_name, delete_flg, job_type, work_in_time, work_out_time, rest, memo, create_at, create_acc, update_at, update_acc
 --  ) values ( 
