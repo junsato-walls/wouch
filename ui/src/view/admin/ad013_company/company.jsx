@@ -18,21 +18,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
-import Test from './updateCompany/addEmployee'
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import dayjs from 'dayjs';
+import Dialog from '../../../components/dialog'
 
 function Company() {
-  const [open, setOpen] = useState(false);
   // const baseURL = 'http://localhost:8000'
   const baseURL = process.env.REACT_APP_IP_PORT
   const [companyData, setCompanyData] = useState([])
 //
+  const [id, setId] = useState('')
   const [companyName, setCompanyName] = useState('')
   const [postCode, setPostCode] = useState('')
   const [addressPref, setAddressPref] = useState('')
@@ -66,8 +59,9 @@ function Company() {
   //従業員データ取得
   const GetCompany = () => {
     axios.get(baseURL + '/m_companies').then(res => {
-        // setCompanyData(res.data)
-        // console.log(res.data)
+        setCompanyData(res.data)
+        console.log(res.data)
+        setId(res.data[0].id)
         setCompanyName(res.data[0].company_name)
         setPostCode(res.data[0].post_code)
         setAddressPref(res.data[0].address_pref)
@@ -123,11 +117,42 @@ function Company() {
     setCorporateNum(event.target.value)
   }
 
-
   const test = () =>{
+    console.log()
+  }
+  const UpdateCompany = () =>{
     console.log(companyData)
+    axios.put(baseURL + "/m_companies/", {
+        id:id,
+        company_name:companyName,
+        post_code:postCode,
+        address_pref:addressPref,
+        address_city:addressCity,
+        address_other:addressOther,
+        tell:tell,
+        ceo:CEO,
+        pay_cutoff_date:payCutoffDate,
+        pay_date:payDate,
+        empl_insur_apply_office_num:emplInsurApplyOfficeNum,
+        labor_insur_num:laborInsurNum,
+        social_insur_num:socialInsurNum,
+        corporate_num:corporateNum
+      }).then((res) => {
+        if (res.status == 200){
+            setTimeout(() => {
+                GetCompany()
+            }, 100);
+            handleSubmit('ad013-i001')
+        }else{
+            handleSubmit('ad013-e001')
+        }
+      })
   }
 
+  const childRef = useRef()
+  const handleSubmit = (value) => {
+    childRef.current.MessageOpen(value)
+  }
   return (
   <>
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
@@ -144,7 +169,7 @@ function Company() {
               <TableRow>
                 <TableCell align="center"></TableCell>
                 <TableCell align="center">
-                <Button onClick={test}variant="contained">更新</Button>
+                <Button onClick={UpdateCompany}variant="contained">更新</Button>
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -283,6 +308,7 @@ function Company() {
           </Table>
         </TableContainer>
     </Container>
+    <Dialog ref={childRef} />
   </>
   )
     }
