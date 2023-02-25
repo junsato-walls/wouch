@@ -138,15 +138,18 @@ function Company() {
         social_insur_num:socialInsurNum,
         corporate_num:corporateNum
       }).then((res) => {
+        console.log(res.status)
+
         if (res.status == 200){
             setTimeout(() => {
                 GetCompany()
             }, 100);
             handleSubmit('ad013-i001')
-        }else{
-            handleSubmit('ad013-e001')
         }
+      }).catch((res)=>{
+        handleSubmit('ad013-e001')
       })
+  
   }
 
   const childRef = useRef()
