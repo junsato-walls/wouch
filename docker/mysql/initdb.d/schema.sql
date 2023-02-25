@@ -24,7 +24,7 @@ CREATE TABLE m_companies (
     labor_insur_estab_date date,
     social_insur_num varchar(6),
     social_insur_estab_date date,
-    welfare_pension_insur_office_num varchar(4),
+    welfare_pension_insur_office_num varchar,
     corporate_num varchar(13),
     industry_class tinyint,
     industry_type varchar,

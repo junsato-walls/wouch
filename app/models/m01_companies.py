@@ -63,7 +63,7 @@ class m_companies(BaseModel):
     labor_insur_estab_date: Union[date, None] = None
     social_insur_num: Union[str, None] = Field(None, max_length=6)
     social_insur_estab_date: Union[date, None] = None
-    welfare_pension_insur_office_num: Union[str, None] = Field(None, max_length=4)
+    welfare_pension_insur_office_num: Union[str, None] = None
     corporate_num: Union[str, None] = Field(None, max_length=13)
     industry_class: Union[int, None] = None
     industry_type: Union[str, None] = None
