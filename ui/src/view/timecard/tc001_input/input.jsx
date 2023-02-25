@@ -41,7 +41,7 @@ function Input(props) {
     const [InfoDate, setInfoDate] = useState();
     const [YMD, setYMD] = useState();
     const [HMS, setHMS] = useState();
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const [OpenGetAlert, setOpenGetAlert] = useState(false);
     const [OpenCancelAlert, setOpenCancelAlert] = useState(false);
 
