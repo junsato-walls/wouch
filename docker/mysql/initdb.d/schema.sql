@@ -7,7 +7,7 @@ CREATE TABLE user (
 
 CREATE TABLE m_companies (
     id int NOT NULL AUTO_INCREMENT,
-    company_name varchar
+    company_name varchar,
     post_code varchar(8),
     address_pref varchar,
     address_city varchar,
