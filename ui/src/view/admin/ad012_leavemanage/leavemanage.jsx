@@ -44,8 +44,8 @@ function Vacation() {
       },
     },
   });
-
-  const baseURL = 'http://localhost:8000'
+  const baseURL = process.env.REACT_APP_IP_PORT
+  // const baseURL = 'http://localhost:8000'
   const [leaveRequest,setLeaveRequest] = React.useState([]);  
 
   useEffect(() => {

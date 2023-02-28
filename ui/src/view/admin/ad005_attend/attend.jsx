@@ -69,7 +69,7 @@ function Attend() {
     let valuess = employeesData.filter((emp)=>{
       return emp.m_employeestable.employee_num == event.target.value
     });
-    // setEmpName(valuess[0].m_employeestable.name)
+    setEmpName(valuess[0].m_employeestable.name)
     if (valuess.length){
       setEmpId(valuess[0].m_employeestable.id)
     }
@@ -217,8 +217,8 @@ function Attend() {
             <TableBody>
               {attendData.map((data) => (
                 <TableRow
-                // onClick={(event) => test(event,data.dd)}
-                // key={data.dd}
+                onClick={(event) => test(event,data.dd)}
+                key={data.dd}
                 hover
                 >
                   <TableCell align="center">{data.day}</TableCell>

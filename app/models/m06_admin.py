@@ -14,9 +14,9 @@ from typing import Union
 class m_admintable(Base):
     __tablename__ = 'm_admin'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    employee_id =Column(Integer, nullable=False)
-    login_id =Column(String, nullable=False)
-    password =Column(String, nullable=False)
+    name =Column(String)
+    login_id =Column(String)
+    password =Column(String)
     fail_count =Column(Integer)
     edit_flg =Column(Integer)
     attend_flg =Column(Integer)
@@ -27,14 +27,14 @@ class m_admintable(Base):
     payment_flg =Column(Integer)
     start =Column(Date)
     end =Column(Date)
-    create_at =Column(DateTime, nullable=False)
-    create_acc =Column(Integer, nullable=False)
+    create_at =Column(DateTime)
+    create_acc =Column(Integer)
     update_at =Column(DateTime)
     update_acc =Column(Integer)
 
 class m_admin(BaseModel):
     id: Union[int, None] = None
-    employee_id: Union[int, None] = None
+    name: Union[str, None] = None
     login_id: Union[str, None] = None
     password: Union[str, None] = None
     fail_count: Union[int, None] = None

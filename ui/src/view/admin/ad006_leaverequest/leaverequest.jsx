@@ -50,7 +50,8 @@ function Vacation() {
             childRef.current.MessageOpen(value)
         }
 
-  const baseURL = 'http://localhost:8000'
+  // const baseURL = 'http://localhost:8000'
+  const baseURL = process.env.REACT_APP_IP_PORT
   const [leaveRequest,setLeaveRequest] = React.useState([]);  
 
   useEffect(() => {

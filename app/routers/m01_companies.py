@@ -1,16 +1,45 @@
 from fastapi import APIRouter, FastAPI, HTTPException
+from sqlalchemy import extract
 from models.m01_companies import m_companies, m_companiestable
 from sqlalchemy.orm import session
+from sqlalchemy import func ,desc
 from typing import List  # ネストされたBodyを定義するために必要
 from db import session  # DBと接続するためのセッション
-from datetime import datetime, time, date, timedelta
+from datetime import datetime, time, date, timedelta, timezone
+import json
 
 router = APIRouter()
 
 @router.get("/m_companies")
-async def m_companies():
-    m_companies = session.query(m_companiestable).all()
-    return m_companies
+async def comp_data():
+    comp_data = session.query(m_companiestable).all()
+    return comp_data
+
+@router.put("/m_companies/")
+async def upd_comp(item:m_companies):
+    t_delta = timedelta(hours=9)
+    JST = timezone(t_delta, 'JST')
+    get_time = datetime.now(JST)
+    record = session.query(m_companiestable)\
+                .filter(m_companiestable.id == item.id)\
+                .first()
+    record.company_name = item.company_name
+    record.post_code = item.post_code
+    record.address_pref = item.address_pref
+    record.address_city = item.address_city
+    record.address_other = item.address_other
+    record.tell = item.tell
+    record.ceo = item.ceo
+    record.pay_cutoff_date = item.pay_cutoff_date
+    record.pay_date = item.pay_date
+    record.empl_insur_apply_office_num = item.empl_insur_apply_office_num
+    record.labor_insur_num = item.labor_insur_num
+    record.social_insur_num = item.social_insur_num
+    record.corporate_num = item.corporate_num
+    record.update_at = get_time
+    session.commit()
+    session.close()
+    return 
 
 # @router.post("/m_companies_i/")
 # async def insert_m_companies(Item:m_companies):

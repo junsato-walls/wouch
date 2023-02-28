@@ -33,7 +33,8 @@ function Calendar() {
         },
       },
     });
-  const baseURL = "http://localhost:8000";
+  const baseURL = process.env.REACT_APP_IP_PORT
+//   const baseURL = "http://localhost:8000";
   const [InfoDate, setInfoDate] = useState();
   const [YMD, setYMD] = useState(new Date());
   const [holiday, setHoliday] = useState([]);

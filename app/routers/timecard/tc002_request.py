@@ -78,13 +78,13 @@ async def tc002_put(item:tc002):
                 .filter(t_leaverequesttable.target_date == item.target_date)\
                 .filter(t_leaverequesttable.subm_st != 3)\
                 .first()
-    prev_subm_st = record.subm_st
+    prev_st = record.subm_st
     record.subm_st = 3
     record.create_at = get_time
     # record.create_acc = item.acc_id
     session.commit()
     session.close()
-    return prev_subm_st
+    return prev_st
 
 @router.get("/tc002_05/")
 async def request_label(employee_id: int, YYYY: int, MM: int):

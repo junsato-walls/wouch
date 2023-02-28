@@ -35,10 +35,10 @@ import dayjs from 'dayjs';
 </div> */}
 ///////////
 
-function leaveRequest(props) {
-  const [empId, setEmpId] = useState(1);
-//   const {open,setOpen,empId } = props
-  const baseURL = "http://localhost:8000";
+function LeaveRequest(props) {
+  const {open,setOpen,empId } = props
+//   const baseURL = "http://localhost:8000";
+  const baseURL = process.env.REACT_APP_IP_PORT
   const [InfoDate, setInfoDate] = useState();
   const [YMD, setYMD] = useState(new Date());
   const [LeaveRemainDate, setLeaveRemainDate] = useState([]);
@@ -77,8 +77,8 @@ function leaveRequest(props) {
         target_date: InfoDate
     }).then((res) => {
         if (res.data == 1){
-          axios.put(baseURL + "/leave_plus/", {
-            employee_id: empId
+            axios.put(baseURL + "/leave_plus/", {
+                employee_id: empId
         })}
         setTimeout(() => {
             GetLeaveRequestDate()
@@ -264,4 +264,4 @@ function leaveRequest(props) {
       </>
   );
 }
-export default leaveRequest;
+export default LeaveRequest;
