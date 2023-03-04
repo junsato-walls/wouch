@@ -15,6 +15,7 @@ async def t_payments_get(employee_id: int):
     t_payments_get = session.query(m_employeestable, t_paymentstable)\
                 .join(m_employeestable, m_employeestable.id == t_paymentstable.employee_id)\
                 .filter(t_paymentstable.employee_id == employee_id)\
+                .filter(t_paymentstable.visible_flg == 1)\
                 .order_by(desc(t_paymentstable.payment_date))\
                 .all()
     return t_payments_get
@@ -29,8 +30,11 @@ async def t_payments_get(YYYY: int, MM: int):
                 .all()
     return t_payments_get
 
-@router.put("/t_payments_up")
-async def t_payments_up(item:t_payments):
+@router.put("/t_payments_upd/")
+async def t_payments_upd(item:t_payments):
+    if item.payment_date == None:
+        raise HTTPException(status_code=400, detail="t03-e001")
+        return
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
@@ -38,7 +42,9 @@ async def t_payments_up(item:t_payments):
             .filter(t_paymentstable.id == item.id)\
             .filter(t_paymentstable.employee_id == item.employee_id)\
             .first()
+    pay.visible_flg = 1
     pay.payment_date = item.payment_date
+    pay.employee_id = item.employee_id
     pay.income = item.income
     pay.base = item.base
     pay.overtime_pay = item.overtime_pay
@@ -51,20 +57,30 @@ async def t_payments_up(item:t_payments):
     pay.employee_insur = item.employee_insur
     pay.income_tax = item.income_tax
     pay.inhabitant_tax = item.inhabitant_tax
-    pay.withholding_tax = item.withholding_tax
     pay.adj_pay = item.adj_pay
-    pay.others = item.others
+    pay.other_allowance_1 = item.other_allowance_1
+    pay.other_allowance_2 = item.other_allowance_2
+    pay.other_allowance_3 = item.other_allowance_3
+    pay.other_allowance_4 = item.other_allowance_4
+    pay.other_allowance_5 = item.other_allowance_5
+    pay.others_deduction = item.others_deduction
+    pay.total_deduction = item.total_deduction
+    pay.total_pay = item.total_pay
     pay.update_at = get_time
     session.commit()
     session.close()
     return
 
-@router.post("/t_payments_in")
-async def t_payments_in(item:t_payments):
+@router.post("/t_payments_ins/")
+async def t_payments_ins(item:t_payments):
+    if item.payment_date == None:
+        raise HTTPException(status_code=400, detail="t03-e001")
+        return
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
     pay = t_paymentstable()
+    pay.visible_flg = 1
     pay.employee_id = item.employee_id
     pay.payment_date = item.payment_date
     pay.income = item.income
@@ -79,11 +95,31 @@ async def t_payments_in(item:t_payments):
     pay.employee_insur = item.employee_insur
     pay.income_tax = item.income_tax
     pay.inhabitant_tax = item.inhabitant_tax
-    pay.withholding_tax = item.withholding_tax
     pay.adj_pay = item.adj_pay
-    pay.others = item.others
+    pay.other_allowance_1 = item.other_allowance_1
+    pay.other_allowance_2 = item.other_allowance_2
+    pay.other_allowance_3 = item.other_allowance_3
+    pay.other_allowance_4 = item.other_allowance_4
+    pay.other_allowance_5 = item.other_allowance_5
+    pay.others_deduction = item.others_deduction
+    pay.total_deduction = item.total_deduction
+    pay.total_pay = item.total_pay
     pay.create_at = get_time
     session.add(pay)
     session.commit()
     session.close()
     return 
+
+    # 論理削除API
+@router.put("/payments_del/")
+async def payments_del(item:t_payments):
+    t_delta = timedelta(hours=9)
+    JST = timezone(t_delta, 'JST')
+    get_time = datetime.now(JST)
+    record = session.query(t_paymentstable)\
+                .filter(t_paymentstable.id == item.id).first()
+    record.visible_flg = 0
+    record.create_at = get_time
+    session.commit()
+    session.close()
+    return record
