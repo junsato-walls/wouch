@@ -49,7 +49,7 @@ const AttendDialog = (props) => {
                       {id:4,value:'早退'},
                       {id:5,value:'欠勤'},
                       {id:6,value:'特別休暇'},
-                      {id:7,value:'休業日'}
+                      {id:7,value:'休日'}
                       ]
   
   const childRef = useRef()

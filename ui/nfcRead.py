@@ -7,11 +7,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import signal
 import time
+import setting
 
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from msedge.selenium_tools import EdgeOptions, Edge
 
-baseURL = "http://192.168.11.10:3000"
+# baseURL = "http://192.168.0.9:3000"
+
+# print(setting.BASE_URL)
 
 options = EdgeOptions()
 options.use_chromium = True
@@ -24,7 +27,7 @@ edgedriver = Edge(executable_path = EdgeChromiumDriverManager().install(),
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 # edgedriver = webdriver.Edge(executable_path="./MicrosoftWebDriver.exe")
-edgedriver.get(baseURL)
+edgedriver.get(setting.BASE_URL)
 time.sleep(3)
 
 # NFCIDMを入力するID名を取得

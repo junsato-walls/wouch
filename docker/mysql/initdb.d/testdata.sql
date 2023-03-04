@@ -5,7 +5,7 @@
 Insert Into m_companies ( 
 company_name, post_code, address_pref, address_city, address_other, facility_name, tell, ceo, capital, pay_cutoff_date, pay_date, empl_insur_apply_office_num, empl_insur_estab_date, labor_insur_num, labor_insur_estab_date, social_insur_num, social_insur_estab_date, welfare_pension_insur_office_num, corporate_num, industry_class, industry_type, start, paidleave_cutoff_date, end, create_at, create_acc, update_at, update_acc
  ) values ( 
-'株式会社Walls', '123-4567', '北海道', '留萌市', '大字留萌1-1', '神居岩', '1234-567-890', '吉田次郎', '10000000', '27', '15', '1234567890123', '2019-04-01', '123456789012345', '2019-04-01', '123456', '2019-04-01', '1234', '1234567890123', '0', '陸空運輸', '2019-04-01', '04-01', NULL, '2020-02-20', '1', '2022-02-02', '1'
+'Walls', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
  );
 
 -- Insert Into m_employees ( 

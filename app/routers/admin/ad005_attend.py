@@ -33,6 +33,12 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
                 .all()
     m_range = calendar.monthrange(YYYY, MM)[1]
     param = []
+    swh = 0
+    soh = 0
+    swm = 0
+    som = 0
+    sum_work = timedelta(hours=0)
+    sum_over = timedelta(hours=0)
     for i in range(1, m_range + 1):
         day = date(YYYY, MM, i)
         rec = list(filter(lambda x: x.ymd.day == i, get_ad005))
@@ -41,8 +47,8 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
         rwit = ''
         rwot = ''
         rest = ''
-        worktime = ''
-        over = ''
+        worktime = 0
+        over = 0
         if len(rec) != 0:
             id = rec[0].id
             workst = rec[0].working_st
@@ -52,8 +58,20 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
                 rwot = rec[0].round_work_out_time.time()
             if rec[0].rest != None:
                 rest = rec[0].rest
-            worktime = rec[0].work_time
+            worktime =  rec[0].work_time
             over = rec[0].overtime
+            if worktime != None:
+                sum_work = sum_work + timedelta(hours=worktime.hour, minutes=worktime.minute)
+            if over != None:
+                sum_over = sum_over + timedelta(hours=over.hour, minutes=over.minute)
+        if(sum_work != None):
+            sw = int(sum_work.total_seconds()/60)
+            swh = sw//60
+            swm = str(sw - swh * 60)
+        if(sum_work != None):
+            so = int(sum_over.total_seconds()/60)
+            soh = so//60
+            som = str(so - soh * 60)
         param.append({
             'id': id,
             'day': i,
@@ -63,7 +81,9 @@ async def ad005_01(employee_id: int, YYYY: int, MM: int):
             'round_work_out_time': rwot,
             'rest': rest,
             'worktime': worktime,
-            'overtime': over
+            'overtime': over,
+            'sumwork': str(swh) + ':' + swm.zfill(2),
+            'sumover': str(soh) + ':' + som.zfill(2),
             })
     session.close
     return param
@@ -105,7 +125,7 @@ async def ad005_02(item:ad005):
     return
 
 @router.post("/ad005_03/")
-async def ad005_02(item:ad005):
+async def ad005_03(item:ad005):
     attend = t_attendstable()
     rest = timedelta(hours=1)
     std_work_time = timedelta(hours=8)
@@ -183,7 +203,7 @@ def night_time(item, worktime):
 
 
 @router.post("/ad005_04/")
-async def ad005_request(item:tc002):
+async def ad005_request(item:ad005):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
@@ -201,17 +221,15 @@ async def ad005_request(item:tc002):
 
     # 論理削除API
 @router.put("/ad005_05/")
-async def tc002_put(item:tc002):
+async def ad005_05(item:ad005):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
-    record = session.query(t_leaverequesttable)\
-                .filter(t_leaverequesttable.employee_id == item.employee_id)\
-                .filter(t_leaverequesttable.target_date == item.target_date)\
-                .first()
-    record.subm_st = 3
+    record = session.query(t_attendstable)\
+                .filter(t_attendstable.id == item.id).first()
+    record.working_st = 8
     record.create_at = get_time
     # record.create_acc = item.acc_id
     session.commit()
     session.close()
-    return
+    return record

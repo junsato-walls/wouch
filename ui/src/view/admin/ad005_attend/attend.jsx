@@ -51,7 +51,7 @@ function Attend() {
   const [worktime,setWorktime] = React.useState('0h');  
   const [selectedrow,setSelectedRow] = React.useState([]);
 
-  const working_st ={1: '出勤',2: '有給',3: '遅刻',4: '早退',5: '欠勤',6:'特別休暇',7:"休業日"} 
+  const working_st ={1: '出勤',2: '有給',3: '遅刻',4: '早退',5: '欠勤',6:'特別休暇',7:"休日"} 
 
   const handleChange = (event) => {
     setEmpId(event.target.value);
@@ -99,13 +99,13 @@ function Attend() {
       let over = 0
       let work = 0
       attendData.map((data) => (
-        over = over + data.overtime
+        over = data.sumover
       ))
       attendData.map((data) => (
-        work = work + data.worktime      
+        work = data.sumwork      
       ))
-      setWorktime(work + 'h')
-      setOvertime(over + 'h')
+      setWorktime(work)
+      setOvertime(over)
     }
   }, [attendData])
 
@@ -137,6 +137,18 @@ function Attend() {
     console.log(value.format("YYYY年MM月"))
     console.log(attendData[name -1])
     setSelectedRow(attendData[name - 1])
+  }
+
+  const DeleteAttend = (event, name) =>{
+    console.log(attendData[name -1].id)
+    if (attendData[name -1].id != null){
+      axios.put(baseURL + '/ad005_05/', {
+        id: attendData[name -1].id
+      })
+        .then(res => {
+          SearchAttend()
+        })
+    }
   }
   return (
   <>
@@ -212,15 +224,12 @@ function Attend() {
                 <TableCell align="center">残業時間</TableCell>
                 <TableCell align="center">実働時間</TableCell>
                 <TableCell align="center"></TableCell>
+                <TableCell align="center"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {attendData.map((data) => (
-                <TableRow
-                onClick={(event) => test(event,data.dd)}
-                key={data.dd}
-                hover
-                >
+                <TableRow hover>
                   <TableCell align="center">{data.day}</TableCell>
                   <TableCell align="center">{data.day_of_week}</TableCell>
                   <TableCell align="center">{working_st[data.working_st]}</TableCell>
@@ -232,6 +241,9 @@ function Attend() {
                   <TableCell align="center">
                     <Button variant="contained" onClick={(event) => UpdateAttend(event,data.day)}>編集</Button>
                   </TableCell>
+                  <TableCell align="center">
+                    <Button variant="contained" onClick={(event) => DeleteAttend(event,data.day)}>削除</Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -242,8 +254,8 @@ function Attend() {
                 <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell align="center">合計</TableCell>
-                <TableCell align="center">{overtime}</TableCell>
                 <TableCell align="center">{worktime}</TableCell>
+                <TableCell align="center">{overtime}</TableCell>
             </TableRow>
           </Table>
         </TableContainer>

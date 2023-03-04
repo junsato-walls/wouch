@@ -62,7 +62,8 @@ function Input(props) {
                         setVisibleFlg(true);
                         setTimeout(() => {
                             setVisibleFlg(false)
-                        }, 5000);
+                            setNFCID('')
+                        }, 3000);
                     } if (res.status === 500) {
                         childRef.current.MessageOpen(res.data.errorcode)
                     }

@@ -26,7 +26,7 @@ async def tc001_01(item:tc001):
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
     rt = datetime.strptime(get_time.strftime('%Y年%m月%d日 %H時%M分%S秒'), '%Y年%m月%d日 %H時%M分%S秒')
-    todate = date.today()
+    todate = get_time.date()
     day = datetime.combine(todate,time(0,0,0))
     ymd = day.astimezone()
     emp = session.query(m_employeestable)\
