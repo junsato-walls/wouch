@@ -51,7 +51,7 @@ function Attend() {
   const [worktime,setWorktime] = React.useState('0h');  
   const [selectedrow,setSelectedRow] = React.useState([]);
 
-  const working_st ={1: '出勤',2: '有給',3: '遅刻',4: '早退',5: '欠勤',6:'特別休暇',7:"休業日"} 
+  const working_st ={1: '出勤',2: '有給',3: '遅刻',4: '早退',5: '欠勤',6:'特別休暇',7:"休日"} 
 
   const handleChange = (event) => {
     setEmpId(event.target.value);
@@ -138,6 +138,18 @@ function Attend() {
     console.log(attendData[name -1])
     setSelectedRow(attendData[name - 1])
   }
+
+  const DeleteAttend = (event, name) =>{
+    console.log(attendData[name -1].id)
+    if (attendData[name -1].id != null){
+      axios.put(baseURL + '/ad005_05/', {
+        id: attendData[name -1].id
+      })
+        .then(res => {
+          SearchAttend()
+        })
+    }
+  }
   return (
   <>
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
@@ -212,6 +224,7 @@ function Attend() {
                 <TableCell align="center">残業時間</TableCell>
                 <TableCell align="center">実働時間</TableCell>
                 <TableCell align="center"></TableCell>
+                <TableCell align="center"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -227,6 +240,9 @@ function Attend() {
                   <TableCell align="center">{data.worktime}</TableCell>
                   <TableCell align="center">
                     <Button variant="contained" onClick={(event) => UpdateAttend(event,data.day)}>編集</Button>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button variant="contained" onClick={(event) => DeleteAttend(event,data.day)}>削除</Button>
                   </TableCell>
                 </TableRow>
               ))}
