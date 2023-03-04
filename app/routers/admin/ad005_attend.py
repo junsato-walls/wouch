@@ -125,7 +125,7 @@ async def ad005_02(item:ad005):
     return
 
 @router.post("/ad005_03/")
-async def ad005_02(item:ad005):
+async def ad005_03(item:ad005):
     attend = t_attendstable()
     rest = timedelta(hours=1)
     std_work_time = timedelta(hours=8)
@@ -203,7 +203,7 @@ def night_time(item, worktime):
 
 
 @router.post("/ad005_04/")
-async def ad005_request(item:tc002):
+async def ad005_request(item:ad005):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
@@ -221,17 +221,15 @@ async def ad005_request(item:tc002):
 
     # 論理削除API
 @router.put("/ad005_05/")
-async def tc002_put(item:tc002):
+async def ad005_05(item:ad005):
     t_delta = timedelta(hours=9)
     JST = timezone(t_delta, 'JST')
     get_time = datetime.now(JST)
-    record = session.query(t_leaverequesttable)\
-                .filter(t_leaverequesttable.employee_id == item.employee_id)\
-                .filter(t_leaverequesttable.target_date == item.target_date)\
-                .first()
-    record.subm_st = 3
+    record = session.query(t_attendstable)\
+                .filter(t_attendstable.id == item.id).first()
+    record.working_st = 8
     record.create_at = get_time
     # record.create_acc = item.acc_id
     session.commit()
     session.close()
-    return
+    return record
