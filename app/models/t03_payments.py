@@ -16,6 +16,11 @@ class t_paymentstable(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     employee_id =Column(Integer, nullable=False)
     payment_date =Column(Date, nullable=False)
+    work_date =Column(Integer)
+    working_hours =Column(Integer)
+    overtime_work =Column(Integer)
+    holiday_work =Column(Integer)
+    nighttime_work =Column(Integer)
     income =Column(Integer, nullable=False)
     base =Column(Integer)
     overtime_pay =Column(Integer)
@@ -30,6 +35,11 @@ class t_paymentstable(Base):
     inhabitant_tax =Column(Integer)
     withholding_tax =Column(Integer)
     adj_pay =Column(Integer)
+    other_allowance_1 =Column(Integer)
+    other_allowance_2 =Column(Integer)
+    other_allowance_3 =Column(Integer)
+    other_allowance_4 =Column(Integer)
+    other_allowance_5 =Column(Integer)
     others =Column(Integer)
     create_at =Column(DateTime, nullable=False)
     create_acc =Column(Integer, nullable=False)
@@ -40,6 +50,11 @@ class t_payments(BaseModel):
     id: Union[int, None] = None
     employee_id: Union[int, None] = None
     payment_date: Union[date, None] = None
+    work_date: Union[int, None] = None
+    working_hours: Union[int, None] = None
+    overtime_work: Union[int, None] = None
+    holiday_work: Union[int, None] = None
+    nighttime_work: Union[int, None] = None
     income: Union[int, None] = None
     base: Union[int, None] = None
     overtime_pay: Union[int, None] = None
@@ -54,6 +69,11 @@ class t_payments(BaseModel):
     inhabitant_tax: Union[int, None] = None
     withholding_tax: Union[int, None] = None
     adj_pay: Union[int, None] = None
+    other_allowance_1: Union[int, None] = None
+    other_allowance_2: Union[int, None] = None
+    other_allowance_3: Union[int, None] = None
+    other_allowance_4: Union[int, None] = None
+    other_allowance_5: Union[int, None] = None
     others: Union[int, None] = None
     create_at: Union[datetime, None] = None
     create_acc: Union[int, None] = None
