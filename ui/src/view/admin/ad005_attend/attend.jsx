@@ -69,7 +69,7 @@ function Attend() {
     let valuess = employeesData.filter((emp)=>{
       return emp.m_employeestable.employee_num == event.target.value
     });
-    // setEmpName(valuess[0].m_employeestable.name)
+    setEmpName(valuess[0].m_employeestable.name)
     if (valuess.length){
       setEmpId(valuess[0].m_employeestable.id)
     }
@@ -99,13 +99,13 @@ function Attend() {
       let over = 0
       let work = 0
       attendData.map((data) => (
-        over = over + data.overtime
+        over = data.sumover
       ))
       attendData.map((data) => (
-        work = work + data.worktime      
+        work = data.sumwork      
       ))
-      setWorktime(work + 'h')
-      setOvertime(over + 'h')
+      setWorktime(work)
+      setOvertime(over)
     }
   }, [attendData])
 
@@ -216,11 +216,7 @@ function Attend() {
             </TableHead>
             <TableBody>
               {attendData.map((data) => (
-                <TableRow
-                // onClick={(event) => test(event,data.dd)}
-                // key={data.dd}
-                hover
-                >
+                <TableRow hover>
                   <TableCell align="center">{data.day}</TableCell>
                   <TableCell align="center">{data.day_of_week}</TableCell>
                   <TableCell align="center">{working_st[data.working_st]}</TableCell>
@@ -242,8 +238,8 @@ function Attend() {
                 <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell align="center">合計</TableCell>
-                <TableCell align="center">{overtime}</TableCell>
                 <TableCell align="center">{worktime}</TableCell>
+                <TableCell align="center">{overtime}</TableCell>
             </TableRow>
           </Table>
         </TableContainer>

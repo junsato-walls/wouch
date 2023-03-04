@@ -38,6 +38,7 @@ const AlertDialog = (props) => {
                         <div><Link href="calendar" underline="hover">会社カレンダー</Link></div>
                         <div><Link href="leaverequest" underline="hover">有給申請情報一覧</Link></div>
                         <div><Link href="leavemanage" underline="hover">有給管理</Link></div>
+                        <div><Link href="company" underline="hover">会社情報</Link></div>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

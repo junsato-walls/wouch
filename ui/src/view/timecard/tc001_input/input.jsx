@@ -62,7 +62,8 @@ function Input(props) {
                         setVisibleFlg(true);
                         setTimeout(() => {
                             setVisibleFlg(false)
-                        }, 5000);
+                            setNFCID('')
+                        }, 3000);
                     } if (res.status === 500) {
                         childRef.current.MessageOpen(res.data.errorcode)
                     }
@@ -245,10 +246,11 @@ function Input(props) {
                 </Footer>
             </Back>
             <div>
-                {
+            <Tc002 empId ='w002' setOpen={setOpen} open={open}/>
+                {/* {
                 requestPaper &&
                     <Tc002 empId ={UserDate.employee_id} setOpen={setOpen} open={open}/>
-                }
+                } */}
             </div> 
         </>
     );
