@@ -26,6 +26,7 @@ async def t_payments_get(YYYY: int, MM: int):
                 .join(m_employeestable, m_employeestable.id == t_paymentstable.employee_id)\
                 .filter(extract('year',t_paymentstable.payment_date) == YYYY )\
                 .filter(extract('month',t_paymentstable.payment_date) == MM )\
+                .filter(t_paymentstable.visible_flg == 1)\
                 .order_by(m_employeestable.employee_num)\
                 .all()
     return t_payments_get
@@ -44,6 +45,11 @@ async def t_payments_upd(item:t_payments):
             .first()
     pay.visible_flg = 1
     pay.payment_date = item.payment_date
+    pay.work_date = item.work_date
+    pay.working_hours = item.working_hours
+    pay.overtime_work = item.overtime_work
+    pay.holiday_work = item.holiday_work
+    pay.nighttime_work = item.nighttime_work
     pay.employee_id = item.employee_id
     pay.income = item.income
     pay.base = item.base
@@ -83,6 +89,11 @@ async def t_payments_ins(item:t_payments):
     pay.visible_flg = 1
     pay.employee_id = item.employee_id
     pay.payment_date = item.payment_date
+    pay.work_date = item.work_date
+    pay.working_hours = item.working_hours
+    pay.overtime_work = item.overtime_work
+    pay.holiday_work = item.holiday_work
+    pay.nighttime_work = item.nighttime_work
     pay.income = item.income
     pay.base = item.base
     pay.overtime_pay = item.overtime_pay

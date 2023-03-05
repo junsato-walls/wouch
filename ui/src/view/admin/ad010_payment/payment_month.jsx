@@ -230,22 +230,39 @@ function Payment() {
               <TableRow>
                 <TableCell align="center">社員番号</TableCell>
                 <TableCell align="center">社員名</TableCell>
-                <TableCell align="center">支払日</TableCell>
-                <TableCell align="center">支払い給与</TableCell>                
+
+
+              {/* // 支払日	労働日数	労働時間数	時間外労働時間数	休日労働時間数 深夜労働時間数 基本給 */}
+              <TableCell align="center">支払日</TableCell>
+                <TableCell align="center">労働日数</TableCell>
+                <TableCell align="center">労働時間数</TableCell>
+                <TableCell align="center">時間外労働時間数</TableCell>
+                <TableCell align="center">休日労働時間数</TableCell>
+                <TableCell align="center">深夜労働時間数</TableCell>
                 <TableCell align="center">基本給</TableCell>
+                {/* //時間外労働手当	休日労働手当	深夜労働手当	通勤手当	調整手当	その他手当て1	その他手当て2	その他手当て3	その他手当て4	その他手当て5 支給合計 */}
                 <TableCell align="center">時間外労働手当</TableCell>
-                <TableCell align="center">深夜手当</TableCell>
-                <TableCell align="center">休日手当</TableCell>
+                <TableCell align="center">休日労働手当</TableCell>
+                <TableCell align="center">深夜労働手当</TableCell>
                 <TableCell align="center">通勤手当</TableCell>
+                <TableCell align="center">調整手当</TableCell>
+                <TableCell align="center">その他手当て1</TableCell>
+                <TableCell align="center">その他手当て2</TableCell>
+                <TableCell align="center">その他手当て3</TableCell>
+                <TableCell align="center">その他手当て4</TableCell>
+                <TableCell align="center">その他手当て5</TableCell>
+                <TableCell align="center">支給合計</TableCell>
+                
+                {/* //健康保険料	介護保険料	厚生年金保険料	雇用保険料	所得税	住民税	その他控除	控除合計	差引支給合計 */}
                 <TableCell align="center">健康保険料</TableCell>
                 <TableCell align="center">介護保険料</TableCell>
                 <TableCell align="center">厚生年金保険料</TableCell>
                 <TableCell align="center">雇用保険料</TableCell>
                 <TableCell align="center">所得税</TableCell>
                 <TableCell align="center">住民税</TableCell>
-                <TableCell align="center">源泉徴収</TableCell>
-                <TableCell align="center">調整手当</TableCell>
-                <TableCell align="center">その他</TableCell>
+                <TableCell align="center">その他控除</TableCell>
+                <TableCell align="center">控除合計</TableCell>
+                <TableCell align="center">差引支給合計</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -255,22 +272,39 @@ function Payment() {
                 >               
                 <TableCell align="center">{data.m_employeestable.employee_num}</TableCell>
                 <TableCell align="center">{data.m_employeestable.name}</TableCell>
+      {/* // 支払日	労働日数	労働時間数	時間外労働時間数	休日労働時間数 深夜労働時間数 基本給 */}
                 <TableCell align="center">{data.t_paymentstable.payment_date}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.income}</TableCell>                
-                <TableCell align="center">{data.t_paymentstable.base}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.overtime_pay}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.nighttime_pay}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.holiday_pay}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.commuting_pay}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.health_insur}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.care_insur}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.pension_insur}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.employee_insur}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.income_tax}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.inhabitant_tax}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.withholding_tax}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.adj_pay}</TableCell>
-                <TableCell align="center">{data.t_paymentstable.others}</TableCell>                
+                  <TableCell align="center">{data.t_paymentstable.work_date}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.working_hours}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.overtime_work}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.holiday_work}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.nighttime_work}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.base}</TableCell>
+
+      {/* //時間外労働手当	休日労働手当	深夜労働手当	通勤手当	調整手当	その他手当て1	その他手当て2	その他手当て3	その他手当て4	その他手当て5 支給合計 */}
+                  <TableCell align="center">{data.t_paymentstable.overtime_pay}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.nighttime_pay}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.holiday_pay}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.commuting_pay}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.adj_pay}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.other_allowance_1}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.other_allowance_2}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.other_allowance_3}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.other_allowance_4}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.other_allowance_5}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.income}</TableCell>
+
+      {/* //健康保険料	介護保険料	厚生年金保険料	雇用保険料	所得税	住民税	その他控除	控除合計	差引支給合計 */}
+                  <TableCell align="center">{data.t_paymentstable.health_insur}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.care_insur}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.pension_insur}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.employee_insur}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.income_tax}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.inhabitant_tax}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.others_deduction}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.total_deduction}</TableCell>
+                  <TableCell align="center">{data.t_paymentstable.total_pay}</TableCell>
+          
                   {/* <TableCell align="center">
                     <Button variant="contained" onClick={(event) => UpdateAttend(event,data)}>編集</Button>
                   </TableCell> */}

@@ -44,7 +44,7 @@ function LeaveRequest(props) {
   const [LeaveRemainDate, setLeaveRemainDate] = useState([]);
   const [LeaveRequestDate, setLeaveRequestDate] = useState([]);
   const [LeaveRequestLabel, setLeaveRequestLabel] = useState([]);
-  const [open, setOpen] = useState(true);
+//   const [open, setOpen] = useState(true);
   const dayOfWeekStrJP = [" (日)", " (月)", " (火)", " (水)", " (木)", " (金)", " (土)"];
   const submStList = [" 申請中", " 許可", " 却下"];
 

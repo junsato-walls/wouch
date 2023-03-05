@@ -20,65 +20,22 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import ja from 'date-fns/locale/ja'
 
 const AddressForm = (props) => {
+  //時間外労働手当	休日労働手当	深夜労働手当	通勤手当	調整手当	その他手当て1	その他手当て2	その他手当て3	その他手当て4	その他手当て5 支給合計 
   const {
-    empID, setEmpID,
-    paymentDate, setPaymentDate,
-    income, setIncome,
-    base, setBase,
     overtimePay, setOvertimePay,
     nighttimePay, setNighttimePay,
     holidayPay, setholidayPay,
     commutingPay, setCommutingPay,
-    adjPay, setAdjPay
+    adjPay, setAdjPay,
+    otherAllowance_1, setOtherAllowance_1,
+    otherAllowance_2, setOtherAllowance_2,
+    otherAllowance_3, setOtherAllowance_3,
+    otherAllowance_4, setOtherAllowance_4,
+    otherAllowance_5, setOtherAllowance_5,
+    income, setIncome
   } = props
-  const baseURL = 'http://localhost:8000'
-  const [employeesData, setEmployeesData] = useState([])
-  const [selectEmpID, setSelectEmpID] = React.useState(empID);
-  const [selectEmpName, setSelectEmpName] = React.useState('');
-  const [selectEmpNum, setSelectEmpNum] = React.useState('');
-
-  const handleChange = (event) => {
-    setSelectEmpID(event.target.value);
-    setEmpID(event.target.value)
-    let valuess = employeesData.filter((emp) => {
-      return emp.m_employeestable.id == event.target.value
-    });
-    setSelectEmpName(valuess[0].m_employeestable.name)
-    if (valuess.length) {
-      setSelectEmpNum(valuess[0].m_employeestable.employee_num)
-    }
-  };
-
-  const valueChange = (event) => {
-    setSelectEmpNum(event.target.value);
-    let valuess = employeesData.filter((emp) => {
-      return emp.m_employeestable.employee_num == event.target.value
-    });
-    if (valuess.length) {
-      setSelectEmpID(valuess[0].m_employeestable.id)
-      setEmpID(valuess[0].m_employeestable.id)
-    }
-  };
-
-  useEffect(() => {
-    GetEmpoyees()
-  }, [])
-
-  const GetEmpoyees = () => {
-    axios.get(baseURL + '/m_employees').then(res => {
-      setEmployeesData(res.data)
-      console.log(res.data)
-    })
-  }
-
   const Change_value = (event, value) => {
     switch (value) {
-      case 'income':
-        setIncome(parseInt(event.target.value, 10))
-        break;
-      case 'base':
-        setBase(parseInt(event.target.value, 10))
-        break;
       case 'overtimePay':
         setOvertimePay(parseInt(event.target.value, 10))
         break;
@@ -94,18 +51,37 @@ const AddressForm = (props) => {
       case 'adjPay':
         setAdjPay(parseInt(event.target.value, 10))
         break;
+      case 'otherAllowance_1':
+        setOtherAllowance_1(parseInt(event.target.value, 10))
+        break;
+      case 'otherAllowance_2':
+        setOtherAllowance_2(parseInt(event.target.value, 10))
+        break;
+      case 'otherAllowance_3':
+        setOtherAllowance_3(parseInt(event.target.value, 10))
+        break;
+      case 'otherAllowance_4':
+        setOtherAllowance_4(parseInt(event.target.value, 10))
+        break;
+      case 'otherAllowance_5':
+        setOtherAllowance_5(parseInt(event.target.value, 10))
+        break;
+      case 'income':
+        setIncome(parseInt(event.target.value, 10))
+        break;
+
     }
   }
 
   return (
 
-      <React.Fragment>
-        <Typography variant="h6" gutterBottom>
-          給与・手当
-        </Typography>
-        <Grid container spacing={3}>
+    <React.Fragment>
+      <Typography variant="h6" gutterBottom>
+        給与・手当
+      </Typography>
+      <Grid container spacing={3}>
 
-          {/* <Grid item xs={12} sm={6}>
+        {/* <Grid item xs={12} sm={6}>
             <FormControl sx={{ minWidth: 200 }}>
               <InputLabel id="demo-simple-select-label" shrink>社員番号</InputLabel>
               <Select
@@ -139,145 +115,176 @@ const AddressForm = (props) => {
             </FormControl>
           </Grid> */}
 
-          <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>
-          <Grid item xs={12} sm={6}>
-            <DatePicker
-              disableFuture
-              label="支払日"
-              openTo="year"
-              views={['year', 'month', 'day']}
-              value={paymentDate}
-              onChange={(newValue) => {
-                setPaymentDate(dayjs(newValue).format("YYYY-MM-DD"));
-              }}
-              inputFormat='yyyy年MM月dd日'
-              mask='____年__月__日'
-              leftArrowButtonText="前月を表示"
-              rightArrowButtonText="次月を表示"
-              toolbarTitle="日付選択"
-              cancelText="キャンセル"
-              okText="選択"
-              toolbarFormat="YYYY年MM月DD日"
-              renderInput={(params) =>
-                <TextField {...params}
-                  variant="standard"
-                  InputLabelProps={{ shrink: true }}
-                />}
-            />
-          </Grid>
-          </LocalizationProvider>
-          
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="name"
-              name="name"
-              label="支払給与"
-              type="number"
-              fullWidth
-              autoComplete="given-name"
-              variant="standard"
-              InputLabelProps={{ shrink: true }}
-              value={income}
-              onChange={(event) => Change_value(event, 'income')}
-            />
-          </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="sex"
-              name="sex"
-              label="基本給"
-              type="number"
-              fullWidth
-              autoComplete="family-name"
-              variant="standard"
-              InputLabelProps={{ shrink: true }}
-              value={base}
-              onChange={(event) => Change_value(event, 'base')}
-            />
-          </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="name_kana"
-              name="name_kana"
-              label="時間外労働手当"
-              type="number"
-              fullWidth
-              autoComplete="family-name"
-              variant="standard"
-              InputLabelProps={{ shrink: true }}
-              value={overtimePay}
-              onChange={(event) => Change_value(event, 'overtimePay')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="name_kana"
-              name="name_kana"
-              label="深夜手当"
-              type="number"
-              fullWidth
-              autoComplete="family-name"
-              variant="standard"
-              InputLabelProps={{ shrink: true }}
-              value={nighttimePay}
-              onChange={(event) => Change_value(event, 'nighttimePay')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="name_kana"
-              name="name_kana"
-              type="number"
-              label="休日手当"
-              fullWidth
-              autoComplete="family-name"
-              variant="standard"
-              InputLabelProps={{ shrink: true }}
-              value={holidayPay}
-              onChange={(event) => Change_value(event, 'holidayPay')}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="address1"
-              name="address1"
-              type="number"
-              label="通勤手当"
-              fullWidth
-              autoComplete="shipping address-line1"
-              variant="standard"
-              InputLabelProps={{ shrink: true }}
-              value={commutingPay}
-              onChange={(event) => Change_value(event, 'commutingPay')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="address1"
-              name="address1"
-              type="number"
-              label="調整手当"
-              fullWidth
-              autoComplete="shipping address-line1"
-              variant="standard"
-              InputLabelProps={{ shrink: true }}
-              value={adjPay}
-              onChange={(event) => Change_value(event, 'adjPay')}
-            />
-          </Grid>
-
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="name_kana"
+            name="name_kana"
+            label="時間外労働手当"
+            type="number"
+            fullWidth
+            autoComplete="family-name"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={overtimePay}
+            onChange={(event) => Change_value(event, 'overtimePay')}
+          />
         </Grid>
-      </React.Fragment>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="name_kana"
+            name="name_kana"
+            label="深夜手当"
+            type="number"
+            fullWidth
+            autoComplete="family-name"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={nighttimePay}
+            onChange={(event) => Change_value(event, 'nighttimePay')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="name_kana"
+            name="name_kana"
+            type="number"
+            label="休日手当"
+            fullWidth
+            autoComplete="family-name"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={holidayPay}
+            onChange={(event) => Change_value(event, 'holidayPay')}
+          />
+        </Grid>
+
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="address1"
+            name="address1"
+            type="number"
+            label="通勤手当"
+            fullWidth
+            autoComplete="shipping address-line1"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={commutingPay}
+            onChange={(event) => Change_value(event, 'commutingPay')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="address1"
+            name="address1"
+            type="number"
+            label="調整手当"
+            fullWidth
+            autoComplete="shipping address-line1"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={adjPay}
+            onChange={(event) => Change_value(event, 'adjPay')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="address1"
+            name="address1"
+            type="number"
+            label="その他手当て1"
+            fullWidth
+            autoComplete="shipping address-line1"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={otherAllowance_1}
+            onChange={(event) => Change_value(event, 'otherAllowance_1')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="address1"
+            name="address1"
+            type="number"
+            label="その他手当て2"
+            fullWidth
+            autoComplete="shipping address-line1"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={otherAllowance_2}
+            onChange={(event) => Change_value(event, 'otherAllowance_2')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="address1"
+            name="address1"
+            type="number"
+            label="その他手当て3"
+            fullWidth
+            autoComplete="shipping address-line1"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={otherAllowance_3}
+            onChange={(event) => Change_value(event, 'otherAllowance_3')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="address1"
+            name="address1"
+            type="number"
+            label="その他手当て4"
+            fullWidth
+            autoComplete="shipping address-line1"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={otherAllowance_4}
+            onChange={(event) => Change_value(event, 'otherAllowance_4')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="address1"
+            name="address1"
+            type="number"
+            label="その他手当て5"
+            fullWidth
+            autoComplete="shipping address-line1"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={otherAllowance_5}
+            onChange={(event) => Change_value(event, 'otherAllowance_5')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="name"
+            name="name"
+            label="支給合計"
+            type="number"
+            fullWidth
+            autoComplete="given-name"
+            variant="standard"
+            InputLabelProps={{ shrink: true }}
+            value={income}
+            onChange={(event) => Change_value(event, 'income')}
+          />
+        </Grid>
+      </Grid>
+    </React.Fragment>
   );
 }
 export default AddressForm
