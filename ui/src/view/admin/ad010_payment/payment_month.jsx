@@ -194,7 +194,9 @@ function Payment() {
       <FormControl sx={{ m: 1, minWidth: 100 }}>
         <InputLabel id="demo-simple-select-label" shrink>年月</InputLabel>
         <DatePicker
-            disableFuture
+            // minDate={dayjs('2000-01-01')}
+            // maxDate={dayjs('2030-01-01')}
+            disableFuture={false}        
             openTo="year"
             views={['year','month']}
             value={value}

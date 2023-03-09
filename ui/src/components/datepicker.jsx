@@ -35,7 +35,9 @@ const AlertDialog = (props) => {
     <>
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ja}>    
       <DatePicker
-        disableFuture
+        // minDate={dayjs('1960-01-01')}
+        // maxDate={dayjs('2050-01-01')}
+        disableFuture={false}        
         label={label}
         openTo="year"
         views={['year', 'month', 'day']}
