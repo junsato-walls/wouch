@@ -115,8 +115,10 @@ function Payment() {
 
   //勤怠データ取得
   const SearchAttend = () => {
+    console.log(empId)
+    console.log(empName)
     let param = '/t_payments_emp/?employee_id=' + empId
-    if (empName) {
+    if (empId) {
       axios.get(baseURL + param).then(res => {
         setPaymentData(res.data)
         console.log(res.data)
