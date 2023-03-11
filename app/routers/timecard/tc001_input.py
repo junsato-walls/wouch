@@ -18,7 +18,9 @@ router = APIRouter()
 async def tc001_01(item:tc001):
     param = {}
     workMode = item.workMode
-    rest = timedelta(hours=1)
+    rest_h = 1
+    rest_m = 0
+    rest = timedelta(hours=rest_h,minutes=rest_m)
     night_start = datetime.combine(date.today(),time(22,0,0))
     night_end = datetime.combine(date.today() + timedelta(days = 1),time(5,0,0))
     std_work_time = timedelta(hours=8)
@@ -92,8 +94,8 @@ async def tc001_01(item:tc001):
         case "2":
             if attend.t_attendstable.work_out == None:
                 round_out = round_out_time(rt)
-                worktime = work_time(round_out, attend)
-                overtime = over_time(round_out, attend, std_work_time)
+                worktime = work_time(round_out, attend, rest_h, rest_m)
+                overtime = over_time(round_out, attend, std_work_time, rest_h, rest_m)
                 nighttime = night_time(attend, round_out, worktime)
                 attend.t_attendstable.work_out = get_time
                 attend.t_attendstable.round_work_out_time = round_out
@@ -167,19 +169,15 @@ def round_out_time(rt):
     round_time = rt.replace(minute=rt.minute, second=0, microsecond=0)
     return round_time
 
-def work_time(round_out, attend):
-    h = attend.t_attendstable.rest.hour
-    m = attend.t_attendstable.rest.minute
+def work_time(round_out, attend, rest_h, rest_m):
     wt = round_out - attend.t_attendstable.round_work_in_time
-    if  attend.t_attendstable.rest != None  and wt >= timedelta(hours=h, minutes=m):
-        wt = round_out - attend.t_attendstable.round_work_in_time - timedelta(hours=h, minutes=m)
+    if  attend.t_attendstable.rest != None and wt >= timedelta(hours=rest_h, minutes=rest_m):
+        wt = round_out - attend.t_attendstable.round_work_in_time - timedelta(hours=rest_h, minutes=rest_m)
     return wt
 
-def over_time(round_out, attend, std_work_time):
-    h = attend.t_attendstable.rest.hour
-    m = attend.t_attendstable.rest.minute
-    if (round_out - attend.t_attendstable.round_work_in_time) > (std_work_time + timedelta(hours=h, minutes=m)):
-        ovt = str((round_out - attend.t_attendstable.round_work_in_time) - (std_work_time + timedelta(hours=h, minutes=m)))
+def over_time(round_out, attend, std_work_time, rest_h, rest_m):
+    if (round_out - attend.t_attendstable.round_work_in_time) > (std_work_time + timedelta(hours=rest_h, minutes=rest_m)):
+        ovt = str((round_out - attend.t_attendstable.round_work_in_time) - (std_work_time + timedelta(hours=rest_h, minutes=rest_m)))
     else:
         ovt = "0:00"
     return ovt
