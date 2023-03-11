@@ -12,10 +12,6 @@ import setting
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from msedge.selenium_tools import EdgeOptions, Edge
 
-# baseURL = "http://192.168.0.9:3000"
-
-# print(setting.BASE_URL)
-
 options = EdgeOptions()
 options.use_chromium = True
 options.add_argument('disable-web-security')
@@ -26,13 +22,11 @@ edgedriver = Edge(executable_path = EdgeChromiumDriverManager().install(),
             options = options)
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
-# edgedriver = webdriver.Edge(executable_path="./MicrosoftWebDriver.exe")
 edgedriver.get(setting.BASE_URL)
 time.sleep(3)
 
 # NFCIDMを入力するID名を取得
 elementText = edgedriver.find_element_by_id("nfc_input")
-# elementButton = edgedriver.find_element_by_id("SendID")
 
 # 待ち受けの1サイクル秒
 TIME_cycle = 10.0
@@ -66,15 +60,9 @@ def check_NFC():
             for record in records:
                 print('NFC detected. record.text = ' + record.text)
                 # str()で変換するとユニコードオブジェクトにならない
-                # key = str(record.text)
-                # mydict[key] = key
                 num = record.text
                 elementText.send_keys(num)
                 elementText.clear()
-
                 time.sleep(2)
-# print('sleep ' + str(TIME_wait) + ' seconds')
-# time.sleep(TIME_wait)
-
 
 check_NFC()
